@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
 import zentech.application.form.other.FormDashboard;
+import zentech.application.form.other.ListIDcard;
 import zentech.application.form.other.SalesOrder;
 import zentech.application.form.other.Payment;
 import zentech.application.form.other.SalesHistory;
@@ -73,11 +74,15 @@ public class MainForm extends JLayeredPane {
             } else if (index == 1) {
                 if (subIndex == 1) {
                     Application.showForm(new SalesOrder());
+
+                } else if (subIndex == 2) {
+                    Application.showForm(new ListIDcard());
                 } else {
                     action.cancel();
                 }
-            } else if(index == 2) {
-                if(subIndex == 1) {
+
+            } else if (index == 2) {
+                if (subIndex == 1) {
                     Application.showForm(new Payment());
                 } else {
                     action.cancel();
