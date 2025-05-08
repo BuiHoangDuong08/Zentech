@@ -12,5 +12,4 @@ public class PanelLogin extends JPanel {
                 + "background:$Login.background;"
                 + "arc:20;");
     }
-
 }
