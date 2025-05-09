@@ -1,24 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package zentech.application.form.other;
 
-/**
- *
- * @author duong
- */
 public class ListIDcard extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ListIDcard
-     */
     public ListIDcard() {
         initComponents();
         jPanel1.setLayout(new java.awt.CardLayout());
     }
-
-    
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -140,13 +128,13 @@ public class ListIDcard extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
+
         Edit edit = new Edit();
         jPanel1.add(edit);
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
