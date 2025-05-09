@@ -13,19 +13,22 @@ import javax.swing.UIManager;
 import zentech.application.form.LoginForm;
 import zentech.application.form.MainForm;
 import raven.toast.Notifications;
+import zentech.application.form.ChangePasswordForm;
 
 public class Application extends javax.swing.JFrame {
 
     private static Application app;
     private final MainForm mainForm;
     private final LoginForm loginForm;
-
+    private final ChangePasswordForm changePasswordForm;
+    
     public Application() {
         initComponents();
         setSize(new Dimension(1366, 768));
         setLocationRelativeTo(null);
         mainForm = new MainForm();
         loginForm = new LoginForm();
+        changePasswordForm = new ChangePasswordForm();
         setContentPane(loginForm);
         getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
         Notifications.getInstance().setJFrame(this);
@@ -34,6 +37,14 @@ public class Application extends javax.swing.JFrame {
     public static void showForm(Component component) {
         component.applyComponentOrientation(app.getComponentOrientation());
         app.mainForm.showForm(component);
+    }
+    
+    public static void changePassword(){
+        FlatAnimatedLafChange.showSnapshot();
+        app.setContentPane(app.changePasswordForm);
+        app.changePasswordForm.applyComponentOrientation(app.getComponentOrientation());
+        SwingUtilities.updateComponentTreeUI(app.changePasswordForm);
+        FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 
     public static void login() {
