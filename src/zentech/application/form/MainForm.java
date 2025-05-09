@@ -23,6 +23,7 @@ import zentech.application.form.other.SalesOrder;
 import zentech.application.form.other.Payment;
 import zentech.application.form.other.SalesHistory;
 import zentech.application.form.other.MenuSelection;
+import zentech.application.form.other.PaymentHistory;
 import zentech.application.form.other.User;
 import zentechx.menu.Menu;
 import zentechx.menu.MenuAction;
@@ -80,7 +81,11 @@ public class MainForm extends JLayeredPane {
                     Application.showForm(new ListIDcard());
                 } else {
                     action.cancel();
-                } 
+                }
+            } else if (index == 2) {
+                if (subIndex == 1) {
+                    Application.showForm(new PaymentHistory());
+                }
             } else if (index == 3) {
                 if (subIndex == 1) {
                     Application.showForm(new User());
