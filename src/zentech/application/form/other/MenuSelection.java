@@ -4,6 +4,7 @@
  */
 package zentech.application.form.other;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatLaf;
 import java.awt.Component;
@@ -27,6 +28,8 @@ public class MenuSelection extends javax.swing.JPanel {
      */
     public MenuSelection() {
         initComponents();
+        jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search");
+        
     }
 
     /**
