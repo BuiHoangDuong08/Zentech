@@ -5,18 +5,6 @@
 A modern desktop application for cafe management, developed by Zentech team. A comprehensive solution helping cafe owners and staff manage products, orders and improve customer experience.
 
 ![ZENTECH Banner](/readme/Zentech-main.jpg)
-
-## Table of Contents
-
-- [Features](#features)
-- [Demo](#demo)
-- [System Requirements](#system-requirements)
-- [Installation & Quick Start](#installation--quick-start)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact & Support](#contact--support)
-
 ## Features
 
 - **Product Management**: Add, edit, and delete beverages and food items with prices, categories, and detailed descriptions
