@@ -16,6 +16,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
+import zentech.application.form.other.AboutUs;
 import zentech.application.form.other.FormDashboard;
 import zentech.application.form.other.ListIDcard;
 import zentech.application.form.other.MenuSelection;
@@ -73,7 +74,7 @@ public class MainForm extends JLayeredPane {
         menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
             // Application.mainForm.showForm(new DefaultForm("Form : " + index + " " + subIndex));
             if (index == 0) {
-                Application.showForm(new FormDashboard());
+                Application.showForm(new AboutUs());
             } else if (index == 1) {
                 if (subIndex == 1) {
                     Application.showForm(new MenuSelection());
