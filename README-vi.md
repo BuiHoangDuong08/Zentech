@@ -1,72 +1,59 @@
-# Zentech-PolyCafe 🍵
+﻿# Zentech-PolyCafe
 
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Java Version](https://img.shields.io/badge/Java-23-orange)](https://www.oracle.com/java/)
 
-Ứng dụng desktop hiện đại dành cho việc quản lý quán café, phát triển bởi nhóm Zentech. Giải pháp toàn diện giúp chủ quán và nhân viên quản lý sản phẩm, đơn hàng và cải thiện trải nghiệm khách hàng.
+A modern desktop application for cafe management, developed by Zentech team. A comprehensive solution helping cafe owners and staff manage products, orders and improve customer experience.
 
 ![ZENTECH Banner](/readme/Zentech-main.jpg)
 
-## Mục lục
+## Table of Contents
 
-- [Tính năng](#tính-năng)
+- [Features](#features)
 - [Demo](#demo)
-- [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
-- [Cài đặt & Khởi động nhanh](#cài-đặt--khởi-động-nhanh)
-- [Hướng dẫn sử dụng](#hướng-dẫn-sử-dụng)
-- [Đóng góp](#đóng-góp)
-- [Giấy phép](#giấy-phép)
-- [Liên hệ & Hỗ trợ](#liên-hệ--hỗ-trợ)
+- [System Requirements](#system-requirements)
+- [Installation & Quick Start](#installation--quick-start)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact & Support](#contact--support)
 
-## Tính năng
+## Features
 
-- **Quản lý sản phẩm**: Thêm, sửa, xóa các mặt hàng đồ uống và thực phẩm với giá cả, danh mục và mô tả chi tiết
-- **Xử lý đơn đặt hàng**: Tạo, theo dõi và quản lý đơn hàng theo thời gian thực với giao diện trực quan
-- **Báo cáo & Thống kê**: Phân tích doanh thu, sản phẩm bán chạy và các xu hướng khác để hỗ trợ ra quyết định kinh doanh
+- **Product Management**: Add, edit, and delete beverages and food items with prices, categories, and detailed descriptions
+- **Order Processing**: Create, track, and manage orders in real-time with an intuitive interface
+- **Reports & Analytics**: Analyze revenue, bestselling products, and other trends to support business decisions
 
 ## Demo
 
 | | |
 |---|---|
-| ![Quản lý sản phẩm](docs/img/placeholder1.png) | ![Tạo đơn hàng](docs/img/placeholder2.png) |
-| ![Thống kê doanh thu](docs/img/placeholder3.png) | ![Quản lý nhân viên](docs/img/placeholder4.png) |
+| ![Product Management](docs/img/placeholder1.png) | ![Order Creation](docs/img/placeholder2.png) |
+| ![Revenue Analytics](docs/img/placeholder3.png) | ![Staff Management](docs/img/placeholder4.png) |
 
-## Yêu cầu hệ thống
+## System Requirements
 
-- Java 23 trở lên
-- Hỗ trợ: Windows, macOS, Linux (môi trường Desktop)
-- Tối thiểu: 4GB RAM, 1GB dung lượng ổ đĩa
+- Java 23 or higher
+- Supported platforms: Windows, macOS, Linux (Desktop environment)
+- Minimum: 4GB RAM, 1GB disk space
 
-## Cài đặt & Khởi động nhanh
+## Installation & Quick Start
 
-1. Tải file JAR mới nhất từ [trang Releases](https://github.com/Zentech-VN/Zentech-PolyCafe/releases)
-2. Chạy ứng dụng với lệnh:
+1. Download the latest JAR file from the [Releases page](https://github.com/Zentech-VN/Zentech-PolyCafe/releases)
+2. Run the application with the command:
 
 ```bash
 java -jar polycafe.jar
 ```
+## License
 
-## Đóng góp
+This project is distributed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
-Chúng tôi rất hoan nghênh mọi đóng góp! Nếu bạn muốn tham gia phát triển Zentech-PolyCafe:
-
-1. Fork repository này
-2. Tạo branch cho tính năng của bạn (`git checkout -b feature/amazing-feature`)
-3. Commit thay đổi (`git commit -m 'Add some amazing feature'`)
-4. Push lên branch (`git push origin feature/amazing-feature`)
-5. Mở Pull Request
-
-Vui lòng đọc [Quy tắc đóng góp](<<CONTRIB_RULES>>) và [Quy tắc ứng xử](CODE_OF_CONDUCT.md) trước khi tham gia.
-
-## Giấy phép
-
-Dự án này được phân phối dưới Giấy phép MIT. Xem file [LICENSE](LICENSE) để biết thêm thông tin.
-
-## Liên hệ & Hỗ trợ
+## Contact & Support
 
 - **Website**: [https://github.com/Zentech-VN](https://github.com/Zentech-VN)
-- **Báo lỗi**: [Trang Issues](https://github.com/Zentech-VN/Zentech-PolyCafe/issues)
+- **Bug Reports**: [Issues Page](https://github.com/Zentech-VN/Zentech-PolyCafe/issues)
 - **Email**: support@zentech.vn
 
 ---
 
-&copy; 2025 Nhóm Zentech. Đã đăng ký bản quyền.
+&copy; 2025 Zentech Team. All rights reserved.
