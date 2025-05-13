@@ -6,17 +6,6 @@
 
 ![Banner ZENTECH](/readme/Zentech-main.jpg)
 
-## Mục lục
-
-- [Tính năng](#tính-năng)
-- [Demo](#demo)
-- [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
-- [Cài đặt & Khởi động nhanh](#cài-đặt--khởi-động-nhanh)
-- [Sử dụng](#sử-dụng)
-- [Đóng góp](#đóng-góp)
-- [Giấy phép](#giấy-phép)
-- [Liên hệ & Hỗ trợ](#liên-hệ--hỗ-trợ)
-
 ## Tính năng
 
 - **Quản lý sản phẩm**: Thêm, chỉnh sửa và xóa đồ uống và thực phẩm với giá cả, danh mục và mô tả chi tiết
@@ -29,12 +18,6 @@
 |---|---|
 | ![Quản lý sản phẩm](docs/img/placeholder1.png) | ![Tạo đơn hàng](docs/img/placeholder2.png) |
 | ![Phân tích doanh thu](docs/img/placeholder3.png) | ![Quản lý nhân viên](docs/img/placeholder4.png) |
-
-## Yêu cầu hệ thống
-
-- Java 23 hoặc cao hơn
-- Nền tảng hỗ trợ: Windows, macOS, Linux (Môi trường Desktop)
-- Tối thiểu: RAM 4GB, dung lượng ổ đĩa 1GB
 
 ## Cài đặt & Khởi động nhanh
 
