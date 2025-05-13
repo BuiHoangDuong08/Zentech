@@ -18,12 +18,6 @@ A modern desktop application for cafe management, developed by Zentech team. A c
 | ![Product Management](docs/img/placeholder1.png) | ![Order Creation](docs/img/placeholder2.png) |
 | ![Revenue Analytics](docs/img/placeholder3.png) | ![Staff Management](docs/img/placeholder4.png) |
 
-## System Requirements
-
-- Java 23 or higher
-- Supported platforms: Windows, macOS, Linux (Desktop environment)
-- Minimum: 4GB RAM, 1GB disk space
-
 ## Installation & Quick Start
 
 1. Download the latest JAR file from the [Releases page](https://github.com/Zentech-VN/Zentech-PolyCafe/releases)
