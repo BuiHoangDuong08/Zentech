@@ -1,59 +1,60 @@
-﻿# Zentech-PolyCafe
+# Zentech-PolyCafe
 
- [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Java Version](https://img.shields.io/badge/Java-23-orange)](https://www.oracle.com/java/)
+[![Giấy phép: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Phiên bản Java](https://img.shields.io/badge/Java-23-orange)](https://www.oracle.com/java/)
 
-A modern desktop application for cafe management, developed by Zentech team. A comprehensive solution helping cafe owners and staff manage products, orders and improve customer experience.
+Ứng dụng máy tính hiện đại để quản lý quán cà phê, được phát triển bởi đội ngũ Zentech. Một giải pháp toàn diện giúp chủ quán và nhân viên quản lý sản phẩm, đơn hàng và cải thiện trải nghiệm khách hàng.
 
-![ZENTECH Banner](/readme/Zentech-main.jpg)
+![Banner ZENTECH](/readme/Zentech-main.jpg)
 
-## Table of Contents
+## Mục lục
 
-- [Features](#features)
+- [Tính năng](#tính-năng)
 - [Demo](#demo)
-- [System Requirements](#system-requirements)
-- [Installation & Quick Start](#installation--quick-start)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact & Support](#contact--support)
+- [Yêu cầu hệ thống](#yêu-cầu-hệ-thống)
+- [Cài đặt & Khởi động nhanh](#cài-đặt--khởi-động-nhanh)
+- [Sử dụng](#sử-dụng)
+- [Đóng góp](#đóng-góp)
+- [Giấy phép](#giấy-phép)
+- [Liên hệ & Hỗ trợ](#liên-hệ--hỗ-trợ)
 
-## Features
+## Tính năng
 
-- **Product Management**: Add, edit, and delete beverages and food items with prices, categories, and detailed descriptions
-- **Order Processing**: Create, track, and manage orders in real-time with an intuitive interface
-- **Reports & Analytics**: Analyze revenue, bestselling products, and other trends to support business decisions
+- **Quản lý sản phẩm**: Thêm, chỉnh sửa và xóa đồ uống và thực phẩm với giá cả, danh mục và mô tả chi tiết
+- **Xử lý đơn hàng**: Tạo, theo dõi và quản lý đơn hàng theo thời gian thực với giao diện trực quan
+- **Báo cáo & Phân tích**: Phân tích doanh thu, sản phẩm bán chạy nhất và các xu hướng khác để hỗ trợ quyết định kinh doanh
 
 ## Demo
 
 | | |
 |---|---|
-| ![Product Management](docs/img/placeholder1.png) | ![Order Creation](docs/img/placeholder2.png) |
-| ![Revenue Analytics](docs/img/placeholder3.png) | ![Staff Management](docs/img/placeholder4.png) |
+| ![Quản lý sản phẩm](docs/img/placeholder1.png) | ![Tạo đơn hàng](docs/img/placeholder2.png) |
+| ![Phân tích doanh thu](docs/img/placeholder3.png) | ![Quản lý nhân viên](docs/img/placeholder4.png) |
 
-## System Requirements
+## Yêu cầu hệ thống
 
-- Java 23 or higher
-- Supported platforms: Windows, macOS, Linux (Desktop environment)
-- Minimum: 4GB RAM, 1GB disk space
+- Java 23 hoặc cao hơn
+- Nền tảng hỗ trợ: Windows, macOS, Linux (Môi trường Desktop)
+- Tối thiểu: RAM 4GB, dung lượng ổ đĩa 1GB
 
-## Installation & Quick Start
+## Cài đặt & Khởi động nhanh
 
-1. Download the latest JAR file from the [Releases page](https://github.com/Zentech-VN/Zentech-PolyCafe/releases)
-2. Run the application with the command:
+1. Tải tập tin JAR mới nhất từ [trang Releases](https://github.com/Zentech-VN/Zentech-PolyCafe/releases)
+2. Chạy ứng dụng bằng lệnh:
 
 ```bash
 java -jar polycafe.jar
 ```
-## License
 
-This project is distributed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+## Giấy phép
 
-## Contact & Support
+Dự án này được phân phối theo Giấy phép MIT. Xem tập tin [LICENSE](LICENSE) để biết thêm thông tin.
+
+## Liên hệ & Hỗ trợ
 
 - **Website**: [https://github.com/Zentech-VN](https://github.com/Zentech-VN)
-- **Bug Reports**: [Issues Page](https://github.com/Zentech-VN/Zentech-PolyCafe/issues)
+- **Báo cáo lỗi**: [Trang Issues](https://github.com/Zentech-VN/Zentech-PolyCafe/issues)
 - **Email**: support@zentech.vn
 
 ---
 
-&copy; 2025 Zentech Team. All rights reserved.
+&copy; 2025 Đội ngũ Zentech. Đã đăng ký bản quyền.
