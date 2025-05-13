@@ -156,9 +156,10 @@
     <Component class="javax.swing.JComboBox" name="jComboBox1">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="Waitting"/>
-            <StringItem index="1" value="In use"/>
+          <StringArray count="3">
+            <StringItem index="0" value="ACTIVE"/>
+            <StringItem index="1" value="WAIT"/>
+            <StringItem index="2" value="LOCKED"/>
           </StringArray>
         </Property>
       </Properties>

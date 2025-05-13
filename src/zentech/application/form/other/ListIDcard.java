@@ -4,45 +4,21 @@
  */
 package zentech.application.form.other;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
 import javax.swing.JTextField;
 
-/**
- *
- * @author duong
- */
+
 public class ListIDcard extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ListIDcard
-     */
+    
     public ListIDcard() {
         initComponents();
-        addHint(jTextField1, "Search");
+        jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search");
+        jTextField2.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "ID");
     }
     
-     private void addHint(JTextField field, String hint) {
-        field.setForeground(Color.GRAY);
-        field.setText(hint);
-
-        field.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (field.getText().equals(hint)) {
-                    field.setText("");
-                    field.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (field.getText().isEmpty()) {
-                    field.setText(hint);
-                    field.setForeground(Color.GRAY);
-                }
-            }
-        });
-    }
+   
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -123,7 +99,7 @@ public class ListIDcard extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Waitting", "In use" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ACTIVE", "WAIT", "LOCKED" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
