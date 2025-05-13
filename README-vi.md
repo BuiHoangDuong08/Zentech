@@ -1,6 +1,6 @@
 # Zentech-PolyCafe 🍵
 
-[![CI Status](<<BADGE_URL>>)](<<BADGE_URL>>) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Java Version](https://img.shields.io/badge/Java-23-orange)](https://www.oracle.com/java/)
+ [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Java Version](https://img.shields.io/badge/Java-23-orange)](https://www.oracle.com/java/)
 
 Ứng dụng desktop hiện đại dành cho việc quản lý quán café, phát triển bởi nhóm Zentech. Giải pháp toàn diện giúp chủ quán và nhân viên quản lý sản phẩm, đơn hàng và cải thiện trải nghiệm khách hàng.
 
@@ -44,26 +44,6 @@
 ```bash
 java -jar polycafe.jar
 ```
-
-## Hướng dẫn sử dụng
-
-### API cơ bản
-
-```java
-// Khởi tạo quản lý sản phẩm
-ProductManager productManager = new ProductManager();
-
-// Thêm sản phẩm mới
-Product coffee = new Product("Cà phê đen", 25000, Category.COFFEE);
-productManager.addProduct(coffee);
-
-// Tạo đơn hàng mới
-Order order = new Order();
-order.addItem(coffee, 2);
-order.processPayment(PaymentMethod.CASH);
-```
-
-Xem thêm ví dụ chi tiết trong [tài liệu API](docs/api.md).
 
 ## Đóng góp
 
