@@ -10,7 +10,7 @@ public interface ProductDAO {
 
     default List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT id, categoryId, name, price, active, description, imageUrl FROM product";
+        String sql = "SELECT id, categoryId, name, price, active, description, imageUrl FROM PRODUCT";
 
         try (Connection con = ConnectionHelper.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);

@@ -10,7 +10,7 @@ public interface UserDAO {
 
     default List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT id, roleId, userName, password, email, fullName, gender, address, dob, phoneNumber FROM user";
+        String sql = "SELECT id, roleId, userName, password, email, fullName, gender, address, dob, phoneNumber FROM USER";
 
         try (Connection con = ConnectionHelper.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);

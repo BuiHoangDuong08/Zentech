@@ -10,7 +10,7 @@ public interface BillDAO {
 
     default List<Bill> getAllBills() {
         List<Bill> list = new ArrayList<>();
-        String sql = "SELECT id, userId, cardId, status FROM bill";
+        String sql = "SELECT id, userId, cardId, status FROM BILL";
 
         try (Connection con = ConnectionHelper.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
