@@ -10,7 +10,7 @@ public interface BillDetailsDAO {
 
     default List<BillDetails> getAllBillDetails() {
         List<BillDetails> list = new ArrayList<>();
-        String sql = "SELECT id, billId, productId, date, quantity, discount, totalPriceNoVAT, totalPriceWithVAT FROM billdetails";
+        String sql = "SELECT id, billId, productId, date, quantity, discount, totalPriceNoVAT, totalPriceWithVAT FROM BILLDETAILS";
 
         try (Connection con = ConnectionHelper.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);

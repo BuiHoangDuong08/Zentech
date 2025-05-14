@@ -10,7 +10,7 @@ public interface RoleDAO {
 
     default List<Role> getAllRoles() {
         List<Role> list = new ArrayList<>();
-        String sql = "SELECT id, roleName FROM role";
+        String sql = "SELECT id, roleName FROM ROLE";
 
         try (Connection con = ConnectionHelper.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);

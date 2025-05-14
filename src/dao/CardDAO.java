@@ -10,7 +10,7 @@ public interface CardDAO {
 
     default List<Card> getAllCards() {
         List<Card> list = new ArrayList<>();
-        String sql = "SELECT id, status FROM card";
+        String sql = "SELECT id, status FROM CARD";
 
         try (Connection con = ConnectionHelper.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
