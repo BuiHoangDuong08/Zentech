@@ -10,7 +10,7 @@ public interface CardDAO {
 
     default List<Card> getAllCards() {
         List<Card> list = new ArrayList<>();
-        String sql = "SELECT id, status FROM card";
+        String sql = "SELECT id, status FROM CARD";
 
         try (Connection con = ConnectionHelper.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -31,7 +31,6 @@ public interface CardDAO {
     default boolean addCard(String status) {
         try (Connection con = ConnectionHelper.getConnection();
              CallableStatement cs = con.prepareCall("{CALL insert_card(?)}")) {
-
             cs.setString(1, status);
             return cs.executeUpdate() > 0;
         } catch (Exception e) {

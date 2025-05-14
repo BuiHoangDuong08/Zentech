@@ -5,19 +5,57 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.CardDAO;
+import entity.Card;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 
 public class ListIDcard extends javax.swing.JPanel {
-
-    
+    static CardDAO card = new CardDAO() {};
+    static List<Card> listc = new ArrayList<>();
     public ListIDcard() {
         initComponents();
         jTextField1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search");
         jTextField2.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "ID");
+        jTextField2.setEnabled(false);
+        LoadDataTable();
+        
     }
     
+    public void LoadDataTable() {
+        listc = card.getAllCards();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        for (Card c : listc) {
+            model.addRow(new Object[]{c.getId(), c.getStatus()});
+        }
+    }
+
+    public void add() {
+        int ret = JOptionPane.showConfirmDialog(this, "Are you sure", "Add", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            String status = jComboBox1.getSelectedItem().toString();
+            boolean rs = card.addCard(status);
+            if (rs == true) {
+                JOptionPane.showMessageDialog(this, "Them thanh cong");
+                LoadDataTable();
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Click no");
+        } 
+    }
+    
+    public void ShowDetail(){
+        int index = jTable1.getSelectedRow();
+        listc = card.getAllCards();
+        Card c = listc.get(index);
+        jTextField2.setText(String.valueOf(c.getId()));
+        jComboBox1.setSelectedItem(c.getStatus());
+    }
    
     
     @SuppressWarnings("unchecked")
@@ -66,6 +104,7 @@ public class ListIDcard extends javax.swing.JPanel {
             }
         });
 
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -80,10 +119,7 @@ public class ListIDcard extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "ID", "Status"
@@ -95,6 +131,11 @@ public class ListIDcard extends javax.swing.JPanel {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -168,7 +209,7 @@ public class ListIDcard extends javax.swing.JPanel {
                     .addComponent(jLabel3)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,6 +219,7 @@ public class ListIDcard extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        add();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -194,11 +236,17 @@ public class ListIDcard extends javax.swing.JPanel {
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
+       
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        ShowDetail();
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
