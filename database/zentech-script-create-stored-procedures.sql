@@ -19,7 +19,7 @@ USE zentech_polycafe;
 DELIMITER //
 CREATE PROCEDURE insert_role(IN p_roleName VARCHAR(100))
 BEGIN
-    INSERT INTO role (roleName)
+    INSERT INTO ROLE (roleName)
     VALUES (p_roleName);
 END //
 DELIMITER ;
@@ -28,7 +28,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE update_role(IN p_id INT, IN p_roleName VARCHAR(100))
 BEGIN
-    UPDATE role
+    UPDATE ROLE
     SET roleName = p_roleName
     WHERE id = p_id;
 END //
@@ -38,7 +38,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE delete_role(IN p_id INT)
 BEGIN
-    DELETE FROM role
+    DELETE FROM ROLE
     WHERE id = p_id;
 END //
 DELIMITER ;
@@ -51,16 +51,16 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE insert_card(IN p_status VARCHAR(50))
 BEGIN
-    INSERT INTO card (status)
+    INSERT INTO CARD (status)
     VALUES (p_status);
-END //
+END // 
 DELIMITER ;
 
 -- UPDATE
 DELIMITER //
 CREATE PROCEDURE update_card(IN p_id INT, IN p_status VARCHAR(50))
 BEGIN
-    UPDATE card
+    UPDATE CARD
     SET status = p_status
     WHERE id = p_id;
 END //
@@ -70,7 +70,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE delete_card(IN p_id INT)
 BEGIN
-    DELETE FROM card
+    DELETE FROM CARD
     WHERE id = p_id;
 END //
 DELIMITER ;
@@ -83,7 +83,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE insert_category(IN p_categoryName VARCHAR(255))
 BEGIN
-    INSERT INTO category (categoryName)
+    INSERT INTO CATEGORY (categoryName)
     VALUES (p_categoryName);
 END //
 DELIMITER ;
@@ -92,7 +92,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE update_category(IN p_id INT, IN p_categoryName VARCHAR(255))
 BEGIN
-    UPDATE category
+    UPDATE CATEGORY
     SET categoryName = p_categoryName
     WHERE id = p_id;
 END //
@@ -102,7 +102,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE delete_category(IN p_id INT)
 BEGIN
-    DELETE FROM category
+    DELETE FROM CATEGORY
     WHERE id = p_id;
 END //
 DELIMITER ;
@@ -125,7 +125,7 @@ CREATE PROCEDURE insert_user(
     IN p_phoneNumber VARCHAR(20)
 )
 BEGIN
-    INSERT INTO user (
+    INSERT INTO USER (
         roleId, userName, password, email, fullName, gender, address, dob, phoneNumber
     ) VALUES (
         p_roleId, p_userName, p_password, p_email, p_fullName, p_gender, p_address, p_dob, p_phoneNumber
@@ -148,7 +148,7 @@ CREATE PROCEDURE update_user(
     IN p_phoneNumber VARCHAR(20)
 )
 BEGIN
-    UPDATE user
+    UPDATE USER
     SET roleId = p_roleId,
         userName = p_userName,
         password = p_password,
@@ -166,7 +166,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE delete_user(IN p_id INT)
 BEGIN
-    DELETE FROM user WHERE id = p_id;
+    DELETE FROM USER WHERE id = p_id;
 END //
 DELIMITER ;
 
@@ -185,7 +185,7 @@ CREATE PROCEDURE insert_product(
     IN p_imageUrl TEXT
 )
 BEGIN
-    INSERT INTO product (categoryId, name, price, active, description, imageUrl)
+    INSERT INTO PRODUCT (categoryId, name, price, active, description, imageUrl)
     VALUES (p_categoryId, p_name, p_price, p_active, p_description, p_imageUrl);
 END //
 DELIMITER ;
@@ -202,7 +202,7 @@ CREATE PROCEDURE update_product(
     IN p_imageUrl TEXT
 )
 BEGIN
-    UPDATE product
+    UPDATE PRODUCT
     SET categoryId = p_categoryId,
         name = p_name,
         price = p_price,
@@ -217,7 +217,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE delete_product(IN p_id INT)
 BEGIN
-    DELETE FROM product WHERE id = p_id;
+    DELETE FROM PRODUCT WHERE id = p_id;
 END //
 DELIMITER ;
 
@@ -233,7 +233,7 @@ CREATE PROCEDURE insert_bill(
     IN p_status VARCHAR(50)
 )
 BEGIN
-    INSERT INTO bill (userId, cardId, status)
+    INSERT INTO BILL (userId, cardId, status)
     VALUES (p_userId, p_cardId, p_status);
 END //
 DELIMITER ;
@@ -247,7 +247,7 @@ CREATE PROCEDURE update_bill(
     IN p_status VARCHAR(50)
 )
 BEGIN
-    UPDATE bill
+    UPDATE BILL
     SET userId = p_userId,
         cardId = p_cardId,
         status = p_status
@@ -259,7 +259,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE delete_bill(IN p_id INT)
 BEGIN
-    DELETE FROM bill WHERE id = p_id;
+    DELETE FROM BILL WHERE id = p_id;
 END //
 DELIMITER ;
 
@@ -279,7 +279,7 @@ CREATE PROCEDURE insert_billdetails(
     IN p_totalPriceWithVAT DOUBLE
 )
 BEGIN
-    INSERT INTO billdetails (
+    INSERT INTO BILLDETAILS (
         billId, productId, date, quantity, discount, totalPriceNoVAT, totalPriceWithVAT
     ) VALUES (
         p_billId, p_productId, p_date, p_quantity, p_discount, p_totalPriceNoVAT, p_totalPriceWithVAT
@@ -300,7 +300,7 @@ CREATE PROCEDURE update_billdetails(
     IN p_totalPriceWithVAT DOUBLE
 )
 BEGIN
-    UPDATE billdetails
+    UPDATE BILLDETAILS
     SET billId = p_billId,
         productId = p_productId,
         date = p_date,
@@ -316,6 +316,6 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE delete_billdetails(IN p_id INT)
 BEGIN
-    DELETE FROM billdetails WHERE id = p_id;
+    DELETE FROM BILLDETAILS WHERE id = p_id;
 END //
 DELIMITER ;
