@@ -10,7 +10,7 @@ public interface CategoryDAO {
 
     default List<Category> getAllCategories() {
         List<Category> list = new ArrayList<>();
-        String sql = "SELECT id, categoryName FROM category";
+        String sql = "SELECT id, categoryName FROM CATEGORY";
 
         try (Connection con = ConnectionHelper.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
