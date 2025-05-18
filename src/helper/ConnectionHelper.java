@@ -5,31 +5,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.io.InputStream;
+import javax.sql.DataSource;
 
 public class ConnectionHelper {
-    private static String url;
-    private static String user;
-    private static String password;
+    private static DataSource dataSource;
 
     static {
         try (InputStream input = ConnectionHelper.class.getResourceAsStream("/config/db.properties")) {
             Properties props = new Properties();
             props.load(input);
-
-            url = props.getProperty("db.url");
-            user = props.getProperty("db.user");
-            password = props.getProperty("db.password");
-
-            //Optional: Load JDBC driver manually (for older versions)
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Initialize DataSource
+            dataSource = DataSourceFactory.createDataSource(props);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Lỗi khi tải cấu hình kết nối CSDL");
+            throw new RuntimeException("Error loading DB configuration", e);
         }
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
+        return dataSource.getConnection();
     }
 }
 

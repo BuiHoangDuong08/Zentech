@@ -25,6 +25,7 @@ import zentech.application.form.other.Payment;
 import zentech.application.form.other.SalesHistory;
 import zentech.application.form.other.MenuSelection;
 import zentech.application.form.other.PaymentHistory;
+import zentech.application.form.other.ProductManager;
 import zentech.application.form.other.User;
 import zentechx.menu.Menu;
 import zentechx.menu.MenuAction;
@@ -80,6 +81,8 @@ public class MainForm extends JLayeredPane {
                     Application.showForm(new MenuSelection());
                 } else if (subIndex == 2) {
                     Application.showForm(new ListIDcard());
+                } else if (subIndex == 3) {
+                    Application.showForm(new ProductManager());
                 } else {
                     action.cancel();
                 }

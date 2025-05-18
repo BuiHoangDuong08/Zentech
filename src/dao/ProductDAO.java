@@ -10,21 +10,19 @@ public interface ProductDAO {
 
     default List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT id, categoryId, name, price, active, description, imageUrl FROM PRODUCT";
+        String sql = "SELECT *FROM PRODUCT";
 
-        try (Connection con = ConnectionHelper.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Product p = new Product();
                 p.setId(rs.getInt("id"));
-                p.setCategoryId(rs.getInt("categoryId"));
+                p.setCategoryId(rs.getInt("Category_ID"));
                 p.setName(rs.getString("name"));
                 p.setPrice(rs.getDouble("price"));
                 p.setActive(rs.getString("active"));
                 p.setDescription(rs.getString("description"));
-                p.setImageUrl(rs.getString("imageUrl"));
+                p.setImageUrl(rs.getString("image_Url"));
                 list.add(p);
             }
         } catch (Exception e) {
@@ -34,8 +32,7 @@ public interface ProductDAO {
     }
 
     default boolean addProduct(Product p) {
-        try (Connection con = ConnectionHelper.getConnection();
-             CallableStatement cs = con.prepareCall("{CALL insert_product(?, ?, ?, ?, ?, ?)}")) {
+        try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL insert_product(?, ?, ?, ?, ?, ?)}")) {
 
             cs.setInt(1, p.getCategoryId());
             cs.setString(2, p.getName());
@@ -51,8 +48,7 @@ public interface ProductDAO {
     }
 
     default boolean updateProduct(Product p) {
-        try (Connection con = ConnectionHelper.getConnection();
-             CallableStatement cs = con.prepareCall("{CALL update_product(?, ?, ?, ?, ?, ?, ?)}")) {
+        try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL update_product(?, ?, ?, ?, ?, ?, ?)}")) {
 
             cs.setInt(1, p.getId());
             cs.setInt(2, p.getCategoryId());
@@ -69,8 +65,7 @@ public interface ProductDAO {
     }
 
     default boolean deleteProduct(int id) {
-        try (Connection con = ConnectionHelper.getConnection();
-             CallableStatement cs = con.prepareCall("{CALL delete_product(?)}")) {
+        try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL delete_product(?)}")) {
 
             cs.setInt(1, id);
             return cs.executeUpdate() > 0;
