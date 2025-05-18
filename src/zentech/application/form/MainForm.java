@@ -92,6 +92,8 @@ public class MainForm extends JLayeredPane {
                     Application.showForm(new User());
                 } else if (subIndex == 2) {
                     Application.showForm(new SalesHistory());
+                     } else if (subIndex == 2) {
+                    Application.showForm(new User());             
                 } else {
                     action.cancel();
                 }
