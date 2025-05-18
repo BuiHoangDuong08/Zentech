@@ -10,7 +10,7 @@ public interface ProductDAO {
 
     default List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT id, categoryId, name, price, active, description, imageUrl FROM PRODUCT";
+        String sql = "SELECT ID, Category_ID, Name, Price, Active, Description, Image_URL FROM PRODUCT";
 
         try (Connection con = ConnectionHelper.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -18,13 +18,13 @@ public interface ProductDAO {
 
             while (rs.next()) {
                 Product p = new Product();
-                p.setId(rs.getInt("id"));
-                p.setCategoryId(rs.getInt("categoryId"));
-                p.setName(rs.getString("name"));
-                p.setPrice(rs.getDouble("price"));
-                p.setActive(rs.getString("active"));
-                p.setDescription(rs.getString("description"));
-                p.setImageUrl(rs.getString("imageUrl"));
+                p.setId(rs.getInt("ID"));
+                p.setCategoryId(rs.getInt("Category_ID"));
+                p.setName(rs.getString("Name"));
+                p.setPrice(rs.getDouble("Price"));
+                p.setActive(rs.getString("Active"));
+                p.setDescription(rs.getString("Description"));
+                p.setImageUrl(rs.getString("Image_URL"));
                 list.add(p);
             }
         } catch (Exception e) {

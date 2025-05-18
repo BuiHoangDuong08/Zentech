@@ -25,7 +25,7 @@ public class QtyCellEditor extends DefaultCellEditor {
         this.event = event;
         input = new JSpinner();
         SpinnerNumberModel numberModel = (SpinnerNumberModel) input.getModel();
-        numberModel.setMinimum(1);
+        numberModel.setMinimum(0);
         JSpinner.NumberEditor editor = (JSpinner.NumberEditor) input.getEditor();
         DefaultFormatter formatter = (DefaultFormatter) editor.getTextField().getFormatter();
         formatter.setCommitsOnValidEdit(true);

@@ -18,13 +18,14 @@ import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
 import zentech.application.form.other.AboutUs;
 import zentech.application.form.other.FormDashboard;
+import zentech.application.form.other.Inventory;
 import zentech.application.form.other.ListIDcard;
 import zentech.application.form.other.MenuSelection;
 import zentech.application.form.other.SalesOrder;
 import zentech.application.form.other.Payment;
 import zentech.application.form.other.SalesHistory;
 import zentech.application.form.other.MenuSelection;
-import zentech.application.form.other.PaymentHistory;
+import zentech.application.form.other.Inventory;
 import zentech.application.form.other.User;
 import zentechx.menu.Menu;
 import zentechx.menu.MenuAction;
@@ -80,22 +81,16 @@ public class MainForm extends JLayeredPane {
                     Application.showForm(new MenuSelection());
                 } else if (subIndex == 2) {
                     Application.showForm(new ListIDcard());
+                } else if (subIndex == 4) {
+                    Application.showForm(new Inventory());
                 } else {
                     action.cancel();
                 }
             } else if (index == 2) {
                 if (subIndex == 1) {
-                    Application.showForm(new PaymentHistory());
+                    Application.showForm(new Inventory());
                 }
             } else if (index == 3) {
-                if (subIndex == 1) {
-                    Application.showForm(new User());
-                } else if (subIndex == 2) {
-                    Application.showForm(new SalesHistory());
-                } else {
-                    action.cancel();
-                }
-            } else if (index == 4) {
                 Application.logout();
             } else {
                 action.cancel();
