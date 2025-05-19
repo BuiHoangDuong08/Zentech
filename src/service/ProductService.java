@@ -27,10 +27,10 @@ public class ProductService implements ProductDAO {
     }
     
     public boolean updateData(Product p){
-        return  updateData(p);
+        return  updateProduct(p);
     }
     
     public boolean deleteData(int id){
-        return deleteData(id);
+        return deleteProduct(id);
     }
 }

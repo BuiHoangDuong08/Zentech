@@ -374,7 +374,7 @@ public class MenuSelection extends javax.swing.JPanel {
         // TODO add your handling code here:
         try {
             String userHome = System.getProperty("user.home");
-            String desktopPath = userHome + File.separator + "Desktop";
+            String desktopPath = userHome + File.separator + "OneDrive" + File.separator + "Documents" + File.separator + "Desktop";
             String filePath = desktopPath + File.separator + "zentech_receipt.pdf";
 
             Document document = new Document(PageSize.A6);
@@ -400,7 +400,7 @@ public class MenuSelection extends javax.swing.JPanel {
             infoTable.addCell(getCell("MR A", PdfPCell.ALIGN_RIGHT, smallFont));
             document.add(infoTable);
 
-            document.add(new Paragraph("-------------------------------------------------------------------", smallFont));
+            document.add(new Paragraph("-------------------------------------------------------------------\n\n", smallFont));
 
             // Bảng sản phẩm
             PdfPTable table = new PdfPTable(4);
