@@ -5,6 +5,8 @@
 package zentech.application.form.other;
 
 import java.awt.Component;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -33,6 +35,7 @@ public class MenuSelection extends javax.swing.JPanel {
     }
 
     private void customTableEvent() {
+        // Gán QtyCellEditor như cũ
         tblProduct.getColumnModel().getColumn(3).setCellEditor(new QtyCellEditor(() -> syncSelectedItemsAndTotal()));
         tblProduct.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
@@ -43,6 +46,33 @@ public class MenuSelection extends javax.swing.JPanel {
             }
         });
 
+        // Renderer định dạng giá kiểu tiền tệ
+        tblProduct.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+            private final NumberFormat currencyFormat = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setHorizontalAlignment(SwingConstants.CENTER);
+                if (value instanceof Number) {
+                    setText(currencyFormat.format(((Number) value).doubleValue()) + " đ");
+                } else {
+                    setText(String.valueOf(value));
+                }
+                return this;
+            }
+        });
+
+        tblProduct.getColumnModel().getColumn(5).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                setHorizontalAlignment(SwingConstants.CENTER);
+                return this;
+            }
+        });
+
+        // Ẩn cột 0 và 6
         for (int i : new int[]{0, 6}) {
             tblProduct.getColumnModel().getColumn(i).setMinWidth(0);
             tblProduct.getColumnModel().getColumn(i).setPreferredWidth(0);

@@ -4,12 +4,14 @@
  */
 package service;
 
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -68,7 +70,7 @@ public class MenuSelectionService implements ProductDAO {
         DefaultTableModel modelSelected = (DefaultTableModel) tblGetInfo.getModel();
         modelSelected.setRowCount(0);
         int total = 0;
-        DecimalFormat df = new DecimalFormat("$ #,###");
+        DecimalFormat df = new DecimalFormat("#,### ₫");
 
         for (int i = 0; i < tblProduct.getRowCount(); i++) {
             ModelItemSell item = (ModelItemSell) tblProduct.getValueAt(i, 0);
@@ -98,15 +100,14 @@ public class MenuSelectionService implements ProductDAO {
             item.setQty(0);
             item.setTotal(0);
             tblProduct.setValueAt(0, i, 3);
-            tblProduct.setValueAt("$ 0", i, 5);
+            tblProduct.setValueAt("0 ₫", i, 5);
         }
 
-        lbTotal.setText("$ 0");
+        lbTotal.setText("0 ₫");
     }
 
     public void generateReceipt(JTable tblGetInfo, javax.swing.JPanel parent, javax.swing.JLabel lbTotal) {
         try {
-            
             String desktopPath = File.separator + "D:\\";
             String filePath = desktopPath + File.separator + "zentech_receipt.pdf";
 
@@ -114,9 +115,10 @@ public class MenuSelectionService implements ProductDAO {
             PdfWriter.getInstance(document, new FileOutputStream(filePath));
             document.open();
 
-            Font titleFont = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
-            Font smallFont = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
-            Font boldFont = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD);
+            BaseFont baseFont = BaseFont.createFont("/zentech/font/arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font titleFont = new Font(baseFont, 16, Font.BOLD);
+            Font smallFont = new Font(baseFont, 10, Font.NORMAL);
+            Font boldFont = new Font(baseFont, 10, Font.BOLD);
 
             Paragraph title = new Paragraph("ZENTECH\n\n", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
@@ -147,15 +149,27 @@ public class MenuSelectionService implements ProductDAO {
             for (int i = 0; i < model.getRowCount(); i++) {
                 String name = model.getValueAt(i, 0).toString();
                 int qty = Integer.parseInt(model.getValueAt(i, 1).toString());
-                String priceStr = model.getValueAt(i, 2).toString().replace("$", "").replace(",", "").trim();
+                String priceStr = model.getValueAt(i, 2).toString().replace("₫", "").replace(",", "").trim();
                 double price = Double.parseDouble(priceStr);
                 double itemTotal = price * qty;
                 grandTotal += itemTotal;
 
                 table.addCell(new Phrase(name, smallFont));
                 table.addCell(new Phrase(String.valueOf(qty), smallFont));
-                table.addCell(new Phrase(String.format("$ %.2f", price), smallFont));
-                table.addCell(new Phrase(String.format("$ %.2f", itemTotal), smallFont));
+
+                Phrase pricePhrase = new Phrase();
+                pricePhrase.add(new Chunk(String.format("%.2f ", price), smallFont));
+                Font largerFont = new Font(baseFont, 12, Font.BOLD);
+                Chunk currencyChunk = new Chunk("₫", largerFont);
+                currencyChunk.setTextRise(-2f); // đẩy chữ "₫" xuống một chút để thẳng hàng
+                pricePhrase.add(currencyChunk);
+                table.addCell(pricePhrase);
+
+                Phrase itemTotalPhrase = new Phrase();
+                itemTotalPhrase.add(new Chunk(String.format("%.2f ", itemTotal), smallFont));
+                currencyChunk.setTextRise(-2f); // đẩy chữ "₫" xuống một chút để thẳng hàng
+                itemTotalPhrase.add(currencyChunk);
+                table.addCell(itemTotalPhrase);
             }
 
             document.add(table);
@@ -164,8 +178,26 @@ public class MenuSelectionService implements ProductDAO {
             PdfPTable totalTable = new PdfPTable(2);
             totalTable.setWidthPercentage(100);
             totalTable.setWidths(new float[]{3f, 1f});
-            totalTable.addCell(getCell("Total", PdfPCell.ALIGN_LEFT, boldFont));
-            totalTable.addCell(getCell(String.format("$ %.2f", grandTotal), PdfPCell.ALIGN_RIGHT, boldFont));
+// Cột "Total" label
+            PdfPCell labelCell = new PdfPCell(new Phrase("Total", boldFont));
+            labelCell.setBorder(PdfPCell.NO_BORDER);
+            labelCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+// Cột giá trị tổng tiền
+            Phrase grandTotalPhrase = new Phrase();
+            grandTotalPhrase.add(new Chunk(String.format("%.2f ", grandTotal), smallFont));
+            Font largerFont = new Font(baseFont, 12, Font.BOLD);
+            Chunk currencyChunk = new Chunk("₫", largerFont);
+            currencyChunk.setTextRise(-2f);  // Đẩy chữ "₫" xuống cho thẳng hàng
+            grandTotalPhrase.add(currencyChunk);
+
+            PdfPCell valueCell = new PdfPCell(grandTotalPhrase);
+            valueCell.setBorder(PdfPCell.NO_BORDER);
+            valueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+// Thêm 2 ô vào bảng
+            totalTable.addCell(labelCell);
+            totalTable.addCell(valueCell);
             document.add(totalTable);
 
             document.close();
