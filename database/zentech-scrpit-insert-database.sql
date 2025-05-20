@@ -37,11 +37,11 @@ INSERT INTO `CATEGORY` (`CategoryName`) VALUES
 ('LUNCH');
 
 -- 4. Thêm dữ liệu cho bảng USER
-INSERT INTO `USER` (`ID`, `Role_ID`, `UserName`, `Password`, `Email`, `FullName`, `Gender`, `Address`, `DoB`, `PhoneNumber`) VALUES
-(1, 1, 'admin', '$2a$12$ILMv5FfHkMgQMQ9A7hK4duU9Qz0L4m.BYiVOFxu2XT4g5YP95QzQ6', 'admin@zentech.vn', 'Nguyễn Quản Trị', 'MALE', '123 Lê Lợi, Quận 1, TP.HCM', '1990-05-15', '0901234567'),
-(2, 2, 'manager', '$2a$12$3VF46rD1yGgwDO4zxgzCB.PrlhNgjiH6aLFHwCQbVPvCnvRm3CTuy', 'manager@zentech.vn', 'Trần Quản Lý', 'FEMALE', '45 Nguyễn Thị Minh Khai, Quận 3, TP.HCM', '1992-07-20', '0912345678'),
-(3, 3, 'cashier1', '$2a$12$wj8jXzx7OGJOjGNqxH2rzeGZ3bnJadBLHVj.xYrmpzsy6.OmYGBwW', 'cashier1@zentech.vn', 'Lê Thu Ngân', 'FEMALE', '78 Cách Mạng Tháng 8, Quận 10, TP.HCM', '1995-03-12', '0923456789'),
-(4, 3, 'cashier2', '$2a$12$h5TF.Bz6rO3UUh7LmPMnpeWVPvoRf/6Y3.4KKsQgL4RH3jgGDpHsi', 'cashier2@zentech.vn', 'Phạm Thanh Toán', 'MALE', '56 Võ Văn Tần, Quận 3, TP.HCM', '1997-11-05', '0934567890');
+INSERT INTO `USER` (`Role_ID`, `UserName`, `Password`, `Email`, `FullName`, `Gender`, `Address`, `DoB`, `PhoneNumber`) VALUES
+(1, 'admin', '$2a$12$ILMv5FfHkMgQMQ9A7hK4duU9Qz0L4m.BYiVOFxu2XT4g5YP95QzQ6', 'admin@zentech.vn', 'Nguyễn Quản Trị', 'MALE', '123 Lê Lợi, Quận 1, TP.HCM', '1990-05-15', '0901234567'),
+(2, 'manager', '$2a$12$3VF46rD1yGgwDO4zxgzCB.PrlhNgjiH6aLFHwCQbVPvCnvRm3CTuy', 'manager@zentech.vn', 'Trần Quản Lý', 'FEMALE', '45 Nguyễn Thị Minh Khai, Quận 3, TP.HCM', '1992-07-20', '0912345678'),
+(3, 'cashier1', '$2a$12$wj8jXzx7OGJOjGNqxH2rzeGZ3bnJadBLHVj.xYrmpzsy6.OmYGBwW', 'cashier1@zentech.vn', 'Lê Thu Ngân', 'FEMALE', '78 Cách Mạng Tháng 8, Quận 10, TP.HCM', '1995-03-12', '0923456789'),
+(3, 'cashier2', '$2a$12$h5TF.Bz6rO3UUh7LmPMnpeWVPvoRf/6Y3.4KKsQgL4RH3jgGDpHsi', 'cashier2@zentech.vn', 'Phạm Thanh Toán', 'MALE', '56 Võ Văn Tần, Quận 3, TP.HCM', '1997-11-05', '0934567890');
 
 -- 5. Thêm dữ liệu cho bảng PRODUCT
 INSERT INTO `PRODUCT` (`Category_ID`, `Name`, `Price`, `Active`, `Description`, `Image_URL`) VALUES

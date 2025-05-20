@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `CATEGORY` (
 -- 4. USER – Thông tin người dùng
 -- =======================================================================
 CREATE TABLE IF NOT EXISTS `USER` (
-    `ID`           INT  NOT NULL,
+    `ID`           INT  NOT NULL AUTO_INCREMENT,
     `Role_ID`      INT           NOT NULL,
     `UserName`     VARCHAR(20)   NOT NULL,
     `Password`     VARCHAR(60)   NOT NULL,

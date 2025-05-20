@@ -24,9 +24,7 @@ public class Menu extends JPanel {
         {"~ABOUT~"},
         {"About Us", "About Us"},
         {"~MAIN~"},
-        {"Order", "Menu selection","Identification cards","Product Management"},
-        {"~PAYMENT~"},
-        {"Payment", "History"},
+        {"Order", "Menu selection","Identification cards", "Inventory"},
         {"~USER~"},
         {"User", "User Info", "Sales History"},
         {"Logout"}
