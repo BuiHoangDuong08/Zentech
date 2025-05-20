@@ -4,15 +4,8 @@
  */
 package zentech.application.form.other;
 
-import service.ProductService;
+import service.InventoryService;
 import entity.Product;
-import java.awt.Image;
-import java.io.File;
-import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,51 +13,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Inventory extends javax.swing.JPanel {
 
-    ProductService productService = new ProductService();
-    
+    private final InventoryService productService = new InventoryService();
+
     /**
      * Creates new form Inventory
      */
     public Inventory() {
         initComponents();
-        hideRowImage_URL();
-        loadProductToTable();
-    }
-
-    private void hideRowImage_URL() {
-        tblProduct.getColumnModel().getColumn(6).setMinWidth(0);
-        tblProduct.getColumnModel().getColumn(6).setMaxWidth(0);
-        tblProduct.getColumnModel().getColumn(6).setWidth(0);
-    }
-
-    private void clearForm() {
-        txtProductID.setText(null);
-        txtName.setText(null);
-        txtPrice.setText(null);
-        cmoActive.setSelectedItem(null);
-        txtDescription.setText(null);
-        lblImage.setIcon(null);
-        lblImage.putClientProperty("imagePath", null);
-        lblID.setText(null);
-    }
-
-    private void loadProductToTable() {
-        DefaultTableModel model = (DefaultTableModel) tblProduct.getModel();
-        model.setRowCount(0); // xóa bảng cũ
-
-        List<Product> list = productService.getAllProducts(); // Lấy từ DAO
-
-        for (Product p : list) {
-            model.addRow(new Object[]{
-                p.getId(),
-                p.getCategoryId(),
-                p.getName(),
-                p.getPrice(),
-                p.getActive(),
-                p.getDescription(),
-                p.getImageUrl() // cột 6, nếu bạn có dùng ảnh
-            });
-        }
+        productService.loadProductToTable(tblProduct);
+        productService.hideImageColumn(tblProduct);
     }
 
     /**
@@ -497,154 +454,41 @@ public class Inventory extends javax.swing.JPanel {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
-        txtProductID.setText(null);
-        txtName.setText(null);
-        txtPrice.setText(null);
-        cmoActive.setSelectedItem(null);
-        txtDescription.setText(null);
-        lblImage.setIcon(null); // Xóa hình ảnh khỏi label
-        lblImage.putClientProperty("imagePath", null); // Xóa đường dẫn ảnh đã lưu
-        lblID.setText(null);
+        clearForm();
     }//GEN-LAST:event_btnClearActionPerformed
-
-    private Product getProductInput() {
-        try {
-            String idText = lblID.getText().trim();
-            Integer id = idText.isEmpty() ? null : Integer.parseInt(idText);
-            int categoryId = Integer.parseInt(txtProductID.getText().trim());
-            String name = txtName.getText().trim();
-            double price = Double.parseDouble(txtPrice.getText().trim());
-            String status = cmoActive.getSelectedItem().toString();
-            String description = txtDescription.getText().trim(); // nếu có
-            String imagePath = lblImage.getClientProperty("imagePath").toString();
-
-            return new Product(id, categoryId, name, price, status, description, imagePath);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Dữ liệu không hợp lệ: " + e.getMessage());
-            return null;
-        }
-    }
-
-    private void AddProductToDAO() {
-        Product p = getProductInput();
-        if (p != null) {
-            boolean success = productService.addData(p); 
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công!");
-                loadProductToTable();
-            } else {
-                JOptionPane.showMessageDialog(this, "Không thể thêm sản phẩm.");
-            }
-        }
-    }
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        AddProductToDAO();
+        Product p = productService.getProductInput(lblID, txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, this);
+        productService.addProduct(p, this, tblProduct);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
         // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Select an image");
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "png", "jpeg", "gif"));
-
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-
-            try {
-                String imagePath = selectedFile.getAbsolutePath();
-
-                ImageIcon icon = new ImageIcon(imagePath);
-                Image img = icon.getImage().getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
-                lblImage.setIcon(new ImageIcon(img));
-
-                lblImage.putClientProperty("imagePath", imagePath);
-                loadProductToTable(); // hàm để load lại bảng
-            } catch (Exception e) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Failed to load image: " + e.getMessage());
-            }
-        }
+        productService.chooseImage(lblImage, this);
     }//GEN-LAST:event_btnImportActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        Product p = getProductInput();
-        if (p != null && p.getId() != null) {
-            boolean success = productService.updateData(p);
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm thành công!");
-                loadProductToTable();
-                clearForm();
-            } else {
-                JOptionPane.showMessageDialog(this, "Cập nhật thất bại.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để cập nhật.");
-        }
+        Product p = productService.getProductInput(lblID, txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, this);
+        productService.updateProduct(p, this, tblProduct, this::clearForm);
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void clearForm() {
+        productService.clearForm(txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, lblID);
+    }
 
     private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         // TODO add your handling code here:
-        int selectedRow = tblProduct.getSelectedRow();
-        if (selectedRow >= 0) {
-            String id = tblProduct.getValueAt(selectedRow, 0).toString();
-            String categoryId = tblProduct.getValueAt(selectedRow, 1).toString();
-            String name = tblProduct.getValueAt(selectedRow, 2).toString();
-            String price = tblProduct.getValueAt(selectedRow, 3).toString();
-            String status = tblProduct.getValueAt(selectedRow, 4).toString();
-            String description = tblProduct.getValueAt(selectedRow, 5).toString();
-            String imagePath = tblProduct.getValueAt(selectedRow, 6).toString();
-
-            // Đổ dữ liệu lên form
-            lblID.setText(id); // hoặc txtID.setText(id) nếu bạn cho phép chỉnh ID
-            txtProductID.setText(categoryId);
-            txtName.setText(name);
-            txtPrice.setText(price);
-            cmoActive.setSelectedItem(status);
-            txtDescription.setText(description);
-
-            // Hiển thị ảnh
-            if (imagePath != null && !imagePath.isEmpty()) {
-                lblImage.putClientProperty("imagePath", imagePath);
-                ImageIcon icon = new ImageIcon(imagePath);
-                Image img = icon.getImage().getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
-                lblImage.setIcon(new ImageIcon(img));
-            } else {
-                lblImage.setIcon(null);
-                lblImage.putClientProperty("imagePath", null);
-            }
+        int row = tblProduct.getSelectedRow();
+        if (row >= 0) {
+            productService.fillFormFromTable(tblProduct, row, txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, lblID);
         }
     }//GEN-LAST:event_tblProductMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        String idText = lblID.getText().trim();
-        if (idText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để xóa.");
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sản phẩm này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        try {
-            int id = Integer.parseInt(idText);
-            boolean success = productService.deleteData(id); // productDAO là đối tượng DAO của bạn
-
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Xóa sản phẩm thành công.");
-                clearForm(); // hàm để xóa trắng form
-                loadProductToTable(); // hàm để load lại bảng
-            } else {
-                JOptionPane.showMessageDialog(this, "Không thể xóa sản phẩm.");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "ID không hợp lệ.");
-        }
+        productService.deleteProduct(lblID.getText(), this, tblProduct, this::clearForm);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearch1ActionPerformed
@@ -653,30 +497,9 @@ public class Inventory extends javax.swing.JPanel {
 
     private void txtSearch1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch1KeyReleased
         // TODO add your handling code here:
-        String keyword = txtSearch1.getText().trim().toLowerCase();
-        filterProductByName(keyword);
+        productService.filterProductByName(txtSearch1, tblProduct);
     }//GEN-LAST:event_txtSearch1KeyReleased
 
-    private void filterProductByName(String keyword) {
-        DefaultTableModel model = (DefaultTableModel) tblProduct.getModel();
-        model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
-
-        List<Product> productList = productService.getAllData(); // Lấy toàn bộ danh sách sản phẩm từ DAO
-
-        for (Product p : productList) {
-            if (p.getName().toLowerCase().contains(keyword)) {
-                model.addRow(new Object[]{
-                    p.getId(),
-                    p.getCategoryId(),
-                    p.getName(),
-                    p.getPrice(),
-                    p.getActive(),
-                    p.getDescription(),
-                    p.getImageUrl()
-                });
-            }
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

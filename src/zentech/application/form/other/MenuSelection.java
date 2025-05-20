@@ -4,32 +4,12 @@
  */
 package zentech.application.form.other;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Component;
-import java.text.DecimalFormat;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import zentechx.menu.EventCellInputChange;
-import zentechx.menu.ModelItemSell;
+import service.MenuSelectionService;
 import zentechx.menu.QtyCellEditor;
-import entity.Product;
-import java.awt.Image;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import service.ProductService;
 
 /**
  *
@@ -40,7 +20,7 @@ public class MenuSelection extends javax.swing.JPanel {
     /**
      * Creates new form MenuSelection
      */
-    ProductService productService = new ProductService();
+    MenuSelectionService menuSelectionService = new MenuSelectionService();
 
     public MenuSelection() {
         initComponents();
@@ -48,13 +28,12 @@ public class MenuSelection extends javax.swing.JPanel {
         showData();
     }
 
+    private void showData() {
+        menuSelectionService.loadProductsToTable(tblProduct);
+    }
+
     private void customTableEvent() {
-        tblProduct.getColumnModel().getColumn(3).setCellEditor(new QtyCellEditor(new EventCellInputChange() {
-            @Override
-            public void inputChanged() {
-                syncSelectedItemsAndSum();
-            }
-        }));
+        tblProduct.getColumnModel().getColumn(3).setCellEditor(new QtyCellEditor(() -> syncSelectedItemsAndTotal()));
         tblProduct.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -64,96 +43,15 @@ public class MenuSelection extends javax.swing.JPanel {
             }
         });
 
-        // Ẩn cột chứa object ModelItemSell
-        tblProduct.getColumnModel().getColumn(0).setMinWidth(0);
-        tblProduct.getColumnModel().getColumn(0).setPreferredWidth(0);
-        tblProduct.getColumnModel().getColumn(0).setMaxWidth(0);
-
-        // Ẩn cột chứa image ModelItemSell
-        tblProduct.getColumnModel().getColumn(6).setMinWidth(0);
-        tblProduct.getColumnModel().getColumn(6).setPreferredWidth(0);
-        tblProduct.getColumnModel().getColumn(6).setMaxWidth(0);
-    }
-
-    private void syncSelectedItemsAndSum() {
-        DefaultTableModel modelSelected = (DefaultTableModel) tblGetInfo.getModel();
-        modelSelected.setRowCount(0); // Clear table
-        int total = 0;
-
-        DecimalFormat df = new DecimalFormat("$ #,###");
-
-        for (int i = 0; i < tblProduct.getRowCount(); i++) {
-            ModelItemSell item = (ModelItemSell) tblProduct.getValueAt(i, 0);
-            if (item.getQty() > 0) {
-                modelSelected.addRow(new Object[]{
-                    item.getProductName(),
-                    item.getQty(),
-                    df.format(item.getPrice()) // định dạng lại giá
-                });
-                total += item.getTotal();
-            }
-        }
-
-        lbTotal.setText(df.format(total));
-    }
-
-    private void showData() {
-        List<Product> productList = productService.getAllData();
-        DefaultTableModel model = (DefaultTableModel) tblProduct.getModel();
-        model.setRowCount(0); // Xóa dữ liệu cũ
-
-        for (Product p : productList) {
-            ImageIcon image = createImageIcon(p.getImageUrl());
-
-            // Thêm ảnh vào cột cuối cùng
-            ModelItemSell item = new ModelItemSell(p.getId(), p.getName(), 0, p.getPrice(), 0);
-            model.addRow(new Object[]{
-                item, // Object ModelItemSell (ẩn)
-                p.getId(), // ID
-                p.getName(), // Tên
-                0, // Qty
-                p.getPrice(), // Giá
-                0, // Tổng
-                image // Ảnh
-            });
-        }
-
-        tblProduct.setRowHeight(60); // Đảm bảo đủ chỗ hiển thị ảnh
-    }
-
-    private ImageIcon createImageIcon(String path) {
-        try {
-            ImageIcon icon = new ImageIcon(path); // path có thể là đường dẫn ảnh hoặc URL
-            Image scaledImage = icon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-            return new ImageIcon(scaledImage);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        for (int i : new int[]{0, 6}) {
+            tblProduct.getColumnModel().getColumn(i).setMinWidth(0);
+            tblProduct.getColumnModel().getColumn(i).setPreferredWidth(0);
+            tblProduct.getColumnModel().getColumn(i).setMaxWidth(0);
         }
     }
 
-    private void filterProductByName(String keyword) {
-        DefaultTableModel model = (DefaultTableModel) tblProduct.getModel();
-        model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
-
-        List<Product> productList = productService.getAllData();
-
-        for (Product p : productList) {
-            if (p.getName().toLowerCase().contains(keyword)) {
-                ImageIcon image = createImageIcon(p.getImageUrl());
-
-                ModelItemSell item = new ModelItemSell(p.getId(), p.getName(), 0, p.getPrice(), 0);
-                model.addRow(new Object[]{
-                    item, // Ẩn
-                    p.getId(), // ID
-                    p.getName(), // Name
-                    0, // Qty
-                    p.getPrice(), // Price
-                    0, // Total
-                    image // Ẩn
-                });
-            }
-        }
+    private void syncSelectedItemsAndTotal() {
+        menuSelectionService.syncSelectedItemsAndTotal(tblProduct, tblGetInfo, lbTotal);
     }
 
     /**
@@ -372,127 +270,21 @@ public class MenuSelection extends javax.swing.JPanel {
 
     private void btnReceiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceiptActionPerformed
         // TODO add your handling code here:
-        try {
-            String userHome = System.getProperty("user.home");
-            String desktopPath = userHome + File.separator + "OneDrive" + File.separator + "Documents" + File.separator + "Desktop";
-            String filePath = desktopPath + File.separator + "zentech_receipt.pdf";
-
-            Document document = new Document(PageSize.A6);
-            PdfWriter.getInstance(document, new FileOutputStream(filePath));
-            document.open();
-
-            Font titleFont = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
-            Font smallFont = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL);
-            Font boldFont = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD);
-
-            // Tiêu đề
-            Paragraph title = new Paragraph("ZENTECH\n\n", titleFont);
-            title.setAlignment(Element.ALIGN_CENTER);
-            document.add(title);
-
-            // Thông tin nhân viên & khách hàng
-            PdfPTable infoTable = new PdfPTable(2);
-            infoTable.setWidthPercentage(100);
-            infoTable.setWidths(new float[]{1f, 1f});
-            infoTable.addCell(getCell("Staff", PdfPCell.ALIGN_LEFT, smallFont));
-            infoTable.addCell(getCell("Admin", PdfPCell.ALIGN_RIGHT, smallFont));
-            infoTable.addCell(getCell("Customer", PdfPCell.ALIGN_LEFT, smallFont));
-            infoTable.addCell(getCell("MR A", PdfPCell.ALIGN_RIGHT, smallFont));
-            document.add(infoTable);
-
-            document.add(new Paragraph("-------------------------------------------------------------------\n\n", smallFont));
-
-            // Bảng sản phẩm
-            PdfPTable table = new PdfPTable(4);
-            table.setWidthPercentage(100);
-            table.setWidths(new float[]{2f, 1f, 1f, 1f});
-            table.addCell(new Phrase("Name", boldFont));
-            table.addCell(new Phrase("Qty", boldFont));
-            table.addCell(new Phrase("Price", boldFont));
-            table.addCell(new Phrase("Total", boldFont));
-
-            DefaultTableModel model = (DefaultTableModel) tblGetInfo.getModel();
-            double grandTotal = 0;
-
-            for (int i = 0; i < model.getRowCount(); i++) {
-                String name = model.getValueAt(i, 0).toString();
-                int qty = Integer.parseInt(model.getValueAt(i, 1).toString());
-                String priceStr = model.getValueAt(i, 2).toString().replace("$", "").replace(",", "").trim();
-                double price = Double.parseDouble(priceStr);
-                double itemTotal = price * qty;
-                grandTotal += itemTotal;
-
-                table.addCell(new Phrase(name, smallFont));
-                table.addCell(new Phrase(String.valueOf(qty), smallFont));
-                table.addCell(new Phrase(String.format("$ %.2f", price), smallFont));
-                table.addCell(new Phrase(String.format("$ %.2f", itemTotal), smallFont));
-            }
-
-            document.add(table);
-            document.add(new Paragraph("-------------------------------------------------------------------", smallFont));
-
-            // Tổng tiền
-            PdfPTable totalTable = new PdfPTable(2);
-            totalTable.setWidthPercentage(100);
-            totalTable.setWidths(new float[]{3f, 1f});
-            totalTable.addCell(getCell("Total", PdfPCell.ALIGN_LEFT, boldFont));
-            totalTable.addCell(getCell(String.format("$ %.2f", grandTotal), PdfPCell.ALIGN_RIGHT, boldFont));
-            document.add(totalTable);
-
-            document.close();
-            JOptionPane.showMessageDialog(this, "Đã lưu hóa đơn tại Desktop (zentech_receipt.pdf)");
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lỗi xuất PDF: " + e.getMessage());
-        }
-    }
-
-// Hàm phụ để tạo ô căn trái/phải
-    private PdfPCell getCell(String text, int alignment, Font font) {
-        PdfPCell cell = new PdfPCell(new Phrase(text, font));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setHorizontalAlignment(alignment);
-        return cell;
+        menuSelectionService.generateReceipt(tblGetInfo, this, lbTotal);
     }//GEN-LAST:event_btnReceiptActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
-        String keyword = txtSearch.getText().trim().toLowerCase();
-        filterProductByName(keyword);
+        menuSelectionService.filterProducts(txtSearch, tblProduct);
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         // TODO add your handling code here:
-        int selectedRow = tblProduct.getSelectedRow();
-        if (selectedRow != -1) {
-            ImageIcon icon = (ImageIcon) tblProduct.getValueAt(selectedRow, 6); // Cột 6 là image (ẩn)
-            Image image = icon.getImage().getScaledInstance(lblImage.getWidth(), lblImage.getHeight(), Image.SCALE_SMOOTH);
-            lblImage.setIcon(new ImageIcon(image));
-        }
     }//GEN-LAST:event_tblProductMouseClicked
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         // TODO add your handling code here:
-        // Dừng chỉnh sửa nếu đang sửa ô nào đó
-        if (tblProduct.isEditing()) {
-            tblProduct.getCellEditor().stopCellEditing();
-        }
-
-        // Xóa toàn bộ dữ liệu trong bảng tblGetInfo
-        DefaultTableModel model = (DefaultTableModel) tblGetInfo.getModel();
-        model.setRowCount(0); // Xóa toàn bộ dòng
-
-        // Đồng thời reset tất cả qty trong bảng tblProduct về 0
-        for (int i = 0; i < tblProduct.getRowCount(); i++) {
-            ModelItemSell item = (ModelItemSell) tblProduct.getValueAt(i, 0);
-            item.setQty(0);
-            item.setTotal(0);
-            tblProduct.setValueAt(0, i, 3); // Cập nhật lại Qty cột 3
-            tblProduct.setValueAt("$ 0", i, 5); // Cập nhật lại Total cột 5
-        }
-
-        // Reset tổng tiền về 0
-        lbTotal.setText("$ 0");
+        menuSelectionService.resetAll(tblProduct, tblGetInfo, lbTotal);
     }//GEN-LAST:event_btnRemoveActionPerformed
 
 
