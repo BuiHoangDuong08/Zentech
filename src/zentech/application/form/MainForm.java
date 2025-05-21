@@ -96,7 +96,12 @@ public class MainForm extends JLayeredPane {
                     action.cancel();
                 }
             } else if (index == 4) {
-                Application.logout();
+                if (subIndex == 1) {
+                    Application.logout();
+                }else if(subIndex == 2){
+                    Application.changePassword();
+                }
+
             } else {
                 action.cancel();
             }

@@ -29,7 +29,7 @@ public class Menu extends JPanel {
         {"Payment", "History"},
         {"~USER~"},
         {"User", "User Info", "Sales History"},
-        {"Logout"}
+        {"About","Log out","Change password"}
     };
 
     public boolean isMenuFull() {

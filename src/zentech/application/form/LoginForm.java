@@ -2,9 +2,12 @@ package zentech.application.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
+import service.LoginFrom_service;
 import zentech.application.Application;
 
 public class LoginForm extends javax.swing.JPanel {
+
+    static LoginFrom_service lsv = new LoginFrom_service();
 
     public LoginForm() {
         initComponents();
@@ -16,7 +19,7 @@ public class LoginForm extends javax.swing.JPanel {
 
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$h1.font");
-        
+
         txtPass.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true;"
                 + "showCapsLock:true");
@@ -38,7 +41,6 @@ public class LoginForm extends javax.swing.JPanel {
         lbPass = new javax.swing.JLabel();
         txtPass = new javax.swing.JPasswordField();
         cmdLogin = new javax.swing.JButton();
-        cmdChangePassword = new javax.swing.JButton();
 
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("Login");
@@ -60,14 +62,6 @@ public class LoginForm extends javax.swing.JPanel {
         });
         panelLogin1.add(cmdLogin);
 
-        cmdChangePassword.setText("Change Password");
-        cmdChangePassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdChangePasswordActionPerformed(evt);
-            }
-        });
-        panelLogin1.add(cmdChangePassword);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,17 +81,10 @@ public class LoginForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
-        Application.login();
+        lsv.getLogin(txtUser, txtPass);
     }//GEN-LAST:event_cmdLoginActionPerformed
 
-    private void cmdChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdChangePasswordActionPerformed
-        // TODO add your handling code here:
-        Application.changePassword();
-        
-    }//GEN-LAST:event_cmdChangePasswordActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cmdChangePassword;
     private javax.swing.JButton cmdLogin;
     private javax.swing.JLabel lbPass;
     private javax.swing.JLabel lbTitle;

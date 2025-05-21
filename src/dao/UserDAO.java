@@ -10,16 +10,14 @@ public interface UserDAO {
 
     default List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT id, roleId, userName, password, email, fullName, gender, address, dob, phoneNumber FROM USER";
+        String sql = "SELECT id, role_Id, userName, password, email, fullName, gender, address, dob, phoneNumber FROM USER";
 
-        try (Connection con = ConnectionHelper.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
-                user.setRoleId(rs.getInt("roleId"));
+                user.setRoleId(rs.getInt("role_Id"));
                 user.setUserName(rs.getString("userName"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
@@ -37,8 +35,7 @@ public interface UserDAO {
     }
 
     default boolean addUser(User user) {
-        try (Connection con = ConnectionHelper.getConnection();
-             CallableStatement cs = con.prepareCall("{CALL insert_user(?, ?, ?, ?, ?, ?, ?, ?, ?)}")) {
+        try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL insert_user(?, ?, ?, ?, ?, ?, ?, ?, ?)}")) {
 
             cs.setInt(1, user.getRoleId());
             cs.setString(2, user.getUserName());
@@ -57,8 +54,7 @@ public interface UserDAO {
     }
 
     default boolean updateUser(User user) {
-        try (Connection con = ConnectionHelper.getConnection();
-             CallableStatement cs = con.prepareCall("{CALL update_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}")) {
+        try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL update_user(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}")) {
 
             cs.setInt(1, user.getId());
             cs.setInt(2, user.getRoleId());
@@ -78,8 +74,7 @@ public interface UserDAO {
     }
 
     default boolean deleteUser(int id) {
-        try (Connection con = ConnectionHelper.getConnection();
-             CallableStatement cs = con.prepareCall("{CALL delete_user(?)}")) {
+        try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL delete_user(?)}")) {
 
             cs.setInt(1, id);
             return cs.executeUpdate() > 0;
@@ -88,4 +83,18 @@ public interface UserDAO {
             return false;
         }
     }
+
+    default boolean updatepassword(String newpass, String username, String oldpass) {
+        String sqlupdatepass = "UPDATE USER SET password = ? WHERE username = ? AND password = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sqlupdatepass)) {
+            pst.setString(1, newpass);
+            pst.setString(2, username);
+            pst.setString(3, oldpass);
+            return pst.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
