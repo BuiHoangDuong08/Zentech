@@ -2,7 +2,7 @@ package entity;
 
 import java.sql.Date;
 
-public class User {
+public class UserModel {
     private int id;
     private int roleId;
     private String userName;
@@ -14,9 +14,9 @@ public class User {
     private Date dob;
     private String phoneNumber;
 
-    public User() {}
+    public UserModel() {}
 
-    public User(int id, int roleId, String userName, String password, String email,
+    public UserModel(int id, int roleId, String userName, String password, String email,
                 String fullName, String gender, String address, Date dob, String phoneNumber) {
         this.id = id;
         this.roleId = roleId;

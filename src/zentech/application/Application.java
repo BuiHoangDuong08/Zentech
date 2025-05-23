@@ -14,6 +14,7 @@ import zentech.application.form.LoginForm;
 import zentech.application.form.MainForm;
 import raven.toast.Notifications;
 import zentech.application.form.ChangePasswordForm;
+import zentech.application.form.RegisterFrom;
 
 public class Application extends javax.swing.JFrame {
 
@@ -21,7 +22,8 @@ public class Application extends javax.swing.JFrame {
     private final MainForm mainForm;
     private final LoginForm loginForm;
     private final ChangePasswordForm changePasswordForm;
-    
+    private final RegisterFrom registerFrom;
+
     public Application() {
         initComponents();
         setSize(new Dimension(1366, 768));
@@ -29,6 +31,7 @@ public class Application extends javax.swing.JFrame {
         mainForm = new MainForm();
         loginForm = new LoginForm();
         changePasswordForm = new ChangePasswordForm();
+        registerFrom = new RegisterFrom();
         setContentPane(loginForm);
         getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
         Notifications.getInstance().setJFrame(this);
@@ -38,8 +41,8 @@ public class Application extends javax.swing.JFrame {
         component.applyComponentOrientation(app.getComponentOrientation());
         app.mainForm.showForm(component);
     }
-    
-    public static void changePassword(){
+
+    public static void changePassword() {
         FlatAnimatedLafChange.showSnapshot();
         app.setContentPane(app.changePasswordForm);
         app.changePasswordForm.applyComponentOrientation(app.getComponentOrientation());
@@ -54,6 +57,14 @@ public class Application extends javax.swing.JFrame {
         setSelectedMenu(0, 0);
         app.mainForm.hideMenu();
         SwingUtilities.updateComponentTreeUI(app.mainForm);
+        FlatAnimatedLafChange.hideSnapshotWithAnimation();
+    }
+
+    public static void registerFrom() {
+        FlatAnimatedLafChange.showSnapshot();
+        app.setContentPane(app.registerFrom);
+        app.registerFrom.applyComponentOrientation(app.getComponentOrientation());
+        SwingUtilities.updateComponentTreeUI(app.registerFrom);
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 

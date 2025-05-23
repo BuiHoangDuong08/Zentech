@@ -11,9 +11,9 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import zentech.application.form.other.SalesHistory;
 
-public class SalesHistoryDAO {
+public interface SalesHistoryDAO {
 
-    public List<SalesHistorymodel> getAllSalesHistory() {
+    default List<SalesHistorymodel> getAllSalesHistory() {
         List<SalesHistorymodel> list = new ArrayList<>();
 
         String sql
@@ -57,7 +57,7 @@ public class SalesHistoryDAO {
         return list;
     }
 
-    public boolean deleteById(int id) {
+    default boolean deleteById(int id) {
         String sql = "DELETE FROM SALESHISTORY WHERE ID = ?";
         try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -69,7 +69,7 @@ public class SalesHistoryDAO {
         }
     }
 
-    public List<SalesHistorymodel> searchByBillId(int billId) {
+    default List<SalesHistorymodel> searchByBillId(int billId) {
         List<SalesHistorymodel> list = new ArrayList<>();
 
         String sql = "SELECT "

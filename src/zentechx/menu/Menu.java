@@ -27,7 +27,8 @@ public class Menu extends JPanel {
         {"Order", "Menu selection","Identification cards", "Inventory"},
         {"~USER~"},
         {"User", "User Info", "Sales History"},
-        {"Logout"}
+        {"~ACCOUNT~"},
+        {"Account","Logout","Change Password"}
     };
 
     public boolean isMenuFull() {

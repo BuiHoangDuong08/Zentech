@@ -14,12 +14,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.TableRowSorter;
 import static jdk.javadoc.internal.doclets.toolkit.util.DocPath.parent;
 
-public class SalesHistoryService {
+public class SalesHistoryService implements SalesHistoryDAO{
 
-    private SalesHistoryDAO shDao = new SalesHistoryDAO();
+    
 
     public void loadSalesHistoryToTable(JTable table, List<SalesHistorymodel> list) {
-        list = shDao.getAllSalesHistory();
+        list = getAllSalesHistory();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         for (SalesHistorymodel sh : list) {
             model.addRow(new Object[]{
@@ -51,8 +51,7 @@ public class SalesHistoryService {
         int selectedRowModel = table.convertRowIndexToModel(selectedRowView);
         int id = (int) table.getModel().getValueAt(selectedRowModel, 0);
 
-        SalesHistoryDAO dao = new SalesHistoryDAO();
-        boolean success = dao.deleteById(id);
+        boolean success = deleteById(id);
 
         if (success) {
             ((DefaultTableModel) table.getModel()).removeRow(selectedRowModel);
