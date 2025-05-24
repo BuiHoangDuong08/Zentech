@@ -5,6 +5,7 @@ import helper.ConnectionHelper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public interface UserDAO {
 
@@ -22,7 +23,7 @@ public interface UserDAO {
             cs.setString(9, user.getPhoneNumber());
             return cs.executeUpdate() > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "account already exists");
             return false;
         }
     }

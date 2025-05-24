@@ -2,9 +2,12 @@ package zentech.application.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
+import service.Register_service;
 import zentech.application.Application;
 
 public class RegisterFrom extends javax.swing.JPanel {
+
+    static Register_service rsv = new Register_service();
 
     public RegisterFrom() {
         initComponents();
@@ -12,8 +15,14 @@ public class RegisterFrom extends javax.swing.JPanel {
     }
 
     public void init() {
+        txtPassword1.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton:true;"
+                + "showCapsLock:true");
+        txtCnfrimpass.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton:true;"
+                + "showCapsLock:true");
         txtUserName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Username");
-        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
+        txtPassword1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Email");
         txtPhoneNumber.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Phone number");
         txtFullName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Full name");
@@ -22,6 +31,7 @@ public class RegisterFrom extends javax.swing.JPanel {
         txtCnfrimpass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Confrim password");
         setLayout(new MigLayout("al center center", "", "")); // căn giữa ngang và dọc
         add(panelLogin1); // thêm panel vào giữa
+
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +42,6 @@ public class RegisterFrom extends javax.swing.JPanel {
         panelLogin1 = new zentech.application.form.PanelLogin();
         lbTitle = new javax.swing.JLabel();
         lbUser = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
         txtCnfrimpass = new javax.swing.JPasswordField();
         cmdRegister = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -51,6 +60,7 @@ public class RegisterFrom extends javax.swing.JPanel {
         txtdob = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         txtPhoneNumber = new javax.swing.JTextField();
+        txtPassword1 = new javax.swing.JPasswordField();
 
         lbTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -115,49 +125,28 @@ public class RegisterFrom extends javax.swing.JPanel {
                         .addContainerGap()
                         .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtUserName)
-                            .addComponent(txtPassword)
                             .addComponent(txtCnfrimpass)
                             .addComponent(txtEmail)
+                            .addComponent(txtFullName)
+                            .addComponent(jScrollPane1)
+                            .addComponent(txtdob)
+                            .addComponent(txtPhoneNumber)
+                            .addComponent(txtPassword1)
                             .addGroup(panelLogin1Layout.createSequentialGroup()
                                 .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(panelLogin1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLogin1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtFullName)))
-                    .addGroup(panelLogin1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(panelLogin1Layout.createSequentialGroup()
-                                .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)
                                     .addGroup(panelLogin1Layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(rdoMALE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(rdoFEMALE))
-                                    .addComponent(jLabel5))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(panelLogin1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLogin1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtdob)))
-                    .addGroup(panelLogin1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelLogin1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtPhoneNumber))))
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         panelLogin1Layout.setVerticalGroup(
@@ -171,8 +160,8 @@ public class RegisterFrom extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(txtCnfrimpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
@@ -224,6 +213,7 @@ public class RegisterFrom extends javax.swing.JPanel {
 
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
         // TODO add your handling code here:
+        rsv.getRegister(txtUserName, txtPassword1, txtCnfrimpass, txtEmail, txtFullName, rdoMALE, rdoFEMALE, txtaAddress, txtdob, txtPhoneNumber);
     }//GEN-LAST:event_cmdRegisterActionPerformed
 
     private void txtCnfrimpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCnfrimpassActionPerformed
@@ -250,7 +240,7 @@ public class RegisterFrom extends javax.swing.JPanel {
     private javax.swing.JPasswordField txtCnfrimpass;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullName;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword1;
     private javax.swing.JTextField txtPhoneNumber;
     private javax.swing.JTextField txtUserName;
     private javax.swing.JTextArea txtaAddress;
