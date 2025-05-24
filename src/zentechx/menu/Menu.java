@@ -22,11 +22,16 @@ public class Menu extends JPanel {
 
     private final String menuItems[][] = {
         {"~MAIN~"},
-        {"Order", "Menu selection","Identification cards", "Inventory"},
+        {"Menu selection"},
+        {"Identification cards"},
+        {"Inventory"},
         {"~USER~"},
-        {"User", "User Info", "Sales History"},
+        {"User Info"},
+        {"Sales History"},
         {"~UTILITIES~"},
-        {"Utilities","Logout","Change Password", "About Us"}
+        {"About Us"},
+        {"Change Password"},
+        {"Logout"}
     };
 
     public boolean isMenuFull() {

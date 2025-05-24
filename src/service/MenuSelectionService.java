@@ -24,6 +24,7 @@ import zentechx.menu.ModelItemSell;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+import raven.toast.Notifications;
 
 public class MenuSelectionService implements ProductDAO {
 
@@ -161,10 +162,10 @@ public class MenuSelectionService implements ProductDAO {
             document.add(totalTable);
 
             document.close();
-            JOptionPane.showMessageDialog(parent, "Đã lưu hóa đơn tại Desktop (zentech_receipt.pdf)");
+            JOptionPane.showMessageDialog(parent, "Invoice saved on Desktop (zentech_receipt.pdf)");
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(parent, "Lỗi xuất PDF: " + e.getMessage());
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "PDF export error");
         }
     }
 

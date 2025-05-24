@@ -68,36 +68,22 @@ public class MainForm extends JLayeredPane {
 
     private void initMenuEvent() {
         menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
-            // Application.mainForm.showForm(new DefaultForm("Form : " + index + " " + subIndex));
-            if (index == 0) {
+            if(index == 0) {
                 Application.showForm(new MenuSelection());
-                if (subIndex == 1) {
-                    Application.showForm(new MenuSelection());
-                } else if (subIndex == 2) {
-                    Application.showForm(new ListIDcard());
-                } else if (subIndex == 3) {
-                    Application.showForm(new Inventory());
-                } else {
-                    action.cancel();
-                }
             } else if (index == 1) {
-                if (subIndex == 1) {
-                    Application.showForm(new User());
-                } else if (subIndex == 2) {
-                    Application.showForm(new SalesHistory());
-                } else {
-                    action.cancel();
-                }
+                Application.showForm(new ListIDcard());
             } else if (index == 2) {
-                if (subIndex == 1) {
-                    Application.logout();
-                } else if (subIndex == 2) {
-                    Application.changePassword();
-                } else if (subIndex == 3) {
-                    Application.showForm(new AboutUs());
-                } else {
-                    action.cancel();
-                }
+                Application.showForm(new Inventory());
+            } else if (index == 3) {
+                Application.showForm(new User());
+            } else if (index == 4) {
+                Application.showForm(new SalesHistory());
+            } else if (index == 5) {
+                Application.showForm(new AboutUs());
+            } else if (index == 6) {
+                Application.changePassword();
+            } else if (index == 7) {
+                Application.logout();
             } else {
                 action.cancel();
             }

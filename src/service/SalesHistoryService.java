@@ -5,7 +5,6 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import dao.SalesHistoryDAO;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
@@ -26,32 +25,6 @@ public class SalesHistoryService implements SalesHistoryDAO{
                 sh.getTotalAmount(),
                 sh.getStatus()
             });
-        }
-    }
-
-    public void deleteSelectedRow(JTable table) {
-        int selectedRowView = table.getSelectedRow();
-
-        if (selectedRowView == -1) {
-            JOptionPane.showMessageDialog(null, "Please select a row to delete.");
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this line??", "Confirm", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        int selectedRowModel = table.convertRowIndexToModel(selectedRowView);
-        int id = (int) table.getModel().getValueAt(selectedRowModel, 0);
-
-        boolean success = deleteById(id);
-
-        if (success) {
-            ((DefaultTableModel) table.getModel()).removeRow(selectedRowModel);
-            JOptionPane.showMessageDialog(null, "Deleted successfully!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Delete failed!");
         }
     }
 

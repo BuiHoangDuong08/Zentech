@@ -1,12 +1,10 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.sun.imageio.plugins.png.RowFilter;
 import dao.ProductDAO;
 import entity.Product;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -141,7 +139,6 @@ public class ProductManager extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         btn_Word = new javax.swing.JButton();
         btn_Excel = new javax.swing.JButton();
         btn_Update = new javax.swing.JButton();
@@ -166,6 +163,7 @@ public class ProductManager extends javax.swing.JPanel {
         tbl_Product = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         txt_Images = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -174,9 +172,6 @@ public class ProductManager extends javax.swing.JPanel {
         jTextField2.setText("jTextField2");
 
         jTextField3.setText("jTextField3");
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
-        jLabel1.setText("PRODUCT MANAGER");
 
         btn_Word.setText("Word");
         btn_Word.addActionListener(new java.awt.event.ActionListener() {
@@ -280,11 +275,13 @@ public class ProductManager extends javax.swing.JPanel {
 
         jLabel9.setText("Images:");
 
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
+        jLabel10.setText("PRODUCT MANAGER");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,12 +316,17 @@ public class ProductManager extends javax.swing.JPanel {
                     .addComponent(txt_price)
                     .addComponent(jLabel9)
                     .addComponent(txt_Images)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_Excel)
@@ -367,41 +369,34 @@ public class ProductManager extends javax.swing.JPanel {
                             .addComponent(btn_Update)
                             .addComponent(btn_New))
                         .addContainerGap())
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_WordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_WordActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btn_WordActionPerformed
 
     private void btn_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_UpdateActionPerformed
-        // TODO add your handling code here:
         update();
     }//GEN-LAST:event_btn_UpdateActionPerformed
 
     private void btn_NewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewActionPerformed
-        // TODO add your handling code here:
         newInput();
     }//GEN-LAST:event_btn_NewActionPerformed
 
     private void btn_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveActionPerformed
-        // TODO add your handling code here:
         add();
     }//GEN-LAST:event_btn_SaveActionPerformed
 
     private void btn_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteActionPerformed
-        // TODO add your handling code here:
         delele();
     }//GEN-LAST:event_btn_DeleteActionPerformed
 
     private void txt_SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_SearchKeyReleased
-        // TODO add your handling code here:
         find();
     }//GEN-LAST:event_txt_SearchKeyReleased
 
     private void tbl_ProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ProductMouseClicked
-        // TODO add your handling code here:
         ShowDeatail();
     }//GEN-LAST:event_tbl_ProductMouseClicked
 
@@ -415,7 +410,7 @@ public class ProductManager extends javax.swing.JPanel {
     private javax.swing.JButton btn_Word;
     private javax.swing.JComboBox<String> cbo_active;
     private javax.swing.JComboBox<String> cbo_catagoryid;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -17,6 +17,7 @@ import javax.swing.RowFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import raven.toast.Notifications;
 
 public class InventoryService implements ProductDAO {
 
@@ -65,7 +66,7 @@ public class InventoryService implements ProductDAO {
 
             return new Product(id, categoryId, name, price, status, description, imagePath);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(parent, "Dữ liệu không hợp lệ: " + e.getMessage());
+            JOptionPane.showMessageDialog(parent, "Invalid data: " + e.getMessage());
             return null;
         }
     }
@@ -74,10 +75,10 @@ public class InventoryService implements ProductDAO {
         if (p != null) {
             boolean success = addProduct(p);
             if (success) {
-                JOptionPane.showMessageDialog(parent, "Thêm sản phẩm thành công!");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.BOTTOM_RIGHT, "Product added successfully!");
                 loadProductToTable(table);
             } else {
-                JOptionPane.showMessageDialog(parent, "Không thể thêm sản phẩm.");
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.BOTTOM_RIGHT, "Cannot add product!");
             }
         }
     }
@@ -86,24 +87,24 @@ public class InventoryService implements ProductDAO {
         if (p != null && p.getId() != null) {
             boolean success = updateProduct(p);
             if (success) {
-                JOptionPane.showMessageDialog(parent, "Cập nhật sản phẩm thành công!");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.BOTTOM_RIGHT, "Product update successful!");
                 loadProductToTable(table);
                 clearForm.run();
             } else {
-                JOptionPane.showMessageDialog(parent, "Cập nhật thất bại.");
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.BOTTOM_RIGHT, "Update failed");
             }
         } else {
-            JOptionPane.showMessageDialog(parent, "Vui lòng chọn sản phẩm để cập nhật.");
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.BOTTOM_RIGHT, "Please select a product to update");
         }
     }
 
     public void deleteProduct(String idText, Component parent, JTable table, Runnable clearForm) {
         if (idText.isEmpty()) {
-            JOptionPane.showMessageDialog(parent, "Vui lòng chọn sản phẩm để xóa.");
+            Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER, "Please select a product to delete");
             return;
         }
 
-        int confirm = JOptionPane.showConfirmDialog(parent, "Bạn có chắc muốn xóa sản phẩm này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+        int confirm = JOptionPane.showConfirmDialog(parent, "Are you sure you want to delete this product?", "Confirm deletion", JOptionPane.YES_NO_OPTION);
         if (confirm != JOptionPane.YES_OPTION) {
             return;
         }
@@ -112,14 +113,14 @@ public class InventoryService implements ProductDAO {
             int id = Integer.parseInt(idText);
             boolean success = deleteProduct(id);
             if (success) {
-                JOptionPane.showMessageDialog(parent, "Xóa sản phẩm thành công.");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.BOTTOM_RIGHT, "Product deleted successfully");
                 clearForm.run();
                 loadProductToTable(table);
             } else {
-                JOptionPane.showMessageDialog(parent, "Không thể xóa sản phẩm.");
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.BOTTOM_RIGHT, "Cannot delete product");
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(parent, "ID không hợp lệ.");
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.BOTTOM_RIGHT, "Invalid ID");
         }
     }
 
@@ -138,7 +139,7 @@ public class InventoryService implements ProductDAO {
                 lblImage.setIcon(new ImageIcon(img));
                 lblImage.putClientProperty("imagePath", imagePath);
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(parent, "Lỗi tải ảnh: " + e.getMessage());
+                JOptionPane.showMessageDialog(parent, "Error loading image: " + e.getMessage());
             }
         }
     }
