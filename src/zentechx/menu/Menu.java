@@ -21,14 +21,12 @@ import zentech.menu.mode.ToolBarAccentColor;
 public class Menu extends JPanel {
 
     private final String menuItems[][] = {
-        {"~ABOUT~"},
-        {"About Us", "About Us"},
         {"~MAIN~"},
         {"Order", "Menu selection","Identification cards", "Inventory"},
         {"~USER~"},
         {"User", "User Info", "Sales History"},
-        {"~ACCOUNT~"},
-        {"Account","Logout","Change Password"}
+        {"~UTILITIES~"},
+        {"Utilities","Logout","Change Password", "About Us"}
     };
 
     public boolean isMenuFull() {

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import com.itextpdf.text.Document;
@@ -29,10 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-/**
- *
- * @author RGB
- */
 public class MenuSelectionService implements ProductDAO {
 
     public List<Product> getAllData() {

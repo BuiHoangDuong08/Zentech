@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import raven.toast.Notifications;
 import zentech.application.Application;
 
 public class LoginFrom_service extends JPanel {
@@ -22,7 +23,7 @@ public class LoginFrom_service extends JPanel {
             for (UserModel u : ud.getAllUsers()) {
                 if (u.getUserName().equals(usn1) && bsv.checkPassword(pass1, u.getPassword())) {
                     checklogin = true;
-                    JOptionPane.showMessageDialog(null, "Login successfully");
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Login successfully");
                     this.setVisible(false);
                     Application.login();
 

@@ -1,6 +1,5 @@
 package service;
 
-
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.CardDAO;
 import entity.Card;

@@ -5,18 +5,12 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import dao.SalesHistoryDAO;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
-import javax.swing.SwingUtilities;
 import javax.swing.table.TableRowSorter;
-import static jdk.javadoc.internal.doclets.toolkit.util.DocPath.parent;
 
 public class SalesHistoryService implements SalesHistoryDAO{
-
-    
 
     public void loadSalesHistoryToTable(JTable table, List<SalesHistorymodel> list) {
         list = getAllSalesHistory();
