@@ -2,9 +2,12 @@ package zentech.application.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
+import service.LoginFrom_service;
 import zentech.application.Application;
 
 public class LoginForm extends javax.swing.JPanel {
+
+    static LoginFrom_service lsv = new LoginFrom_service();
 
     public LoginForm() {
         initComponents();
@@ -12,11 +15,15 @@ public class LoginForm extends javax.swing.JPanel {
     }
 
     private void init() {
+        cmdLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR) {
+        });
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR) {
+        });
         setLayout(new MigLayout("al center center"));
 
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$h1.font");
-        
+
         txtPass.putClientProperty(FlatClientProperties.STYLE, ""
                 + "showRevealButton:true;"
                 + "showCapsLock:true");
@@ -38,19 +45,14 @@ public class LoginForm extends javax.swing.JPanel {
         lbPass = new javax.swing.JLabel();
         txtPass = new javax.swing.JPasswordField();
         cmdLogin = new javax.swing.JButton();
-        cmdChangePassword = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("Login");
-        panelLogin1.add(lbTitle);
 
         lbUser.setText("User Name");
-        panelLogin1.add(lbUser);
-        panelLogin1.add(txtUser);
 
         lbPass.setText("Password");
-        panelLogin1.add(lbPass);
-        panelLogin1.add(txtPass);
 
         cmdLogin.setText("Login");
         cmdLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -58,47 +60,84 @@ public class LoginForm extends javax.swing.JPanel {
                 cmdLoginActionPerformed(evt);
             }
         });
-        panelLogin1.add(cmdLogin);
 
-        cmdChangePassword.setText("Change Password");
-        cmdChangePassword.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Register");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdChangePasswordActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        panelLogin1.add(cmdChangePassword);
+
+        javax.swing.GroupLayout panelLogin1Layout = new javax.swing.GroupLayout(panelLogin1);
+        panelLogin1.setLayout(panelLogin1Layout);
+        panelLogin1Layout.setHorizontalGroup(
+            panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLogin1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbPass, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmdLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+        panelLogin1Layout.setVerticalGroup(
+            panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLogin1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(lbTitle)
+                .addGap(20, 20, 20)
+                .addComponent(lbUser)
+                .addGap(7, 7, 7)
+                .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(lbPass)
+                .addGap(7, 7, 7)
+                .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(cmdLogin)
+                .addGap(30, 30, 30)
+                .addComponent(jButton1)
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(218, Short.MAX_VALUE)
+                .addContainerGap(194, Short.MAX_VALUE)
                 .addComponent(panelLogin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(197, 197, 197))
+                .addGap(149, 149, 149))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(68, 68, 68)
-                .addComponent(panelLogin1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addComponent(panelLogin1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(107, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
-        Application.login();
+
+        lsv.getLogin(txtUser, txtPass);
+        txtPass.setText("");
+        txtUser.setText("");
     }//GEN-LAST:event_cmdLoginActionPerformed
 
-    private void cmdChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdChangePasswordActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Application.changePassword();
-        
-    }//GEN-LAST:event_cmdChangePasswordActionPerformed
+
+        Application.registerFrom();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cmdChangePassword;
     private javax.swing.JButton cmdLogin;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbPass;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JLabel lbUser;

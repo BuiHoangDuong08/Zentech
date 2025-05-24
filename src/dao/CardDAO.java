@@ -5,16 +5,20 @@ import helper.ConnectionHelper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public interface CardDAO {
 
     default List<Card> getAllCards() {
         List<Card> list = new ArrayList<>();
-        String sql = "SELECT id, status FROM card";
+        String sql = "SELECT id, status FROM CARD";
 
-        try (Connection con = ConnectionHelper.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Card card = new Card();
@@ -29,8 +33,7 @@ public interface CardDAO {
     }
 
     default boolean addCard(String status) {
-        try (Connection con = ConnectionHelper.getConnection();
-             CallableStatement cs = con.prepareCall("{CALL insert_card(?)}")) {
+        try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL insert_card(?)}")) {
 
             cs.setString(1, status);
             return cs.executeUpdate() > 0;
@@ -41,8 +44,7 @@ public interface CardDAO {
     }
 
     default boolean updateCard(int id, String status) {
-        try (Connection con = ConnectionHelper.getConnection();
-             CallableStatement cs = con.prepareCall("{CALL update_card(?, ?)}")) {
+        try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL update_card(?, ?)}")) {
 
             cs.setInt(1, id);
             cs.setString(2, status);
@@ -54,8 +56,7 @@ public interface CardDAO {
     }
 
     default boolean deleteCard(int id) {
-        try (Connection con = ConnectionHelper.getConnection();
-             CallableStatement cs = con.prepareCall("{CALL delete_card(?)}")) {
+        try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL delete_card(?)}")) {
 
             cs.setInt(1, id);
             return cs.executeUpdate() > 0;
@@ -64,4 +65,6 @@ public interface CardDAO {
             return false;
         }
     }
+
+  
 }

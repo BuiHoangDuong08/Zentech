@@ -63,6 +63,6 @@ public class ModelItemSell {
 
     public Object[] toTableRow(int rowNum) {
         DecimalFormat df = new DecimalFormat("#,##0.##");
-        return new Object[]{this, df.format(rowNum), productName, df.format(qty), "$ " + df.format(price), "$ " + df.format(total)};
+        return new Object[]{this, productId, productName, qty, "$ " + df.format(price), "$ " + df.format(total)};
     }
 }

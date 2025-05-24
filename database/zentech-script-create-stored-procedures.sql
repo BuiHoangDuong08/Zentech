@@ -1,321 +1,312 @@
+
 /* =======================================================================
    ZENTECH_POLYCAFE – Stored Procedures
-   Author : zentech
-   Date   : 2025-05-13
+   Author : Zentech
+   Date   : 2025-05-20
    ======================================================================= */
-
--- 0. DATABASE ---------------------------------------------------------------
-CREATE DATABASE IF NOT EXISTS zentech_polycafe
-  DEFAULT CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
 USE zentech_polycafe;
 
--- =======================================================================
--- 1. ROLE
--- =======================================================================
-
--- INSERT
 DELIMITER //
-CREATE PROCEDURE insert_role(IN p_roleName VARCHAR(100))
+
+
+/* =======================================================================
+   1. ROLE
+   ======================================================================= */
+DROP PROCEDURE IF EXISTS insert_role //
+CREATE PROCEDURE insert_role(
+    IN p_RoleName VARCHAR(20)
+)
 BEGIN
-    INSERT INTO role (roleName)
-    VALUES (p_roleName);
+    INSERT INTO ROLE (RoleName)
+    VALUES (p_RoleName);
 END //
-DELIMITER ;
 
--- UPDATE
-DELIMITER //
-CREATE PROCEDURE update_role(IN p_id INT, IN p_roleName VARCHAR(100))
+DROP PROCEDURE IF EXISTS update_role //
+CREATE PROCEDURE update_role(
+    IN p_ID INT,
+    IN p_RoleName VARCHAR(20)
+)
 BEGIN
-    UPDATE role
-    SET roleName = p_roleName
-    WHERE id = p_id;
+    UPDATE ROLE
+    SET RoleName = p_RoleName
+    WHERE ID = p_ID;
 END //
-DELIMITER ;
 
--- DELETE
-DELIMITER //
-CREATE PROCEDURE delete_role(IN p_id INT)
+DROP PROCEDURE IF EXISTS delete_role //
+CREATE PROCEDURE delete_role(
+    IN p_ID INT
+)
 BEGIN
-    DELETE FROM role
-    WHERE id = p_id;
+    DELETE FROM ROLE
+    WHERE ID = p_ID;
 END //
-DELIMITER ;
 
--- =======================================================================
--- 2. CARD
--- =======================================================================
-
--- INSERT
-DELIMITER //
-CREATE PROCEDURE insert_card(IN p_status VARCHAR(50))
+/* =======================================================================
+   2. CARD
+   ======================================================================= */
+DROP PROCEDURE IF EXISTS insert_card //
+CREATE PROCEDURE insert_card(
+    IN p_Status ENUM('ACTIVE','WAIT','LOCKED')
+)
 BEGIN
-    INSERT INTO card (status)
-    VALUES (p_status);
+    INSERT INTO CARD (Status)
+    VALUES (p_Status);
 END //
-DELIMITER ;
 
--- UPDATE
-DELIMITER //
-CREATE PROCEDURE update_card(IN p_id INT, IN p_status VARCHAR(50))
+DROP PROCEDURE IF EXISTS update_card //
+CREATE PROCEDURE update_card(
+    IN p_ID INT,
+    IN p_Status ENUM('ACTIVE','WAIT','LOCKED')
+)
 BEGIN
-    UPDATE card
-    SET status = p_status
-    WHERE id = p_id;
+    UPDATE CARD
+    SET Status = p_Status
+    WHERE ID = p_ID;
 END //
-DELIMITER ;
 
--- DELETE
-DELIMITER //
-CREATE PROCEDURE delete_card(IN p_id INT)
+DROP PROCEDURE IF EXISTS delete_card //
+CREATE PROCEDURE delete_card(
+    IN p_ID INT
+)
 BEGIN
-    DELETE FROM card
-    WHERE id = p_id;
+    DELETE FROM CARD
+    WHERE ID = p_ID;
 END //
-DELIMITER ;
 
--- =======================================================================
--- 3. CATEGORY
--- =======================================================================
-
--- INSERT
-DELIMITER //
-CREATE PROCEDURE insert_category(IN p_categoryName VARCHAR(255))
+/* =======================================================================
+   3. CATEGORY
+   ======================================================================= */
+DROP PROCEDURE IF EXISTS insert_category //
+CREATE PROCEDURE insert_category(
+    IN p_CategoryName VARCHAR(20)
+)
 BEGIN
-    INSERT INTO category (categoryName)
-    VALUES (p_categoryName);
+    INSERT INTO CATEGORY (CategoryName)
+    VALUES (p_CategoryName);
 END //
-DELIMITER ;
 
--- UPDATE
-DELIMITER //
-CREATE PROCEDURE update_category(IN p_id INT, IN p_categoryName VARCHAR(255))
+DROP PROCEDURE IF EXISTS update_category //
+CREATE PROCEDURE update_category(
+    IN p_ID INT,
+    IN p_CategoryName VARCHAR(20)
+)
 BEGIN
-    UPDATE category
-    SET categoryName = p_categoryName
-    WHERE id = p_id;
+    UPDATE CATEGORY
+    SET CategoryName = p_CategoryName
+    WHERE ID = p_ID;
 END //
-DELIMITER ;
 
--- DELETE
-DELIMITER //
-CREATE PROCEDURE delete_category(IN p_id INT)
+DROP PROCEDURE IF EXISTS delete_category //
+CREATE PROCEDURE delete_category(
+    IN p_ID INT
+)
 BEGIN
-    DELETE FROM category
-    WHERE id = p_id;
+    DELETE FROM CATEGORY
+    WHERE ID = p_ID;
 END //
-DELIMITER ;
 
--- =======================================================================
--- 4. USER
--- =======================================================================
-
--- INSERT
-DELIMITER //
+/* =======================================================================
+   4. USER
+   ======================================================================= */
+DROP PROCEDURE IF EXISTS insert_user //
 CREATE PROCEDURE insert_user(
-    IN p_roleId INT,
-    IN p_userName VARCHAR(100),
-    IN p_password VARCHAR(100),
-    IN p_email VARCHAR(100),
-    IN p_fullName VARCHAR(100),
-    IN p_gender VARCHAR(10),
-    IN p_address VARCHAR(255),
-    IN p_dob DATE,
-    IN p_phoneNumber VARCHAR(20)
+    IN p_Role_ID INT,
+    IN p_UserName VARCHAR(20),
+    IN p_Password VARCHAR(60),
+    IN p_Email VARCHAR(254),
+    IN p_FullName VARCHAR(50),
+    IN p_Gender ENUM('MALE','FEMALE','NONE'),
+    IN p_Address VARCHAR(100),
+    IN p_DoB DATE,
+    IN p_PhoneNumber VARCHAR(10)
 )
 BEGIN
-    INSERT INTO user (
-        roleId, userName, password, email, fullName, gender, address, dob, phoneNumber
+    INSERT INTO USER (
+        Role_ID, UserName, Password, Email, FullName, Gender, Address, DoB, PhoneNumber
     ) VALUES (
-        p_roleId, p_userName, p_password, p_email, p_fullName, p_gender, p_address, p_dob, p_phoneNumber
+        p_Role_ID, p_UserName, p_Password, p_Email, p_FullName, p_Gender, p_Address, p_DoB, p_PhoneNumber
     );
 END //
-DELIMITER ;
 
--- UPDATE
-DELIMITER //
+DROP PROCEDURE IF EXISTS update_user //
 CREATE PROCEDURE update_user(
-    IN p_id INT,
-    IN p_roleId INT,
-    IN p_userName VARCHAR(100),
-    IN p_password VARCHAR(100),
-    IN p_email VARCHAR(100),
-    IN p_fullName VARCHAR(100),
-    IN p_gender VARCHAR(10),
-    IN p_address VARCHAR(255),
-    IN p_dob DATE,
-    IN p_phoneNumber VARCHAR(20)
+    IN p_ID INT,
+    IN p_Role_ID INT,
+    IN p_UserName VARCHAR(20),
+    IN p_Password VARCHAR(60),
+    IN p_Email VARCHAR(254),
+    IN p_FullName VARCHAR(50),
+    IN p_Gender ENUM('MALE','FEMALE','NONE'),
+    IN p_Address VARCHAR(100),
+    IN p_DoB DATE,
+    IN p_PhoneNumber VARCHAR(10)
 )
 BEGIN
-    UPDATE user
-    SET roleId = p_roleId,
-        userName = p_userName,
-        password = p_password,
-        email = p_email,
-        fullName = p_fullName,
-        gender = p_gender,
-        address = p_address,
-        dob = p_dob,
-        phoneNumber = p_phoneNumber
-    WHERE id = p_id;
+    UPDATE USER
+    SET Role_ID     = p_Role_ID,
+        UserName    = p_UserName,
+        Password    = p_Password,
+        Email       = p_Email,
+        FullName    = p_FullName,
+        Gender      = p_Gender,
+        Address     = p_Address,
+        DoB         = p_DoB,
+        PhoneNumber = p_PhoneNumber
+    WHERE ID = p_ID;
 END //
-DELIMITER ;
 
--- DELETE
-DELIMITER //
-CREATE PROCEDURE delete_user(IN p_id INT)
+DROP PROCEDURE IF EXISTS delete_user //
+CREATE PROCEDURE delete_user(
+    IN p_ID INT
+)
 BEGIN
-    DELETE FROM user WHERE id = p_id;
+    DELETE FROM USER
+    WHERE ID = p_ID;
 END //
-DELIMITER ;
 
--- =======================================================================
--- 5. PRODUCT
--- =======================================================================
-
--- INSERT
-DELIMITER //
+/* =======================================================================
+   5. PRODUCT
+   ======================================================================= */
+DROP PROCEDURE IF EXISTS insert_product //
 CREATE PROCEDURE insert_product(
-    IN p_categoryId INT,
-    IN p_name VARCHAR(255),
-    IN p_price DOUBLE,
-    IN p_active VARCHAR(50),
-    IN p_description TEXT,
-    IN p_imageUrl TEXT
+    IN p_Category_ID INT,
+    IN p_Name VARCHAR(20),
+    IN p_Price DECIMAL(10,2),
+    IN p_Active ENUM('ACTIVE','LOCKED'),
+    IN p_Description VARCHAR(100),
+    IN p_Image_URL VARCHAR(100)
 )
 BEGIN
-    INSERT INTO product (categoryId, name, price, active, description, imageUrl)
-    VALUES (p_categoryId, p_name, p_price, p_active, p_description, p_imageUrl);
-END //
-DELIMITER ;
-
--- UPDATE
-DELIMITER //
-CREATE PROCEDURE update_product(
-    IN p_id INT,
-    IN p_categoryId INT,
-    IN p_name VARCHAR(255),
-    IN p_price DOUBLE,
-    IN p_active VARCHAR(50),
-    IN p_description TEXT,
-    IN p_imageUrl TEXT
-)
-BEGIN
-    UPDATE product
-    SET categoryId = p_categoryId,
-        name = p_name,
-        price = p_price,
-        active = p_active,
-        description = p_description,
-        imageUrl = p_imageUrl
-    WHERE id = p_id;
-END //
-DELIMITER ;
-
--- DELETE
-DELIMITER //
-CREATE PROCEDURE delete_product(IN p_id INT)
-BEGIN
-    DELETE FROM product WHERE id = p_id;
-END //
-DELIMITER ;
-
--- =======================================================================
--- 6. BILL
--- =======================================================================
-
--- INSERT
-DELIMITER //
-CREATE PROCEDURE insert_bill(
-    IN p_userId INT,
-    IN p_cardId INT,
-    IN p_status VARCHAR(50)
-)
-BEGIN
-    INSERT INTO bill (userId, cardId, status)
-    VALUES (p_userId, p_cardId, p_status);
-END //
-DELIMITER ;
-
--- UPDATE
-DELIMITER //
-CREATE PROCEDURE update_bill(
-    IN p_id INT,
-    IN p_userId INT,
-    IN p_cardId INT,
-    IN p_status VARCHAR(50)
-)
-BEGIN
-    UPDATE bill
-    SET userId = p_userId,
-        cardId = p_cardId,
-        status = p_status
-    WHERE id = p_id;
-END //
-DELIMITER ;
-
--- DELETE
-DELIMITER //
-CREATE PROCEDURE delete_bill(IN p_id INT)
-BEGIN
-    DELETE FROM bill WHERE id = p_id;
-END //
-DELIMITER ;
-
--- =======================================================================
--- 7. BILLDETAILS
--- =======================================================================
-
--- INSERT
-DELIMITER //
-CREATE PROCEDURE insert_billdetails(
-    IN p_billId INT,
-    IN p_productId INT,
-    IN p_date TIMESTAMP,
-    IN p_quantity INT,
-    IN p_discount FLOAT,
-    IN p_totalPriceNoVAT DOUBLE,
-    IN p_totalPriceWithVAT DOUBLE
-)
-BEGIN
-    INSERT INTO billdetails (
-        billId, productId, date, quantity, discount, totalPriceNoVAT, totalPriceWithVAT
+    INSERT INTO PRODUCT (
+        Category_ID, Name, Price, Active, Description, Image_URL
     ) VALUES (
-        p_billId, p_productId, p_date, p_quantity, p_discount, p_totalPriceNoVAT, p_totalPriceWithVAT
+        p_Category_ID, p_Name, p_Price, p_Active, p_Description, p_Image_URL
     );
 END //
-DELIMITER ;
 
--- UPDATE
-DELIMITER //
-CREATE PROCEDURE update_billdetails(
-    IN p_id INT,
-    IN p_billId INT,
-    IN p_productId INT,
-    IN p_date TIMESTAMP,
-    IN p_quantity INT,
-    IN p_discount FLOAT,
-    IN p_totalPriceNoVAT DOUBLE,
-    IN p_totalPriceWithVAT DOUBLE
+DROP PROCEDURE IF EXISTS update_product //
+CREATE PROCEDURE update_product(
+    IN p_ID INT,
+    IN p_Category_ID INT,
+    IN p_Name VARCHAR(20),
+    IN p_Price DECIMAL(10,2),
+    IN p_Active ENUM('ACTIVE','LOCKED'),
+    IN p_Description VARCHAR(100),
+    IN p_Image_URL VARCHAR(100)
 )
 BEGIN
-    UPDATE billdetails
-    SET billId = p_billId,
-        productId = p_productId,
-        date = p_date,
-        quantity = p_quantity,
-        discount = p_discount,
-        totalPriceNoVAT = p_totalPriceNoVAT,
-        totalPriceWithVAT = p_totalPriceWithVAT
-    WHERE id = p_id;
+    UPDATE PRODUCT
+    SET Category_ID = p_Category_ID,
+        Name        = p_Name,
+        Price       = p_Price,
+        Active      = p_Active,
+        Description = p_Description,
+        Image_URL   = p_Image_URL
+    WHERE ID = p_ID;
 END //
-DELIMITER ;
 
--- DELETE
-DELIMITER //
-CREATE PROCEDURE delete_billdetails(IN p_id INT)
+DROP PROCEDURE IF EXISTS delete_product //
+CREATE PROCEDURE delete_product(
+    IN p_ID INT
+)
 BEGIN
-    DELETE FROM billdetails WHERE id = p_id;
+    DELETE FROM PRODUCT
+    WHERE ID = p_ID;
 END //
+
+/* =======================================================================
+   6. BILL
+   ======================================================================= */
+DROP PROCEDURE IF EXISTS insert_bill //
+CREATE PROCEDURE insert_bill(
+    IN p_User_ID INT,
+    IN p_Card_ID INT,
+    IN p_Status ENUM('UNPAID','PAID','CANCELLED')
+)
+BEGIN
+    INSERT INTO BILL (User_ID, Card_ID, Status)
+    VALUES (p_User_ID, p_Card_ID, p_Status);
+END //
+
+DROP PROCEDURE IF EXISTS update_bill //
+CREATE PROCEDURE update_bill(
+    IN p_ID INT,
+    IN p_User_ID INT,
+    IN p_Card_ID INT,
+    IN p_Status ENUM('UNPAID','PAID','CANCELLED')
+)
+BEGIN
+    UPDATE BILL
+    SET User_ID = p_User_ID,
+        Card_ID = p_Card_ID,
+        Status  = p_Status
+    WHERE ID = p_ID;
+END //
+
+DROP PROCEDURE IF EXISTS delete_bill //
+CREATE PROCEDURE delete_bill(
+    IN p_ID INT
+)
+BEGIN
+    DELETE FROM BILL
+    WHERE ID = p_ID;
+END //
+
+/* =======================================================================
+   7. BILLDETAILS
+   ======================================================================= */
+DROP PROCEDURE IF EXISTS insert_billdetails //
+CREATE PROCEDURE insert_billdetails(
+    IN p_Bill_ID INT,
+    IN p_Product_ID INT,
+    IN p_Date TIMESTAMP,
+    IN p_Quantity INT,
+    IN p_Discount FLOAT,
+    IN p_TotalPrice_NoVAT DECIMAL(10,2),
+    IN p_TotalPrice_WithVAT DECIMAL(10,2)
+)
+BEGIN
+    INSERT INTO BILLDETAILS (
+        Bill_ID, Product_ID, `Date`, Quantity, Discount, TotalPrice_NoVAT, TotalPrice_WithVAT
+    ) VALUES (
+        p_Bill_ID, p_Product_ID, p_Date, p_Quantity, p_Discount, p_TotalPrice_NoVAT, p_TotalPrice_WithVAT
+    );
+END //
+
+DROP PROCEDURE IF EXISTS update_billdetails //
+CREATE PROCEDURE update_billdetails(
+    IN p_ID INT,
+    IN p_Bill_ID INT,
+    IN p_Product_ID INT,
+    IN p_Date TIMESTAMP,
+    IN p_Quantity INT,
+    IN p_Discount FLOAT,
+    IN p_TotalPrice_NoVAT DECIMAL(10,2),
+    IN p_TotalPrice_WithVAT DECIMAL(10,2)
+)
+BEGIN
+    UPDATE BILLDETAILS
+    SET Bill_ID            = p_Bill_ID,
+        Product_ID         = p_Product_ID,
+        `Date`             = p_Date,
+        Quantity           = p_Quantity,
+        Discount           = p_Discount,
+        TotalPrice_NoVAT   = p_TotalPrice_NoVAT,
+        TotalPrice_WithVAT = p_TotalPrice_WithVAT
+    WHERE ID = p_ID;
+END //
+
+DROP PROCEDURE IF EXISTS delete_billdetails //
+CREATE PROCEDURE delete_billdetails(
+    IN p_ID INT
+)
+BEGIN
+    DELETE FROM BILLDETAILS
+    WHERE ID = p_ID;
+END //
+
+/* =======================================================================
+   End of Stored Procedures
+   ======================================================================= */
+
 DELIMITER ;

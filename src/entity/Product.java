@@ -1,7 +1,7 @@
 package entity;
 
 public class Product {
-    private int id;
+    private Integer id = null;
     private int categoryId;
     private String name;
     private double price;
@@ -11,7 +11,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(int id, int categoryId, String name, double price, String active, String description, String imageUrl) {
+    public Product(Integer id, int categoryId, String name, double price, String active, String description, String imageUrl) {
         this.id = id;
         this.categoryId = categoryId;
         this.name = name;
@@ -21,11 +21,11 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
