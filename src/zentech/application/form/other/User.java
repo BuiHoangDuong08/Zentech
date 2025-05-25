@@ -276,9 +276,6 @@ public class User extends javax.swing.JPanel {
     private void rdofemaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdofemaleActionPerformed
     }//GEN-LAST:event_rdofemaleActionPerformed
 
-    private void rdononeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdononeActionPerformed
-    }//GEN-LAST:event_rdononeActionPerformed
-
     private void txtfullnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfullnameActionPerformed
     }//GEN-LAST:event_txtfullnameActionPerformed
 
@@ -317,6 +314,10 @@ public class User extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         service.showDetail(jTable1, txtid, txtusername, txtemail, txtfullname, rdomale, rdofemale, rdonone, txtaddress, txtdob, txtphonenumber, txtpass);
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void rdononeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdononeActionPerformed
+
+    }//GEN-LAST:event_rdononeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import dao.UserDAO;
 import entity.UserModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import static service.LoginFrom_service.bsv;
 
 public class ChangePasswor_service {
 

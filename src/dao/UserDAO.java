@@ -2,7 +2,11 @@ package dao;
 
 import entity.UserModel;
 import helper.ConnectionHelper;
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -62,7 +66,6 @@ public interface UserDAO {
             stmt.setString(3, user.getAddress());
             stmt.setString(4, user.getPhoneNumber());
 
-            // ✅ Chuyển đổi ngày sinh từ LocalDate hoặc String sang java.sql.Date nếu cần
             java.sql.Date dob = user.getDob(); // đảm bảo user.setDob(java.sql.Date) từ trước
             stmt.setDate(5, dob);
 
