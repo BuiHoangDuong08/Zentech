@@ -1,9 +1,14 @@
 package zentech.application.form.other;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import service.SalesHistoryService;
+import java.sql.Date;
+import dao.SalesHistoryDAO;
 import entity.SalesHistorymodel;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class SalesHistory extends javax.swing.JPanel {
 
@@ -12,10 +17,14 @@ public class SalesHistory extends javax.swing.JPanel {
 
     public SalesHistory() {
         initComponents();
-
+        // chinh font chu trong bang
+        jTable2.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+        jTable2.setRowHeight(30); 
+        // chinh font chu trong cot
+        jTable2.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
         service.loadSalesHistoryToTable(jTable2, list);
         jTextField1.setEnabled(true);
-            jTable2.setDefaultEditor(Object.class, null);
+        jTable2.setDefaultEditor(Object.class, null);
     }
 
     @SuppressWarnings("unchecked")
@@ -41,17 +50,9 @@ public class SalesHistory extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Bill_ID", "Date	", "Employee Name	", "Items", "Total Quantity	", "Total Amount	", "Status"
+                "Bill_ID", "Date	", "Employee Name	", "Items", "Total Quantity	", "Total Amount	", "Status"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jTable2.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jTable2AncestorAdded(evt);
@@ -114,11 +115,11 @@ public class SalesHistory extends javax.swing.JPanel {
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel3))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -138,8 +139,8 @@ public class SalesHistory extends javax.swing.JPanel {
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                .addGap(6, 6, 6))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -160,9 +161,11 @@ public class SalesHistory extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
