@@ -77,4 +77,18 @@ public interface ProductDAO {
             return false;
         }
     }
+    
+    default String getImagePathById(int id) {
+        String sql = "SELECT image_Url FROM PRODUCT WHERE id = ?";
+        try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("image_Url");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

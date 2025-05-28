@@ -3,6 +3,7 @@ package zentech.application.form.other;
 import java.awt.Component;
 import java.text.NumberFormat;
 import java.util.Locale;
+import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -210,8 +211,7 @@ public class MenuSelection extends javax.swing.JPanel {
                                 .addGap(143, 143, 143)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbTotal)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lbTotal))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(111, 111, 111)
                                 .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,9 +299,6 @@ public class MenuSelection extends javax.swing.JPanel {
         menuSelectionService.filterProducts(txtSearch, tblProduct);
     }//GEN-LAST:event_txtSearchKeyReleased
 
-    private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
-    }//GEN-LAST:event_tblProductMouseClicked
-
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
         menuSelectionService.resetAll(tblProduct, tblGetInfo, lbTotal);
     }//GEN-LAST:event_btnRemoveActionPerformed
@@ -309,6 +306,23 @@ public class MenuSelection extends javax.swing.JPanel {
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblProduct.getSelectedRow();
+        if (selectedRow != -1) {
+            // Giả sử cột ảnh nằm ở cột số 6 (index bắt đầu từ 0)
+            Object imageObj = tblProduct.getValueAt(selectedRow, 6);
+
+            if (imageObj instanceof ImageIcon) {
+                lblImage.setIcon((ImageIcon) imageObj);
+            } else if (imageObj instanceof String) {
+                // Nếu là đường dẫn chuỗi thì gọi lại hàm createImageIcon
+                ImageIcon icon = menuSelectionService.createImageIcon(TOOL_TIP_TEXT_KEY);
+                lblImage.setIcon(icon);
+            }
+        }
+    }//GEN-LAST:event_tblProductMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

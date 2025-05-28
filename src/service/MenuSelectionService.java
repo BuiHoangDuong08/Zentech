@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package service;
 
 import com.itextpdf.text.Chunk;
@@ -28,6 +32,10 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
+/**
+ *
+ * @author RGB
+ */
 public class MenuSelectionService implements ProductDAO {
 
     public List<Product> getAllData() {
@@ -99,9 +107,7 @@ public class MenuSelectionService implements ProductDAO {
         lbTotal.setText("0 ₫");
     }
 
-   
-public void generateReceipt(JTable tblGetInfo, javax.swing.JPanel parent, javax.swing.JLabel lbTotal) {
-        Locale.setDefault(new Locale("vi", "VN"));
+    public void generateReceipt(JTable tblGetInfo, javax.swing.JPanel parent, javax.swing.JLabel lbTotal) {
         try {
             String desktopPath = File.separator + "D:\\";
             String filePath = desktopPath + File.separator + "zentech_receipt.pdf";
@@ -204,15 +210,20 @@ public void generateReceipt(JTable tblGetInfo, javax.swing.JPanel parent, javax.
         }
     }
 
-    public ImageIcon createImageIcon(String path) {
+    public ImageIcon createImageIcon(String imagePath) {
         try {
-            ImageIcon icon = new ImageIcon(path);
-            Image scaledImage = icon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-            return new ImageIcon(scaledImage);
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(System.getProperty("user.dir"), imagePath);
+                if (imageFile.exists()) {
+                    ImageIcon icon = new ImageIcon(imageFile.getAbsolutePath());
+                    Image img = icon.getImage().getScaledInstance(165, 165, Image.SCALE_SMOOTH); // Đổi size tùy theo lblImage
+                    return new ImageIcon(img);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     private PdfPCell getCell(String text, int alignment, Font font) {
