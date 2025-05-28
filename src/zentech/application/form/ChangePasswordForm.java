@@ -5,12 +5,12 @@ import dao.UserDAO;
 import entity.UserModel;
 import javax.swing.JOptionPane;
 import net.miginfocom.swing.MigLayout;
-import service.ChangePasswor_service;
+import service.ChangePassword_service;
 import zentech.application.Application;
 
 public class ChangePasswordForm extends javax.swing.JPanel {
 
-    static ChangePasswor_service csv = new ChangePasswor_service();
+    static ChangePassword_service csv = new ChangePassword_service();
     static UserDAO ud = new UserDAO() {
     };
 

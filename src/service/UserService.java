@@ -147,5 +147,4 @@ public class UserService implements UserDAO {
             // fieldPassword.setText(String.valueOf(table.getValueAt(selectedRow, 8)));
         }
     }
-
 }

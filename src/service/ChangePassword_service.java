@@ -5,7 +5,7 @@ import entity.UserModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class ChangePasswor_service {
+public class ChangePassword_service {
 
     static UserDAO ud = new UserDAO() {
     };

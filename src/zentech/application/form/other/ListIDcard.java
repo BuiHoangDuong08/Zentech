@@ -13,7 +13,12 @@ public class ListIDcard extends javax.swing.JPanel {
     public ListIDcard() {
         initComponents();
         lsv.editinitComponents(txt_Search, txt_ID);
-        lsv.LoadDataTable(listc, jTable1);
+        lsv.LoadDataTable(listc, tblIdentityList);
+        
+        tblIdentityList.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+        tblIdentityList.setRowHeight(30);
+        tblIdentityList.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -27,7 +32,7 @@ public class ListIDcard extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblIdentityList = new javax.swing.JTable();
         cbo_Status = new javax.swing.JComboBox<>();
         btn_Word = new javax.swing.JButton();
         btn_Excel = new javax.swing.JButton();
@@ -68,7 +73,7 @@ public class ListIDcard extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Status:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblIdentityList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -84,12 +89,12 @@ public class ListIDcard extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblIdentityList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                tblIdentityListMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblIdentityList);
 
         cbo_Status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ACTIVE", "WAIT", "LOCKED" }));
 
@@ -178,12 +183,12 @@ public class ListIDcard extends javax.swing.JPanel {
 
     private void btn_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveActionPerformed
         lsv.add(cbo_Status);
-        lsv.LoadDataTable(listc, jTable1);
+        lsv.LoadDataTable(listc, tblIdentityList);
     }//GEN-LAST:event_btn_SaveActionPerformed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        lsv.showDetail(jTable1, txt_ID, cbo_Status);
-    }//GEN-LAST:event_jTable1MouseClicked
+    private void tblIdentityListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblIdentityListMouseClicked
+        lsv.showDetail(tblIdentityList, txt_ID, cbo_Status);
+    }//GEN-LAST:event_tblIdentityListMouseClicked
 
     private void btn_NewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewActionPerformed
         txt_ID.setText("");
@@ -192,16 +197,16 @@ public class ListIDcard extends javax.swing.JPanel {
 
     private void btn_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteActionPerformed
         lsv.delete(txt_ID);
-        lsv.LoadDataTable(listc, jTable1);
+        lsv.LoadDataTable(listc, tblIdentityList);
     }//GEN-LAST:event_btn_DeleteActionPerformed
 
     private void btn_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_UpdateActionPerformed
         lsv.Update(cbo_Status, txt_ID);
-        lsv.LoadDataTable(listc, jTable1);
+        lsv.LoadDataTable(listc, tblIdentityList);
     }//GEN-LAST:event_btn_UpdateActionPerformed
 
     private void txt_SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_SearchKeyReleased
-        lsv.Find(jTable1, txt_Search);
+        lsv.Find(tblIdentityList, txt_Search);
     }//GEN-LAST:event_txt_SearchKeyReleased
 
     private void txt_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_IDActionPerformed
@@ -221,7 +226,7 @@ public class ListIDcard extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblIdentityList;
     private javax.swing.JTextField txt_ID;
     private javax.swing.JTextField txt_Search;
     // End of variables declaration//GEN-END:variables

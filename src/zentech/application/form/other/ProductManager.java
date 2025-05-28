@@ -19,6 +19,11 @@ public class ProductManager extends javax.swing.JPanel {
         initComponents();
         editinitComponents();
         LoadDataTable();
+        
+        tblProduct.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+        tblProduct.setRowHeight(30);
+        tblProduct.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
+        
     }
 
     public void editinitComponents() {
@@ -31,7 +36,7 @@ public class ProductManager extends javax.swing.JPanel {
 
     public void LoadDataTable() {
         listp = pd.getAllProducts();
-        DefaultTableModel model = (DefaultTableModel) tbl_Product.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblProduct.getModel();
         model.setRowCount(0);
         for (Product p : listp) {
             model.addRow(new Object[]{p.getId(), p.getCategoryId(), p.getName(), p.getPrice(), p.getActive(), p.getDescription()});
@@ -39,14 +44,14 @@ public class ProductManager extends javax.swing.JPanel {
     }
 
     public void ShowDeatail() {
-        int select = tbl_Product.getSelectedRow();
+        int select = tblProduct.getSelectedRow();
 //        get value select table
-        int id = (int) tbl_Product.getValueAt(select, 0);
-        int idcate = (int) tbl_Product.getValueAt(select, 1);
-        String name = (String) tbl_Product.getValueAt(select, 2);
-        double price = (double) tbl_Product.getValueAt(select, 3);
-        String active = (String) tbl_Product.getValueAt(select, 4);
-        String des = (String) tbl_Product.getValueAt(select, 5);
+        int id = (int) tblProduct.getValueAt(select, 0);
+        int idcate = (int) tblProduct.getValueAt(select, 1);
+        String name = (String) tblProduct.getValueAt(select, 2);
+        double price = (double) tblProduct.getValueAt(select, 3);
+        String active = (String) tblProduct.getValueAt(select, 4);
+        String des = (String) tblProduct.getValueAt(select, 5);
 //        setText
         txt_ID.setText(String.valueOf(id));
         cbo_catagoryid.setSelectedItem(String.valueOf(idcate));
@@ -57,9 +62,9 @@ public class ProductManager extends javax.swing.JPanel {
     }
 
     public void find() {
-        DefaultTableModel ob = (DefaultTableModel) tbl_Product.getModel();
+        DefaultTableModel ob = (DefaultTableModel) tblProduct.getModel();
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
-        tbl_Product.setRowSorter(obj);
+        tblProduct.setRowSorter(obj);
         obj.setRowFilter(javax.swing.RowFilter.regexFilter(txt_Search.getText()));
     }
 
@@ -160,7 +165,7 @@ public class ProductManager extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         txt_price = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tbl_Product = new javax.swing.JTable();
+        tblProduct = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         txt_Images = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
@@ -242,7 +247,7 @@ public class ProductManager extends javax.swing.JPanel {
 
         jLabel7.setText("Price:");
 
-        tbl_Product.setModel(new javax.swing.table.DefaultTableModel(
+        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -258,19 +263,19 @@ public class ProductManager extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        tbl_Product.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_ProductMouseClicked(evt);
+                tblProductMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tbl_Product);
-        if (tbl_Product.getColumnModel().getColumnCount() > 0) {
-            tbl_Product.getColumnModel().getColumn(0).setPreferredWidth(1);
-            tbl_Product.getColumnModel().getColumn(1).setPreferredWidth(1);
-            tbl_Product.getColumnModel().getColumn(2).setPreferredWidth(5);
-            tbl_Product.getColumnModel().getColumn(3).setPreferredWidth(5);
-            tbl_Product.getColumnModel().getColumn(4).setPreferredWidth(2);
-            tbl_Product.getColumnModel().getColumn(5).setPreferredWidth(20);
+        jScrollPane3.setViewportView(tblProduct);
+        if (tblProduct.getColumnModel().getColumnCount() > 0) {
+            tblProduct.getColumnModel().getColumn(0).setPreferredWidth(1);
+            tblProduct.getColumnModel().getColumn(1).setPreferredWidth(1);
+            tblProduct.getColumnModel().getColumn(2).setPreferredWidth(5);
+            tblProduct.getColumnModel().getColumn(3).setPreferredWidth(5);
+            tblProduct.getColumnModel().getColumn(4).setPreferredWidth(2);
+            tblProduct.getColumnModel().getColumn(5).setPreferredWidth(20);
         }
 
         jLabel9.setText("Images:");
@@ -396,9 +401,9 @@ public class ProductManager extends javax.swing.JPanel {
         find();
     }//GEN-LAST:event_txt_SearchKeyReleased
 
-    private void tbl_ProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ProductMouseClicked
+    private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         ShowDeatail();
-    }//GEN-LAST:event_tbl_ProductMouseClicked
+    }//GEN-LAST:event_tblProductMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -424,7 +429,7 @@ public class ProductManager extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTable tbl_Product;
+    private javax.swing.JTable tblProduct;
     private javax.swing.JTextField txt_ID;
     private javax.swing.JTextField txt_Images;
     private javax.swing.JTextField txt_Search;

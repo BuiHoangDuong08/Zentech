@@ -1,14 +1,9 @@
 package zentech.application.form.other;
 
-import com.formdev.flatlaf.FlatClientProperties;
 import service.SalesHistoryService;
-import java.sql.Date;
-import dao.SalesHistoryDAO;
 import entity.SalesHistorymodel;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 public class SalesHistory extends javax.swing.JPanel {
 
@@ -17,10 +12,9 @@ public class SalesHistory extends javax.swing.JPanel {
 
     public SalesHistory() {
         initComponents();
-        // chinh font chu trong bang
         jTable2.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
-        jTable2.setRowHeight(30); 
-        // chinh font chu trong cot
+        jTable2.setRowHeight(30);
+        
         jTable2.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
         service.loadSalesHistoryToTable(jTable2, list);
         jTextField1.setEnabled(true);
@@ -68,6 +62,12 @@ public class SalesHistory extends javax.swing.JPanel {
             }
         });
         jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jTable2.getColumnModel().getColumn(3).setPreferredWidth(200);
+            jTable2.getColumnModel().getColumn(4).setPreferredWidth(20);
+            jTable2.getColumnModel().getColumn(6).setPreferredWidth(30);
+        }
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
         jLabel1.setText("SALES HISTORY");

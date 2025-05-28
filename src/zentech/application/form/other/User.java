@@ -14,6 +14,7 @@ public class User extends javax.swing.JPanel {
         buttonGroup1.add(rdonone);
         service.loadUser(jTable1);
         jTable1.setDefaultEditor(Object.class, null);
+        
         jTable1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         jTable1.setRowHeight(30);
         jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
@@ -69,6 +70,15 @@ public class User extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(5);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(10);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(10);
+        }
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
         jLabel8.setText("USER INFO");
