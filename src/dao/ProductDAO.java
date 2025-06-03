@@ -2,7 +2,10 @@ package dao;
 
 import entity.Product;
 import helper.ConnectionHelper;
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,5 +76,19 @@ public interface ProductDAO {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    default String getImagePathById(int id) {
+        String sql = "SELECT image_Url FROM PRODUCT WHERE id = ?";
+        try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("image_Url");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

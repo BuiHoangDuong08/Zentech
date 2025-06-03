@@ -156,7 +156,7 @@ public class RegisterFrom extends javax.swing.JPanel {
                         .addGroup(panelLogin1Layout.createSequentialGroup()
                             .addGap(31, 31, 31)
                             .addComponent(btnLogout)
-                            .addGap(18, 18, 18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(lbTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(panelLogin1Layout.createSequentialGroup()
                         .addContainerGap()

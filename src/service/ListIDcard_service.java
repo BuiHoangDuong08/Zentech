@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import raven.toast.Notifications;
 
 public class ListIDcard_service {
 
@@ -35,7 +36,8 @@ public class ListIDcard_service {
             String status = cbo_Status.getSelectedItem().toString();
             boolean rs = card.addCard(status);
             if (rs == true) {
-                JOptionPane.showMessageDialog(null, "Saved successfully");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Saved successfully");
+                JOptionPane.showMessageDialog(null, "");
             }
         }
     }
@@ -54,7 +56,7 @@ public class ListIDcard_service {
             int id = Integer.parseInt(txt_ID.getText());
             boolean rs = card.deleteCard(id);
             if (rs == true) {
-                JOptionPane.showMessageDialog(null, "Deleted successfully");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Deleted successfully");
             }
         }
     }
@@ -73,7 +75,7 @@ public class ListIDcard_service {
             String status = cbo_Status.getSelectedItem().toString();
             boolean rs = card.updateCard(id, status);
             if (rs == true) {
-                JOptionPane.showMessageDialog(null, "Updated successfully");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Updated successfully");
             }
         }
     }

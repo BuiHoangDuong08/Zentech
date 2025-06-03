@@ -2,8 +2,6 @@ package service;
 
 import dao.UserDAO;
 import entity.UserModel;
-import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import raven.toast.Notifications;
@@ -13,7 +11,7 @@ public class LoginFrom_service extends JPanel {
 
     static UserDAO ud = new UserDAO() {
     };
-     static BCrypt_service bsv = new BCrypt_service();
+    static BCrypt_service bsv = new BCrypt_service();
 
     public void getLogin(JTextField usn, JTextField pass) {
         String usn1 = usn.getText().trim();
@@ -23,15 +21,18 @@ public class LoginFrom_service extends JPanel {
             for (UserModel u : ud.getAllUsers()) {
                 if (u.getUserName().equals(usn1) && bsv.checkPassword(pass1, u.getPassword())) {
                     checklogin = true;
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Login successfully");
-                    this.setVisible(false);
-                    Application.login();
-
+                    try {
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Login successfully");
+                        this.setVisible(false);
+                        Application.login();
+                    } catch (Exception ex) {
+                        Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "There was an error while logging in.");
+                    }
                     return;
                 }
             }
             if (checklogin == false) {
-                JOptionPane.showMessageDialog(null, "Login Falied");
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Wrong username or password");
                 return;
             }
         }
@@ -39,11 +40,11 @@ public class LoginFrom_service extends JPanel {
 
     public boolean checkNull(JTextField usn, JTextField pass) {
         if (usn.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please enter username");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.BOTTOM_RIGHT, "Please enter username");
             return false;
         }
         if (pass.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please enter password");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.BOTTOM_RIGHT, "Please enter password");
             return false;
         } else {
             return true;

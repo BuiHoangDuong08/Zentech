@@ -1,10 +1,7 @@
 package service;
 
 import dao.UserDAO;
-import entity.SalesHistorymodel;
 import entity.UserModel;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -12,6 +9,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import raven.toast.Notifications;
 
 public class UserService implements UserDAO {
 
@@ -47,7 +45,7 @@ public class UserService implements UserDAO {
                 userId = Integer.parseInt(txt_ID.getText().trim());
                 user.setId(userId);
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid ID format.");
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Invalid ID format");
                 return;
             }
 
@@ -66,7 +64,7 @@ public class UserService implements UserDAO {
                     java.sql.Date dob = java.sql.Date.valueOf(dobText); // hợp lệ nếu đúng định dạng
                     user.setDob(dob);
                 } catch (IllegalArgumentException e) {
-                    JOptionPane.showMessageDialog(null, "Invalid date of birth. Please enter in YYYY-MM-DD format.");
+                    Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Invalid date of birth. Please enter in YYYY-MM-DD format");
                     return;
                 }
             } else {
@@ -85,7 +83,7 @@ public class UserService implements UserDAO {
             // Mật khẩu
             String password = new String(txtpassword.getPassword()).trim();
             if (password.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Password cannot be blank.");
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Password cannot be blank");
                 return;
             }
             user.setPassword(password);
@@ -95,15 +93,15 @@ public class UserService implements UserDAO {
             if (ret == JOptionPane.YES_OPTION) {
                 boolean result = updateUser(user);
                 if (result) {
-                    JOptionPane.showMessageDialog(null, "Updated successfully!");
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Updated successfully!");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Update failed!");
+                    Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Update failed!");
                 }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error while updating: " + e.getMessage());
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Error while updating");
         }
     }
 
@@ -149,5 +147,4 @@ public class UserService implements UserDAO {
             // fieldPassword.setText(String.valueOf(table.getValueAt(selectedRow, 8)));
         }
     }
-
 }

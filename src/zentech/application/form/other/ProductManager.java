@@ -1,12 +1,10 @@
 package zentech.application.form.other;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.sun.imageio.plugins.png.RowFilter;
 import dao.ProductDAO;
 import entity.Product;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -21,6 +19,11 @@ public class ProductManager extends javax.swing.JPanel {
         initComponents();
         editinitComponents();
         LoadDataTable();
+        
+        tblProduct.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
+        tblProduct.setRowHeight(30);
+        tblProduct.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
+        
     }
 
     public void editinitComponents() {
@@ -33,7 +36,7 @@ public class ProductManager extends javax.swing.JPanel {
 
     public void LoadDataTable() {
         listp = pd.getAllProducts();
-        DefaultTableModel model = (DefaultTableModel) tbl_Product.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblProduct.getModel();
         model.setRowCount(0);
         for (Product p : listp) {
             model.addRow(new Object[]{p.getId(), p.getCategoryId(), p.getName(), p.getPrice(), p.getActive(), p.getDescription()});
@@ -41,14 +44,14 @@ public class ProductManager extends javax.swing.JPanel {
     }
 
     public void ShowDeatail() {
-        int select = tbl_Product.getSelectedRow();
+        int select = tblProduct.getSelectedRow();
 //        get value select table
-        int id = (int) tbl_Product.getValueAt(select, 0);
-        int idcate = (int) tbl_Product.getValueAt(select, 1);
-        String name = (String) tbl_Product.getValueAt(select, 2);
-        double price = (double) tbl_Product.getValueAt(select, 3);
-        String active = (String) tbl_Product.getValueAt(select, 4);
-        String des = (String) tbl_Product.getValueAt(select, 5);
+        int id = (int) tblProduct.getValueAt(select, 0);
+        int idcate = (int) tblProduct.getValueAt(select, 1);
+        String name = (String) tblProduct.getValueAt(select, 2);
+        double price = (double) tblProduct.getValueAt(select, 3);
+        String active = (String) tblProduct.getValueAt(select, 4);
+        String des = (String) tblProduct.getValueAt(select, 5);
 //        setText
         txt_ID.setText(String.valueOf(id));
         cbo_catagoryid.setSelectedItem(String.valueOf(idcate));
@@ -59,9 +62,9 @@ public class ProductManager extends javax.swing.JPanel {
     }
 
     public void find() {
-        DefaultTableModel ob = (DefaultTableModel) tbl_Product.getModel();
+        DefaultTableModel ob = (DefaultTableModel) tblProduct.getModel();
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
-        tbl_Product.setRowSorter(obj);
+        tblProduct.setRowSorter(obj);
         obj.setRowFilter(javax.swing.RowFilter.regexFilter(txt_Search.getText()));
     }
 
@@ -141,7 +144,6 @@ public class ProductManager extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         btn_Word = new javax.swing.JButton();
         btn_Excel = new javax.swing.JButton();
         btn_Update = new javax.swing.JButton();
@@ -163,9 +165,10 @@ public class ProductManager extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         txt_price = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tbl_Product = new javax.swing.JTable();
+        tblProduct = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         txt_Images = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -174,9 +177,6 @@ public class ProductManager extends javax.swing.JPanel {
         jTextField2.setText("jTextField2");
 
         jTextField3.setText("jTextField3");
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
-        jLabel1.setText("PRODUCT MANAGER");
 
         btn_Word.setText("Word");
         btn_Word.addActionListener(new java.awt.event.ActionListener() {
@@ -247,7 +247,7 @@ public class ProductManager extends javax.swing.JPanel {
 
         jLabel7.setText("Price:");
 
-        tbl_Product.setModel(new javax.swing.table.DefaultTableModel(
+        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -263,28 +263,30 @@ public class ProductManager extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        tbl_Product.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_ProductMouseClicked(evt);
+                tblProductMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(tbl_Product);
-        if (tbl_Product.getColumnModel().getColumnCount() > 0) {
-            tbl_Product.getColumnModel().getColumn(0).setPreferredWidth(1);
-            tbl_Product.getColumnModel().getColumn(1).setPreferredWidth(1);
-            tbl_Product.getColumnModel().getColumn(2).setPreferredWidth(5);
-            tbl_Product.getColumnModel().getColumn(3).setPreferredWidth(5);
-            tbl_Product.getColumnModel().getColumn(4).setPreferredWidth(2);
-            tbl_Product.getColumnModel().getColumn(5).setPreferredWidth(20);
+        jScrollPane3.setViewportView(tblProduct);
+        if (tblProduct.getColumnModel().getColumnCount() > 0) {
+            tblProduct.getColumnModel().getColumn(0).setPreferredWidth(1);
+            tblProduct.getColumnModel().getColumn(1).setPreferredWidth(1);
+            tblProduct.getColumnModel().getColumn(2).setPreferredWidth(5);
+            tblProduct.getColumnModel().getColumn(3).setPreferredWidth(5);
+            tblProduct.getColumnModel().getColumn(4).setPreferredWidth(2);
+            tblProduct.getColumnModel().getColumn(5).setPreferredWidth(20);
         }
 
         jLabel9.setText("Images:");
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
+        jLabel10.setText("PRODUCT MANAGER");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,12 +321,17 @@ public class ProductManager extends javax.swing.JPanel {
                     .addComponent(txt_price)
                     .addComponent(jLabel9)
                     .addComponent(txt_Images)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel10)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_Excel)
@@ -367,43 +374,36 @@ public class ProductManager extends javax.swing.JPanel {
                             .addComponent(btn_Update)
                             .addComponent(btn_New))
                         .addContainerGap())
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_WordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_WordActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btn_WordActionPerformed
 
     private void btn_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_UpdateActionPerformed
-        // TODO add your handling code here:
         update();
     }//GEN-LAST:event_btn_UpdateActionPerformed
 
     private void btn_NewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_NewActionPerformed
-        // TODO add your handling code here:
         newInput();
     }//GEN-LAST:event_btn_NewActionPerformed
 
     private void btn_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveActionPerformed
-        // TODO add your handling code here:
         add();
     }//GEN-LAST:event_btn_SaveActionPerformed
 
     private void btn_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteActionPerformed
-        // TODO add your handling code here:
         delele();
     }//GEN-LAST:event_btn_DeleteActionPerformed
 
     private void txt_SearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_SearchKeyReleased
-        // TODO add your handling code here:
         find();
     }//GEN-LAST:event_txt_SearchKeyReleased
 
-    private void tbl_ProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ProductMouseClicked
-        // TODO add your handling code here:
+    private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         ShowDeatail();
-    }//GEN-LAST:event_tbl_ProductMouseClicked
+    }//GEN-LAST:event_tblProductMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -415,7 +415,7 @@ public class ProductManager extends javax.swing.JPanel {
     private javax.swing.JButton btn_Word;
     private javax.swing.JComboBox<String> cbo_active;
     private javax.swing.JComboBox<String> cbo_catagoryid;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -429,7 +429,7 @@ public class ProductManager extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTable tbl_Product;
+    private javax.swing.JTable tblProduct;
     private javax.swing.JTextField txt_ID;
     private javax.swing.JTextField txt_Images;
     private javax.swing.JTextField txt_Search;
