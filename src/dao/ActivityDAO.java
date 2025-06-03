@@ -28,7 +28,6 @@ public class ActivityDAO {
 
             ps.setString(1, activity.getUserId());
             ps.setString(2, activity.getAction());
-            // Chuyển LocalDateTime -> Timestamp
             ps.setTimestamp(3, Timestamp.valueOf(activity.getTimestamp()));
             ps.executeUpdate();
         }
