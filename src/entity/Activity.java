@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
  * @author Duc Pham Ngoc
  */
 public class Activity {
-    private int id;               // Nếu bạn cần lưu tự động INCREMENT thì có thể bỏ qua setter
-    private String userId;        // hoặc int userId tuỳ bạn
-    private String action;        // “LOGIN” hoặc “LOGOUT”
+    private int id;             
+    private String userId;       
+    private String action;       
     private LocalDateTime timestamp;
 
     public Activity() {
