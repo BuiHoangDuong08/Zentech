@@ -16,6 +16,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
+import zentech.application.changepassword.ForgotPassword;
 import zentech.application.form.other.AboutUs;
 import zentech.application.form.other.Inventory;
 import zentech.application.form.other.ListIDcard;
@@ -81,7 +82,8 @@ public class MainForm extends JLayeredPane {
             } else if (index == 5) {
                 Application.showForm(new AboutUs());
             } else if (index == 6) {
-                Application.changePassword();
+                ForgotPassword fg = new ForgotPassword();
+                fg.setVisible(true);
             } else if (index == 7) {
                 Application.logout();
             } else {

@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import service.LoginFrom_service;
 import zentech.application.Application;
+import zentech.application.changepassword.ForgotPassword;
 
 public class LoginForm extends javax.swing.JPanel {
 
@@ -46,6 +47,7 @@ public class LoginForm extends javax.swing.JPanel {
         txtPass = new javax.swing.JPasswordField();
         cmdLogin = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("Login");
@@ -68,20 +70,31 @@ public class LoginForm extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setBackground(new java.awt.Color(51, 51, 255));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        jLabel1.setText("Quên mật khẩu?");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLogin1Layout = new javax.swing.GroupLayout(panelLogin1);
         panelLogin1.setLayout(panelLogin1Layout);
         panelLogin1Layout.setHorizontalGroup(
             panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLogin1Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbPass, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbPass, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmdLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
         panelLogin1Layout.setVerticalGroup(
@@ -97,7 +110,9 @@ public class LoginForm extends javax.swing.JPanel {
                 .addComponent(lbPass)
                 .addGap(7, 7, 7)
                 .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmdLogin)
                 .addGap(30, 30, 30)
                 .addComponent(jButton1)
@@ -133,9 +148,16 @@ public class LoginForm extends javax.swing.JPanel {
         Application.registerFrom();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        ForgotPassword fg = new ForgotPassword();
+        fg.setVisible(true);
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdLogin;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lbPass;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JLabel lbUser;
