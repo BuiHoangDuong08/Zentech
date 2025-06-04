@@ -1,7 +1,10 @@
 package service;
 
+import dao.ActivityDAO;
 import dao.UserDAO;
+import entity.Activity;
 import entity.UserModel;
+import java.time.LocalDateTime;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import raven.toast.Notifications;
@@ -24,7 +27,10 @@ public class LoginFrom_service extends JPanel {
                     try {
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Login successfully");
                         this.setVisible(false);
+                        Application.getAppInstance().setCurrentUser(usn1);
                         Application.login();
+                        ActivityDAO.insert(new Activity(usn1, "LOGIN", LocalDateTime.now()));
+                  
                     } catch (Exception ex) {
                         Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "There was an error while logging in.");
                     }
