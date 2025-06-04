@@ -29,6 +29,7 @@ public class Menu extends JPanel {
         {"User Info"},
         {"Sales History"},
         {"~UTILITIES~"},
+        {"Activity Log"},
         {"About Us"},
         {"Change Password"},
         {"Logout"}
