@@ -1,36 +1,48 @@
 package zentech.application.form.other;
 
+import entity.Card;
 import java.awt.Component;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import raven.toast.Notifications;
 import service.MenuSelectionService;
 import zentechx.menu.QtyCellEditor;
 
 public class MenuSelection extends javax.swing.JPanel {
 
     MenuSelectionService menuSelectionService = new MenuSelectionService();
+    static List<Card> listc = new ArrayList<>();
 
     public MenuSelection() {
         initComponents();
         customTableEvent();
-        showData();
-        
+        showProductsData();
+        showCardsData();
+
         tblProduct.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblProduct.setRowHeight(30);
         tblProduct.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-        
+
         tblGetInfo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblGetInfo.setRowHeight(30);
         tblGetInfo.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-        
+
     }
 
-    private void showData() {
+    private void showProductsData() {
         menuSelectionService.loadProductsToTable(tblProduct);
+    }
+
+    private void showCardsData() {
+        menuSelectionService.loadCardstoTable(listc, tblIDCard);
     }
 
     private void customTableEvent() {
@@ -82,6 +94,7 @@ public class MenuSelection extends javax.swing.JPanel {
     private void syncSelectedItemsAndTotal() {
         menuSelectionService.syncSelectedItemsAndTotal(tblProduct, tblGetInfo, lbTotal);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -99,8 +112,11 @@ public class MenuSelection extends javax.swing.JPanel {
         btnReceipt = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lblImage = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblIDCard = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        cmoArrange = new javax.swing.JComboBox<>();
 
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -168,6 +184,11 @@ public class MenuSelection extends javax.swing.JPanel {
         lbTotal.setText("$ 0.00");
 
         btnPay.setText("Pay");
+        btnPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPayActionPerformed(evt);
+            }
+        });
 
         btnRemove.setText("Remove");
         btnRemove.addActionListener(new java.awt.event.ActionListener() {
@@ -196,6 +217,29 @@ public class MenuSelection extends javax.swing.JPanel {
 
         lblImage.setBorder(javax.swing.BorderFactory.createEtchedBorder(null, java.awt.Color.darkGray));
 
+        tblIDCard.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblIDCard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblIDCardMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblIDCard);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -203,18 +247,22 @@ public class MenuSelection extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(143, 143, 143)
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lbTotal))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(111, 111, 111)
+                                    .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(143, 143, 143)
-                                .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbTotal))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(111, 111, 111)
-                                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(btnPay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -230,17 +278,18 @@ public class MenuSelection extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(108, 108, 108))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(lbTotal))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 45, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108)))
                 .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -255,6 +304,13 @@ public class MenuSelection extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
         jLabel9.setText("MENU SELECTION");
 
+        cmoArrange.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Cà phê", "Trà", "Nước trái cây", "Sinh tố", "Đồ ăn vặt", "Bánh ngọt", "Đồ ăn sáng", "Đồ ăn tối" }));
+        cmoArrange.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmoArrangeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -263,16 +319,20 @@ public class MenuSelection extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 725, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cmoArrange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(128, 128, 128)
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)))
+                        .addComponent(jLabel3))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -282,7 +342,8 @@ public class MenuSelection extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(cmoArrange, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
@@ -324,11 +385,87 @@ public class MenuSelection extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblProductMouseClicked
 
+    private void cmoArrangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmoArrangeActionPerformed
+        // TODO add your handling code here:
+        // Map tên loại sang categoryId
+        Map<String, Integer> categoryMap = Map.of(
+                "Mặc định", 0,
+                "Cà phê", 1,
+                "Trà", 2,
+                "Nước trái cây", 3,
+                "Sinh tố", 4,
+                "Đồ ăn vặt", 5,
+                "Bánh ngọt", 6,
+                "Đồ ăn sáng", 7,
+                "Đồ ăn tối", 8
+        );
+
+        String selectedCategory = (String) cmoArrange.getSelectedItem();
+        int categoryId = categoryMap.getOrDefault(selectedCategory, 0);
+
+        menuSelectionService.filterProductsByCategory(categoryId, tblProduct);
+    }//GEN-LAST:event_cmoArrangeActionPerformed
+
+    private String selectedCardId = null;
+
+    private void tblIDCardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblIDCardMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblIDCard.getSelectedRow();
+        System.out.println("Số dòng trong tblGetInfo: " + tblGetInfo.getRowCount());
+        if (selectedRow != -1) {
+            String cardId = tblIDCard.getValueAt(selectedRow, 0).toString(); // Giả sử ID nằm ở cột 0
+
+            // Kiểm tra trạng thái thẻ trước
+            String status = menuSelectionService.getCardStatus(cardId);
+            if ("LOCKED".equalsIgnoreCase(status)) {
+                JOptionPane.showMessageDialog(MenuSelection.this, "Thẻ đã khóa, không thể chọn.");
+                return; // thoát hàm, không tiếp tục
+            }
+
+            int confirm = JOptionPane.showConfirmDialog(
+                    MenuSelection.this,
+                    "Bạn có muốn chọn thẻ này không?",
+                    "Xác nhận chọn thẻ",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                boolean result = menuSelectionService.selectCard(cardId, tblGetInfo);
+                if (result) {
+                    JOptionPane.showMessageDialog(MenuSelection.this, "Thẻ đã được chuyển sang trạng thái LOCKED.");
+                    selectedCardId = cardId;
+                    showCardsData();
+                    menuSelectionService.resetAll(tblProduct, tblGetInfo, lbTotal);
+                } else {
+                    JOptionPane.showMessageDialog(MenuSelection.this, "Không thể chọn thẻ. Phải có đơn hàng trước.");
+                }
+            }
+        }
+    }//GEN-LAST:event_tblIDCardMouseClicked
+
+    private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
+        // TODO add your handling code here:
+        if (selectedCardId == null) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn thẻ nào.");
+            return;
+        }
+
+        boolean result = menuSelectionService.releaseCard(selectedCardId);
+        if (result) {
+            JOptionPane.showMessageDialog(this, "Thanh toán thành công. Trạng thái thẻ đã được đặt lại TRỐNG.");
+            selectedCardId = null; // Reset
+            showCardsData();
+        } else {
+            JOptionPane.showMessageDialog(this, "Không thể cập nhật trạng thái thẻ.");
+        }
+    }//GEN-LAST:event_btnPayActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPay;
     private javax.swing.JButton btnReceipt;
     private javax.swing.JButton btnRemove;
+    private javax.swing.JComboBox<String> cmoArrange;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel9;
@@ -336,9 +473,11 @@ public class MenuSelection extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lbTotal;
     private javax.swing.JLabel lblImage;
     private javax.swing.JTable tblGetInfo;
+    private javax.swing.JTable tblIDCard;
     private javax.swing.JTable tblProduct;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

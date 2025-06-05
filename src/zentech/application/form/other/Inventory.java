@@ -2,15 +2,16 @@ package zentech.application.form.other;
 
 import service.InventoryService;
 import entity.Product;
+import java.util.Map;
 
 public class Inventory extends javax.swing.JPanel {
 
-    private final InventoryService productService = new InventoryService();
+    private final InventoryService inventoryService = new InventoryService();
 
     public Inventory() {
         initComponents();
-        productService.loadProductToTable(tblProduct);
-        productService.hideImageColumn(tblProduct);
+        inventoryService.loadProductToTable(tblProduct);
+        inventoryService.hideImageColumn(tblProduct);
         
         tblProduct.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblProduct.setRowHeight(30);
@@ -56,6 +57,7 @@ public class Inventory extends javax.swing.JPanel {
         txtDescription = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         lblID = new javax.swing.JLabel();
+        cmoArrange = new javax.swing.JComboBox<>();
         txtSearch1 = new javax.swing.JTextField();
         lblSearch = new javax.swing.JLabel();
         lblInventory = new javax.swing.JLabel();
@@ -297,12 +299,19 @@ public class Inventory extends javax.swing.JPanel {
         lblID.setBorder(javax.swing.BorderFactory.createEtchedBorder(null, java.awt.Color.darkGray));
         lblID.setPreferredSize(new java.awt.Dimension(64, 22));
 
+        cmoArrange.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Cà phê", "Trà", "Nước trái cây", "Sinh tố", "Đồ ăn vặt", "Bánh ngọt", "Đồ ăn sáng", "Đồ ăn tối" }));
+        cmoArrange.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmoArrangeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -333,16 +342,19 @@ public class Inventory extends javax.swing.JPanel {
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmoActive, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(cmoActive, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cmoArrange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(213, 213, 213)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(btnImport))
                     .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -367,7 +379,8 @@ public class Inventory extends javax.swing.JPanel {
                                     .addComponent(lblProductID)
                                     .addComponent(txtProductID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4)
-                                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmoArrange, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblProductName)
@@ -415,7 +428,7 @@ public class Inventory extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(lblInventory)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -436,7 +449,7 @@ public class Inventory extends javax.swing.JPanel {
                         .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblSearch)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -456,32 +469,32 @@ public class Inventory extends javax.swing.JPanel {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        Product p = productService.getProductInput(lblID, txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, this);
-        productService.addProduct(p, this, tblProduct);
+        Product p = inventoryService.getProductInput(lblID, txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, this);
+        inventoryService.addProduct(p, this, tblProduct);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
-        productService.chooseImage(lblImage, this);
+        inventoryService.chooseImage(lblImage, this);
     }//GEN-LAST:event_btnImportActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        Product p = productService.getProductInput(lblID, txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, this);
-        productService.updateProduct(p, this, tblProduct, this::clearForm);
+        Product p = inventoryService.getProductInput(lblID, txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, this);
+        inventoryService.updateProduct(p, this, tblProduct, this::clearForm);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void clearForm() {
-        productService.clearForm(txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, lblID);
+        inventoryService.clearForm(txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, lblID);
     }
 
     private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         int row = tblProduct.getSelectedRow();
         if (row >= 0) {
-            productService.fillFormFromTable(tblProduct, row, txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, lblID);
+            inventoryService.fillFormFromTable(tblProduct, row, txtProductID, txtName, txtPrice, cmoActive, txtDescription, lblImage, lblID);
         }
     }//GEN-LAST:event_tblProductMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        productService.deleteProduct(lblID.getText(), this, tblProduct, this::clearForm);
+        inventoryService.deleteProduct(lblID.getText(), this, tblProduct, this::clearForm);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearch1ActionPerformed
@@ -489,8 +502,29 @@ public class Inventory extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearch1ActionPerformed
 
     private void txtSearch1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch1KeyReleased
-        productService.filterProductByName(txtSearch1, tblProduct);
+        inventoryService.filterProductByName(txtSearch1, tblProduct);
     }//GEN-LAST:event_txtSearch1KeyReleased
+
+    private void cmoArrangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmoArrangeActionPerformed
+        // TODO add your handling code here:
+        // Map tên loại sang categoryId
+        Map<String, Integer> categoryMap = Map.of(
+            "Mặc định", 0,
+            "Cà phê", 1,
+            "Trà", 2,
+            "Nước trái cây", 3,
+            "Sinh tố", 4,
+            "Đồ ăn vặt", 5,
+            "Bánh ngọt", 6,
+            "Đồ ăn sáng", 7,
+            "Đồ ăn tối", 8
+        );
+
+        String selectedCategory = (String) cmoArrange.getSelectedItem();
+        int categoryId = categoryMap.getOrDefault(selectedCategory, 0);
+
+        inventoryService.filterProductsByCategory(categoryId, tblProduct);
+    }//GEN-LAST:event_cmoArrangeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -503,6 +537,7 @@ public class Inventory extends javax.swing.JPanel {
     private javax.swing.JButton cmdDelete;
     private javax.swing.JButton cmdUpdate;
     private javax.swing.JComboBox<String> cmoActive;
+    private javax.swing.JComboBox<String> cmoArrange;
     private raven.crazypanel.CrazyPanel crazyPanel1;
     private raven.crazypanel.CrazyPanel crazyPanel2;
     private javax.swing.JButton jButton2;
