@@ -16,6 +16,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
+import zentech.application.changepassword.ChangePassword;
 import zentech.application.changepassword.ForgotPassword;
 import zentech.application.form.other.AboutUs;
 import zentech.application.form.other.ActivityLogForm;
@@ -70,7 +71,7 @@ public class MainForm extends JLayeredPane {
 
     private void initMenuEvent() {
         menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
-            if(index == 0) {
+            if (index == 0) {
                 Application.showForm(new MenuSelection());
             } else if (index == 1) {
                 Application.showForm(new ListIDcard());
@@ -80,15 +81,15 @@ public class MainForm extends JLayeredPane {
                 Application.showForm(new User());
             } else if (index == 4) {
                 Application.showForm(new SalesHistory());
-            } else if(index == 5){
+            } else if (index == 5) {
                 Application.showForm(new ActivityLogForm());
             } else if (index == 6) {
-                Application.showForm(new AboutUs());
+
+                Application.showForm(new ChangePasswordForm());
             } else if (index == 7) {
-                ForgotPassword fg = new ForgotPassword();
-                fg.setVisible(true);
-            } else if (index == 8) {
                 Application.logout();
+            } else if (index == 8) {
+                Application.showForm(new AboutUs());
             } else {
                 action.cancel();
             }

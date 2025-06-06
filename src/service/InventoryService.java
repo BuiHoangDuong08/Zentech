@@ -12,6 +12,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -23,6 +24,7 @@ import javax.swing.RowFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import zentechx.menu.ModelItemSell;
 
 /**
  *
@@ -40,6 +42,29 @@ public class InventoryService implements ProductDAO {
                 p.getActive(), p.getDescription(), p.getImageUrl()
             });
         }
+    }
+    
+        public List<Product> getAllData() {
+        return getAllProducts();
+    }
+
+    public void loadProductsToTable(JTable table) {
+        List<Product> products = getAllData();  // Lấy toàn bộ danh sách sản phẩm
+        loadProductsToTable(table, products);   // Gọi hàm nạp dữ liệu chung
+    }
+
+    public void loadProductsToTable(JTable table, List<Product> products) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);  // Xóa dữ liệu cũ
+
+        for (Product p : products) {
+            model.addRow(new Object[]{
+                p.getId(), p.getCategoryId(), p.getName(), p.getPrice(),
+                p.getActive(), p.getDescription(), p.getImageUrl()
+            });
+        }
+
+        table.setRowHeight(60); // Hiển thị hình ảnh đẹp hơn
     }
 
     public void hideImageColumn(JTable table) {
@@ -256,5 +281,19 @@ public class InventoryService implements ProductDAO {
         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
         table1.setRowSorter(obj);
         obj.setRowFilter(RowFilter.regexFilter(txtSearch.getText()));
+    }
+    
+        public void filterProductsByCategory(int categoryId, JTable tblProduct) {
+        List<Product> allProducts = getAllProducts(); // Giả sử đã có hàm lấy toàn bộ sản phẩm
+
+        List<Product> filtered;
+        if (categoryId == 0) { // Mặc định: show tất cả
+            filtered = allProducts;
+        } else {
+            filtered = allProducts.stream()
+                    .filter(p -> p.getCategoryId() == categoryId)
+                    .collect(Collectors.toList());
+        }
+        loadProductsToTable(tblProduct, filtered);
     }
 }

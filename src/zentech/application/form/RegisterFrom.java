@@ -1,17 +1,26 @@
 package zentech.application.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import java.awt.Dimension;
+import java.awt.Font;
+import javax.swing.UIManager;
 import net.miginfocom.swing.MigLayout;
 import service.Register_service;
 import zentech.application.Application;
+import zentech.application.Login;
 
-public class RegisterFrom extends javax.swing.JPanel {
+public class RegisterFrom extends javax.swing.JFrame {
 
     static Register_service rsv = new Register_service();
 
     public RegisterFrom() {
         initComponents();
         init();
+        setSize(new Dimension(1366, 768));
+        setLocationRelativeTo(null);
     }
 
     public void init() {
@@ -246,14 +255,16 @@ public class RegisterFrom extends javax.swing.JPanel {
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
-        Application.logout();
+        dispose();
+        Login login = new Login();
+        //  app.applyComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+        login.setVisible(true);
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void rdoFEMALEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoFEMALEActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rdoFEMALEActionPerformed
-
-
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup Gender;
     private javax.swing.JButton btnLogout;

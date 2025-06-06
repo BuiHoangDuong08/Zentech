@@ -11,9 +11,10 @@ import java.time.LocalDateTime;
  * @author Duc Pham Ngoc
  */
 public class Activity {
-    private int id;             
-    private String userId;       
-    private String action;       
+
+    private int id;
+    private String userId;
+    private String action;
     private LocalDateTime timestamp;
 
     public Activity() {
@@ -26,15 +27,35 @@ public class Activity {
     }
 
     // getters và setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getAction() { return action; }
-    public void setAction(String action) { this.action = action; }
+    public String getUserId() {
+        return userId;
+    }
 
-    public LocalDateTime getTimestamp() { return timestamp; }
-    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 }

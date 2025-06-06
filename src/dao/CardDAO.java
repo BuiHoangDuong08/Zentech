@@ -63,5 +63,40 @@ public interface CardDAO {
         }
     }
 
-  
+    default boolean lockCard(String cardId) {
+        String sql = "UPDATE CARD SET Status = 'LOCKED' WHERE ID = ?";
+        try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, cardId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    default boolean unlockCard(String cardId) {
+        String sql = "UPDATE CARD SET Status = 'ACTIVE' WHERE ID = ?";
+        try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, cardId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    default String getCardStatus(String cardId) {
+        String status = null;
+        String sql = "SELECT Status FROM CARD WHERE ID = ?";
+        try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, cardId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getString("Status");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
 }

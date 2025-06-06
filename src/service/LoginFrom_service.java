@@ -16,10 +16,13 @@ public class LoginFrom_service extends JPanel {
     };
     static BCrypt_service bsv = new BCrypt_service();
 
+    UserModel u = null;
+
     public void getLogin(JTextField usn, JTextField pass) {
         String usn1 = usn.getText().trim();
         String pass1 = pass.getText().trim();
         boolean checklogin = false;
+
         if (checkNull(usn, pass)) {
             for (UserModel u : ud.getAllUsers()) {
                 if (u.getUserName().equals(usn1) && bsv.checkPassword(pass1, u.getPassword())) {
@@ -27,10 +30,13 @@ public class LoginFrom_service extends JPanel {
                     try {
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Login successfully");
                         this.setVisible(false);
-                        Application.getAppInstance().setCurrentUser(usn1);
-                        Application.login();
+//                        this.u = new UserModel();
+//                        u.setFullName(u.getFullName());
+//                        u.setRoleId(u.getRoleId());
+                        Application app = new Application();
+                        this.setVisible(false);
+                        app.setVisible(true);
                         ActivityDAO.insert(new Activity(usn1, "LOGIN", LocalDateTime.now()));
-                  
                     } catch (Exception ex) {
                         Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "There was an error while logging in.");
                     }
