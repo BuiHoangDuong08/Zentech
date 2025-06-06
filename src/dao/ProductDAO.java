@@ -77,7 +77,7 @@ public interface ProductDAO {
             return false;
         }
     }
-    
+
     default String getImagePathById(int id) {
         String sql = "SELECT image_Url FROM PRODUCT WHERE id = ?";
         try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -90,5 +90,19 @@ public interface ProductDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    default boolean hasOrderForCard(String cardId) {
+        String sql = "SELECT COUNT(*) FROM Orders WHERE cardId = ?";
+        try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, cardId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

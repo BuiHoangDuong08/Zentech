@@ -5,7 +5,7 @@ import dao.UserDAO_ChangePassword;
 import javax.swing.JOptionPane;
 import service.BCrypt_service;
 import zentech.application.Application;
-import zentech.application.form.LoginForm;
+import zentech.application.Login;
 
 public class ChangePassword extends javax.swing.JFrame {
 
@@ -113,7 +113,7 @@ public class ChangePassword extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String pass = pwdPass.getText().trim();
-        LoginForm lg = new LoginForm();
+        Login lg = new Login();
         BCrypt_service bsv = new BCrypt_service();
         String passCheck = pass;
         if (pass.equals("")) {

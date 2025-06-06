@@ -164,7 +164,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Component id="lblInventory" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="358" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="lblSearch" min="-2" pref="70" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="txtSearch1" min="-2" pref="215" max="-2" attributes="0"/>
@@ -193,7 +193,7 @@
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane3" pref="443" max="32767" attributes="0"/>
+              <Component id="jScrollPane3" pref="435" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -214,7 +214,7 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="7" rowCount="0">
                 <Column editable="true" title="ID" type="java.lang.Object"/>
-                <Column editable="false" title="Product ID" type="java.lang.Object"/>
+                <Column editable="false" title="Category ID" type="java.lang.Object"/>
                 <Column editable="false" title="Name" type="java.lang.Object"/>
                 <Column editable="false" title="Price" type="java.lang.Object"/>
                 <Column editable="true" title="Active" type="java.lang.Object"/>
@@ -284,7 +284,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel8" min="-2" pref="80" max="-2" attributes="0"/>
@@ -320,15 +320,19 @@
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="txtPrice" min="-2" pref="117" max="-2" attributes="0"/>
                                       <Component id="cmoActive" min="-2" pref="114" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="txtPrice" min="-2" pref="117" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="cmoArrange" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                               <Component id="txtDescription" alignment="0" min="-2" pref="384" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
@@ -336,7 +340,7 @@
                       </Group>
                       <Component id="lblImage" alignment="0" min="-2" pref="135" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace pref="92" max="32767" attributes="0"/>
                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -367,6 +371,7 @@
                                       <Component id="txtProductID" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="txtPrice" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cmoArrange" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -535,6 +540,29 @@
               <Dimension value="[64, 22]"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cmoArrange">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="9">
+                <StringItem index="0" value="M&#x1eb7;c &#x111;&#x1ecb;nh"/>
+                <StringItem index="1" value="C&#xe0; ph&#xea;"/>
+                <StringItem index="2" value="Tr&#xe0;"/>
+                <StringItem index="3" value="N&#x1b0;&#x1edb;c tr&#xe1;i c&#xe2;y"/>
+                <StringItem index="4" value="Sinh t&#x1ed1;"/>
+                <StringItem index="5" value="&#x110;&#x1ed3; &#x103;n v&#x1eb7;t"/>
+                <StringItem index="6" value="B&#xe1;nh ng&#x1ecd;t"/>
+                <StringItem index="7" value="&#x110;&#x1ed3; &#x103;n s&#xe1;ng"/>
+                <StringItem index="8" value="&#x110;&#x1ed3; &#x103;n t&#x1ed1;i"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmoArrangeActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

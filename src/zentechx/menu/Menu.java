@@ -4,6 +4,7 @@ import zentech.menu.mode.LightDarkMode;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatUIUtils;
 import com.formdev.flatlaf.util.UIScale;
+import entity.UserModel;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -30,9 +31,9 @@ public class Menu extends JPanel {
         {"Sales History"},
         {"~UTILITIES~"},
         {"Activity Log"},
-        {"About Us"},
         {"Change Password"},
-        {"Logout"}
+        {"Logout"},
+        {"About Us"}
     };
 
     public boolean isMenuFull() {
@@ -73,6 +74,9 @@ public class Menu extends JPanel {
     }
 
     private void init() {
+//        System.out.println(user.getFullName());
+//        System.out.println(user.getRoleId());
+//        System.out.println("null");
         setLayout(new MenuLayout());
         putClientProperty(FlatClientProperties.STYLE, ""
                 + "border:20,2,2,2;"
@@ -241,7 +245,7 @@ public class Menu extends JPanel {
                 int hgap = menuFull ? sheaderFullHgap : 0;
                 int accentColorHeight = 0;
                 if (toolBarAccentColor.isVisible()) {
-                    accentColorHeight = toolBarAccentColor.getPreferredSize().height+gap;
+                    accentColorHeight = toolBarAccentColor.getPreferredSize().height + gap;
                 }
 
                 header.setBounds(x + hgap, y, iconWidth - (hgap * 2), iconHeight);
@@ -249,7 +253,7 @@ public class Menu extends JPanel {
                 int ldWidth = width - ldgap * 2;
                 int ldHeight = lightDarkMode.getPreferredSize().height;
                 int ldx = x + ldgap;
-                int ldy = y + height - ldHeight - ldgap  - accentColorHeight;
+                int ldy = y + height - ldHeight - ldgap - accentColorHeight;
 
                 int menux = x;
                 int menuy = y + iconHeight + gap;

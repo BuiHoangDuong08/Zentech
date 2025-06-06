@@ -21,8 +21,10 @@ import java.awt.Image;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -31,33 +33,53 @@ import zentechx.menu.ModelItemSell;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+import dao.CardDAO;
+import entity.Card;
+import static service.ListIDcard_service.card;
 
 /**
  *
  * @author RGB
  */
-public class MenuSelectionService implements ProductDAO {
+public class MenuSelectionService implements ProductDAO, CardDAO {
 
     public List<Product> getAllData() {
         return getAllProducts();
     }
 
     public void loadProductsToTable(JTable table) {
+        List<Product> products = getAllData();  // Lấy toàn bộ danh sách sản phẩm
+        loadProductsToTable(table, products);   // Gọi hàm nạp dữ liệu chung
+    }
+
+    public void loadProductsToTable(JTable table, List<Product> products) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);
-        List<Product> products = getAllData();
+        model.setRowCount(0);  // Xóa dữ liệu cũ
+
         for (Product p : products) {
+            ModelItemSell item = new ModelItemSell(p.getId(), p.getName(), 0, p.getPrice(), 0);
             model.addRow(new Object[]{
-                new ModelItemSell(p.getId(), p.getName(), 0, p.getPrice(), 0),
-                p.getId(),
-                p.getName(),
-                0,
-                p.getPrice(),
-                0,
-                createImageIcon(p.getImageUrl())
+                item, // Dữ liệu ẩn hoặc dùng renderer riêng
+                p.getId(), // Mã sản phẩm
+                p.getName(), // Tên sản phẩm
+                0, // Số lượng ban đầu
+                p.getPrice(), // Giá bán
+                0.0, // Thành tiền (sẽ tính sau)
+                createImageIcon(p.getImageUrl()) // Ảnh sản phẩm
             });
         }
-        table.setRowHeight(60);
+
+        table.setRowHeight(60); // Hiển thị hình ảnh đẹp hơn
+    }
+    
+        public void loadCardstoTable(List<Card> listc, JTable jTable1) {
+        listc = getAllCards();
+        String[] title = {"ID", "Status"};
+        DefaultTableModel model = new DefaultTableModel(title, 0);
+        for (Card c : listc) {
+            model.addRow(new Object[]{c.getId(), c.getStatus()});
+        }
+        jTable1.setModel(model);
     }
 
     public void filterProducts(JTextField txtSearch, JTable table1) {
@@ -74,7 +96,9 @@ public class MenuSelectionService implements ProductDAO {
         DecimalFormat df = new DecimalFormat("#,### ₫");
 
         for (int i = 0; i < tblProduct.getRowCount(); i++) {
-            ModelItemSell item = (ModelItemSell) tblProduct.getValueAt(i, 0);
+            int modelRow = tblProduct.convertRowIndexToModel(i); // ✨ CHỈNH Ở ĐÂY
+            ModelItemSell item = (ModelItemSell) tblProduct.getModel().getValueAt(modelRow, 0);
+
             if (item.getQty() > 0) {
                 modelSelected.addRow(new Object[]{
                     item.getProductName(),
@@ -97,11 +121,12 @@ public class MenuSelectionService implements ProductDAO {
         model.setRowCount(0);
 
         for (int i = 0; i < tblProduct.getRowCount(); i++) {
-            ModelItemSell item = (ModelItemSell) tblProduct.getValueAt(i, 0);
+            int modelRow = tblProduct.convertRowIndexToModel(i);
+            ModelItemSell item = (ModelItemSell) tblProduct.getModel().getValueAt(modelRow, 0);
             item.setQty(0);
             item.setTotal(0);
-            tblProduct.setValueAt(0, i, 3);
-            tblProduct.setValueAt("0 ₫", i, 5);
+            tblProduct.getModel().setValueAt(0, modelRow, 3);
+            tblProduct.getModel().setValueAt("0 ₫", modelRow, 5);
         }
 
         lbTotal.setText("0 ₫");
@@ -159,7 +184,7 @@ public class MenuSelectionService implements ProductDAO {
                 table.addCell(new Phrase(String.valueOf(qty), smallFont));
 
                 Phrase pricePhrase = new Phrase();
-                pricePhrase.add(new Chunk(String.format("%.2f ", price), smallFont));
+                pricePhrase.add(new Chunk(String.format("%.3f ", price), smallFont));
                 Font largerFont = new Font(baseFont, 12, Font.BOLD);
                 Chunk currencyChunk = new Chunk("₫", largerFont);
                 currencyChunk.setTextRise(-2f); // đẩy chữ "₫" xuống một chút để thẳng hàng
@@ -167,7 +192,7 @@ public class MenuSelectionService implements ProductDAO {
                 table.addCell(pricePhrase);
 
                 Phrase itemTotalPhrase = new Phrase();
-                itemTotalPhrase.add(new Chunk(String.format("%.2f ", itemTotal), smallFont));
+                itemTotalPhrase.add(new Chunk(String.format("%.3f ", itemTotal), smallFont));
                 currencyChunk.setTextRise(-2f); // đẩy chữ "₫" xuống một chút để thẳng hàng
                 itemTotalPhrase.add(currencyChunk);
                 table.addCell(itemTotalPhrase);
@@ -186,7 +211,7 @@ public class MenuSelectionService implements ProductDAO {
 
 // Cột giá trị tổng tiền
             Phrase grandTotalPhrase = new Phrase();
-            grandTotalPhrase.add(new Chunk(String.format("%.2f ", grandTotal), smallFont));
+            grandTotalPhrase.add(new Chunk(String.format("%.3f ", grandTotal), smallFont));
             Font largerFont = new Font(baseFont, 12, Font.BOLD);
             Chunk currencyChunk = new Chunk("₫", largerFont);
             currencyChunk.setTextRise(-2f);  // Đẩy chữ "₫" xuống cho thẳng hàng
@@ -231,5 +256,38 @@ public class MenuSelectionService implements ProductDAO {
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setHorizontalAlignment(alignment);
         return cell;
+    }
+
+    public void filterProductsByCategory(int categoryId, JTable tblProduct) {
+        List<Product> allProducts = getAllProducts(); // Giả sử đã có hàm lấy toàn bộ sản phẩm
+
+        List<Product> filtered;
+        if (categoryId == 0) { // Mặc định: show tất cả
+            filtered = allProducts;
+        } else {
+            filtered = allProducts.stream()
+                    .filter(p -> p.getCategoryId() == categoryId)
+                    .collect(Collectors.toList());
+        }
+        loadProductsToTable(tblProduct, filtered);
+    }
+
+    private List<Product> selectedProducts = new ArrayList<>();
+
+    public List<Product> getSelectedProducts() {
+        return selectedProducts;
+    }
+
+    public boolean selectCard(String cardId, JTable tblGetInfo) {
+        if (tblGetInfo.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Chưa chọn sản phẩm!");
+            return false;
+        }
+
+        return lockCard(cardId);
+    }
+
+    public boolean releaseCard(String cardId) {
+        return unlockCard(cardId);
     }
 }

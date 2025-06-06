@@ -6,6 +6,7 @@ package zentech.application.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import dao.UserDAO;
+import java.awt.Dimension;
 import net.miginfocom.swing.MigLayout;
 import service.ChangePassword_service;
 import zentech.application.Application;
@@ -14,32 +15,22 @@ import zentech.application.Application;
  *
  * @author duong
  */
-public class ChangePasswordForm extends javax.swing.JPanel {
+public class ChangePasswordForm1 extends javax.swing.JFrame {
 
     ChangePassword_service csv = new ChangePassword_service();
     UserDAO ud = new UserDAO() {
     };
 
-    public ChangePasswordForm() {
+    public ChangePasswordForm1() {
         initComponents();
         init();
+        setSize(new Dimension(1366, 768));
+        setLocationRelativeTo(null);
     }
 
     private void init() {
         setLayout(new MigLayout("al center center"));
         txtUserName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "User name");
-        lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
-                + "font:$h1.font");
-
-        txtNewpass.putClientProperty(FlatClientProperties.STYLE, ""
-                + "showRevealButton:true;"
-                + "showCapsLock:true");
-        txtCnfrimpass.putClientProperty(FlatClientProperties.STYLE, ""
-                + "showRevealButton:true;"
-                + "showCapsLock:true");
-        cmdChangePassword.putClientProperty(FlatClientProperties.STYLE, ""
-                + "borderWidth:0;"
-                + "focusWidth:0");
         txtoldpass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Old Password");
         txtNewpass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "New Password");
         txtCnfrimpass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Confirm Password");
@@ -50,6 +41,7 @@ public class ChangePasswordForm extends javax.swing.JPanel {
     private void initComponents() {
 
         panelLogin1 = new zentech.application.form.PanelLogin();
+        jButton2 = new javax.swing.JButton();
         lbTitle = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         txtUserName = new javax.swing.JTextField();
@@ -59,6 +51,13 @@ public class ChangePasswordForm extends javax.swing.JPanel {
         txtNewpass = new javax.swing.JPasswordField();
         txtCnfrimpass = new javax.swing.JPasswordField();
         cmdChangePassword = new javax.swing.JButton();
+
+        jButton2.setText("X");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("Change Password");
@@ -87,7 +86,9 @@ public class ChangePasswordForm extends javax.swing.JPanel {
         panelLogin1Layout.setHorizontalGroup(
             panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLogin1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addContainerGap()
+                .addComponent(jButton2)
+                .addGap(11, 11, 11)
                 .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -104,7 +105,9 @@ public class ChangePasswordForm extends javax.swing.JPanel {
             panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLogin1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelLogin1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
                 .addComponent(jLabel1)
                 .addGap(15, 15, 15)
@@ -142,6 +145,16 @@ public class ChangePasswordForm extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        Application.logout();
+        txtCnfrimpass.setText("");
+        txtNewpass.setText("");
+        txtUserName.setText("");
+        txtoldpass.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private void txtCnfrimpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCnfrimpassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCnfrimpassActionPerformed
@@ -149,12 +162,12 @@ public class ChangePasswordForm extends javax.swing.JPanel {
     private void cmdChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdChangePasswordActionPerformed
         // TODO add your handling code here:
         csv.getChangePassword(txtUserName, txtoldpass, txtNewpass, txtCnfrimpass);
-        Application.logout();
     }//GEN-LAST:event_cmdChangePasswordActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdChangePassword;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lbPass;
     private javax.swing.JLabel lbTitle;
