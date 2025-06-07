@@ -13,8 +13,7 @@ import java.awt.Font;
 import javax.swing.UIManager;
 import net.miginfocom.swing.MigLayout;
 import service.LoginFrom_service;
-import zentech.application.form.ChangePasswordForm;
-import zentech.application.form.ChangePasswordForm1;
+import zentech.application.changepassword.ForgotPassword;
 import zentech.application.form.RegisterFrom;
 
 /**
@@ -118,16 +117,15 @@ public class Login extends javax.swing.JFrame {
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        dispose();
         LoginFrom_service ls = new LoginFrom_service();
         ls.getLogin(txtUser, txtPass);
     }//GEN-LAST:event_cmdLoginActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // TODO add your handling code here:
-        dispose();
-        ChangePasswordForm1 c = new ChangePasswordForm1();
 
+        ForgotPassword c = new ForgotPassword();
         c.setVisible(true);
     }//GEN-LAST:event_jLabel1MouseClicked
 

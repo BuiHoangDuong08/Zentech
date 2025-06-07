@@ -5,6 +5,7 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import entity.UserModel;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -24,16 +25,17 @@ public class Application extends javax.swing.JFrame {
     private final MainForm mainForm;
     private ChangePasswordForm changePasswordForm;
     private RegisterFrom registerFrom;
+    UserModel usm;
 
-    public Application() {
-
+    public Application(UserModel usm) {
+        this.usm = usm;
         this.app = this;
 
         initComponents();
 
         setSize(new Dimension(1366, 768));
         setLocationRelativeTo(null);
-        mainForm = new MainForm();
+        mainForm = new MainForm(usm);
         changePasswordForm = new ChangePasswordForm();
         registerFrom = new RegisterFrom();
         setContentPane(mainForm);

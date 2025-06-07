@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -21,7 +22,7 @@ import zentech.menu.mode.ToolBarAccentColor;
 
 public class Menu extends JPanel {
 
-    private final String menuItems[][] = {
+    String menuItems[][] = {
         {"~MAIN~"},
         {"Menu selection"},
         {"Identification cards"},
@@ -68,9 +69,12 @@ public class Menu extends JPanel {
     protected final int menuMaxWidth = 250;
     protected final int menuMinWidth = 60;
     protected final int headerFullHgap = 5;
+    UserModel usm;
 
-    public Menu() {
+    public Menu(UserModel usm) {
+        this.usm = usm;
         init();
+
     }
 
     private void init() {
