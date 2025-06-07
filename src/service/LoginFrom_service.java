@@ -33,7 +33,7 @@ public class LoginFrom_service extends JPanel {
 //                        this.u = new UserModel();
 //                        u.setFullName(u.getFullName());
 //                        u.setRoleId(u.getRoleId());
-                        Application app = new Application();
+                        Application app = new Application(u);
                         this.setVisible(false);
                         app.setVisible(true);
                         ActivityDAO.insert(new Activity(usn1, "LOGIN", LocalDateTime.now()));

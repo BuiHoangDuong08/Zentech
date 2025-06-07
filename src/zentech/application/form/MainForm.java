@@ -3,6 +3,7 @@ package zentech.application.form;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.UIScale;
+import entity.UserModel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
@@ -13,6 +14,7 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
@@ -30,14 +32,17 @@ import zentechx.menu.MenuAction;
 
 public class MainForm extends JLayeredPane {
 
-    public MainForm() {
-        init();
+    UserModel usm;
+
+    public MainForm(UserModel usm) {
+        this.usm = usm;
+        init(usm);
     }
 
-    private void init() {
+    private void init(UserModel usm) {
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setLayout(new MainFormLayout());
-        menu = new Menu();
+        menu = new Menu(usm);
         panelBody = new JPanel(new BorderLayout());
         initMenuArrowIcon();
         menuButton.putClientProperty(FlatClientProperties.STYLE, ""
@@ -70,22 +75,23 @@ public class MainForm extends JLayeredPane {
     }
 
     private void initMenuEvent() {
+        int id = this.usm.getRoleId();
         menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
             if (index == 0) {
                 Application.showForm(new MenuSelection());
-            } else if (index == 1) {
+            } else if (index == 1 && id != 2) {
                 Application.showForm(new ListIDcard());
-            } else if (index == 2) {
+            } else if (index == 2 && id != 2) {
                 Application.showForm(new Inventory());
-            } else if (index == 3) {
-                Application.showForm(new User());
-            } else if (index == 4) {
+            } else if (index == 3 && id != 2) {
+                Application.showForm(new User(this.usm));
+            } else if (index == 4 && id != 2) {
                 Application.showForm(new SalesHistory());
-            } else if (index == 5) {
+            } else if (index == 5 && id != 2) {
                 Application.showForm(new ActivityLogForm());
             } else if (index == 6) {
-
-                Application.showForm(new ChangePasswordForm());
+                ForgotPassword c = new ForgotPassword();
+                c.setVisible(true);
             } else if (index == 7) {
                 Application.logout();
             } else if (index == 8) {
@@ -94,6 +100,16 @@ public class MainForm extends JLayeredPane {
                 action.cancel();
             }
         });
+    }
+
+    public boolean message() {
+        int id = this.usm.getRoleId();
+        if (id == 2) {
+            JOptionPane.showMessageDialog(null, "Bạn không có quyền sài chức năng");
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void setMenuFull(boolean full) {
