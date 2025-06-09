@@ -387,6 +387,9 @@ public class MenuSelection extends javax.swing.JPanel {
 
     private void cmoArrangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmoArrangeActionPerformed
         // TODO add your handling code here:
+        // Lưu lại qty trước khi lọc
+        menuSelectionService.preserveQtyBeforeFilter(tblProduct);
+        
         // Map tên loại sang categoryId
         Map<String, Integer> categoryMap = Map.of(
                 "Mặc định", 0,
@@ -402,8 +405,18 @@ public class MenuSelection extends javax.swing.JPanel {
 
         String selectedCategory = (String) cmoArrange.getSelectedItem();
         int categoryId = categoryMap.getOrDefault(selectedCategory, 0);
-
+        
         menuSelectionService.filterProductsByCategory(categoryId, tblProduct);
+        
+        // Đồng bộ lại bảng info và tổng tiền
+        syncSelectedItemsAndTotal();
+        
+        if (tblProduct.isEditing()) {
+            tblProduct.getCellEditor().stopCellEditing();
+        }
+        
+        tblProduct.clearSelection();
+        lblImage.setIcon(null);
     }//GEN-LAST:event_cmoArrangeActionPerformed
 
     private String selectedCardId = null;

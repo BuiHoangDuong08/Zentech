@@ -9,6 +9,7 @@ public class Product {
     private String description;
     private String imageUrl;
 
+
     public Product() {}
 
     public Product(Integer id, int categoryId, String name, double price, String active, String description, String imageUrl) {

@@ -60,6 +60,7 @@ public class ModelItemSell {
     private int qty;
     private double price;
     private double total;
+    private int quantitySelected = 0; 
 
     public Object[] toTableRow(int rowNum) {
         DecimalFormat df = new DecimalFormat("#,##0.##");

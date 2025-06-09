@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import com.itextpdf.text.Chunk;
@@ -16,63 +12,93 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.ProductDAO;
+import dao.CardDAO;
 import entity.Product;
+import entity.Card;
+import zentechx.menu.ModelItemSell;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.RowFilter;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import zentechx.menu.ModelItemSell;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.table.TableRowSorter;
-import dao.CardDAO;
-import entity.Card;
-import static service.ListIDcard_service.card;
 
-/**
- *
- * @author RGB
- */
 public class MenuSelectionService implements ProductDAO, CardDAO {
+
+    private final Map<Integer, Integer> qtyMap = new HashMap<>();
+    private List<ModelItemSell> allItemSellList = new ArrayList<>();
+    private final Map<String, ModelItemSell> itemStateMap = new HashMap<>();
 
     public List<Product> getAllData() {
         return getAllProducts();
     }
 
     public void loadProductsToTable(JTable table) {
-        List<Product> products = getAllData();  // Lấy toàn bộ danh sách sản phẩm
-        loadProductsToTable(table, products);   // Gọi hàm nạp dữ liệu chung
+        List<Product> products = getAllData();
+        loadProductsToTable(table, products);
     }
 
     public void loadProductsToTable(JTable table, List<Product> products) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);  // Xóa dữ liệu cũ
+        model.setRowCount(0);
 
         for (Product p : products) {
-            ModelItemSell item = new ModelItemSell(p.getId(), p.getName(), 0, p.getPrice(), 0);
+            String key = String.valueOf(p.getId());
+
+            ModelItemSell item;
+
+            if (itemStateMap.containsKey(key)) {
+                item = itemStateMap.get(key);
+            } else {
+                int preservedQty = qtyMap.getOrDefault(p.getId(), 0);
+                double price = p.getPrice();
+                double total = preservedQty * price;
+
+                item = new ModelItemSell(p.getId(), p.getName(), preservedQty, price, total);
+                itemStateMap.put(key, item);
+                allItemSellList.add(item);
+            }
+
             model.addRow(new Object[]{
-                item, // Dữ liệu ẩn hoặc dùng renderer riêng
-                p.getId(), // Mã sản phẩm
-                p.getName(), // Tên sản phẩm
-                0, // Số lượng ban đầu
-                p.getPrice(), // Giá bán
-                0.0, // Thành tiền (sẽ tính sau)
-                createImageIcon(p.getImageUrl()) // Ảnh sản phẩm
+                item,
+                p.getId(),
+                p.getName(),
+                item.getQty(),
+                p.getPrice(),
+                item.getTotal(),
+                createImageIcon(p.getImageUrl())
             });
         }
 
-        table.setRowHeight(60); // Hiển thị hình ảnh đẹp hơn
+        table.setRowHeight(60);
     }
-    
-        public void loadCardstoTable(List<Card> listc, JTable jTable1) {
+
+    public void filterProductsByCategory(int categoryId, JTable tblProduct) {
+        if (tblProduct.isEditing()) {
+            tblProduct.getCellEditor().stopCellEditing();
+        }
+        List<Product> filtered = categoryId == 0 ? getAllData() :
+            getAllData().stream()
+                        .filter(p -> p.getCategoryId() == categoryId)
+                        .collect(Collectors.toList());
+        loadProductsToTable(tblProduct, filtered);
+    }
+
+    public void preserveQtyBeforeFilter(JTable tblProduct) {
+        qtyMap.clear();
+        for (int i = 0; i < tblProduct.getRowCount(); i++) {
+            int modelRow = tblProduct.convertRowIndexToModel(i);
+            ModelItemSell item = (ModelItemSell) tblProduct.getModel().getValueAt(modelRow, 0);
+            qtyMap.put(item.getProductId(), item.getQty());
+        }
+    }
+
+    public void loadCardstoTable(List<Card> listc, JTable jTable1) {
         listc = getAllCards();
         String[] title = {"ID", "Status"};
         DefaultTableModel model = new DefaultTableModel(title, 0);
@@ -89,16 +115,13 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
         obj.setRowFilter(RowFilter.regexFilter(txtSearch.getText()));
     }
 
-    public void syncSelectedItemsAndTotal(JTable tblProduct, JTable tblGetInfo, javax.swing.JLabel lbTotal) {
+    public void syncSelectedItemsAndTotal(JTable tblProduct, JTable tblGetInfo, JLabel lbTotal) {
         DefaultTableModel modelSelected = (DefaultTableModel) tblGetInfo.getModel();
         modelSelected.setRowCount(0);
         int total = 0;
         DecimalFormat df = new DecimalFormat("#,### ₫");
 
-        for (int i = 0; i < tblProduct.getRowCount(); i++) {
-            int modelRow = tblProduct.convertRowIndexToModel(i); // ✨ CHỈNH Ở ĐÂY
-            ModelItemSell item = (ModelItemSell) tblProduct.getModel().getValueAt(modelRow, 0);
-
+        for (ModelItemSell item : allItemSellList) {
             if (item.getQty() > 0) {
                 modelSelected.addRow(new Object[]{
                     item.getProductName(),
@@ -112,7 +135,7 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
         lbTotal.setText(df.format(total));
     }
 
-    public void resetAll(JTable tblProduct, JTable tblGetInfo, javax.swing.JLabel lbTotal) {
+    public void resetAll(JTable tblProduct, JTable tblGetInfo, JLabel lbTotal) {
         if (tblProduct.isEditing()) {
             tblProduct.getCellEditor().stopCellEditing();
         }
@@ -132,11 +155,9 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
         lbTotal.setText("0 ₫");
     }
 
-    public void generateReceipt(JTable tblGetInfo, javax.swing.JPanel parent, javax.swing.JLabel lbTotal) {
+    public void generateReceipt(JTable tblGetInfo, JPanel parent, JLabel lbTotal) {
         try {
-            String desktopPath = File.separator + "D:\\";
-            String filePath = desktopPath + File.separator + "zentech_receipt.pdf";
-
+            String filePath = "D:\\zentech_receipt.pdf";
             Document document = new Document(PageSize.A6);
             PdfWriter.getInstance(document, new FileOutputStream(filePath));
             document.open();
@@ -145,6 +166,7 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
             Font titleFont = new Font(baseFont, 16, Font.BOLD);
             Font smallFont = new Font(baseFont, 10, Font.NORMAL);
             Font boldFont = new Font(baseFont, 10, Font.BOLD);
+            Font largerFont = new Font(baseFont, 12, Font.BOLD);
 
             Paragraph title = new Paragraph("ZENTECH\n\n", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
@@ -182,20 +204,8 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
 
                 table.addCell(new Phrase(name, smallFont));
                 table.addCell(new Phrase(String.valueOf(qty), smallFont));
-
-                Phrase pricePhrase = new Phrase();
-                pricePhrase.add(new Chunk(String.format("%.3f ", price), smallFont));
-                Font largerFont = new Font(baseFont, 12, Font.BOLD);
-                Chunk currencyChunk = new Chunk("₫", largerFont);
-                currencyChunk.setTextRise(-2f); // đẩy chữ "₫" xuống một chút để thẳng hàng
-                pricePhrase.add(currencyChunk);
-                table.addCell(pricePhrase);
-
-                Phrase itemTotalPhrase = new Phrase();
-                itemTotalPhrase.add(new Chunk(String.format("%.3f ", itemTotal), smallFont));
-                currencyChunk.setTextRise(-2f); // đẩy chữ "₫" xuống một chút để thẳng hàng
-                itemTotalPhrase.add(currencyChunk);
-                table.addCell(itemTotalPhrase);
+                table.addCell(formatCurrencyPhrase(price, smallFont, largerFont));
+                table.addCell(formatCurrencyPhrase(itemTotal, smallFont, largerFont));
             }
 
             document.add(table);
@@ -204,31 +214,15 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
             PdfPTable totalTable = new PdfPTable(2);
             totalTable.setWidthPercentage(100);
             totalTable.setWidths(new float[]{3f, 1f});
-// Cột "Total" label
-            PdfPCell labelCell = new PdfPCell(new Phrase("Total", boldFont));
-            labelCell.setBorder(PdfPCell.NO_BORDER);
-            labelCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-
-// Cột giá trị tổng tiền
-            Phrase grandTotalPhrase = new Phrase();
-            grandTotalPhrase.add(new Chunk(String.format("%.3f ", grandTotal), smallFont));
-            Font largerFont = new Font(baseFont, 12, Font.BOLD);
-            Chunk currencyChunk = new Chunk("₫", largerFont);
-            currencyChunk.setTextRise(-2f);  // Đẩy chữ "₫" xuống cho thẳng hàng
-            grandTotalPhrase.add(currencyChunk);
-
-            PdfPCell valueCell = new PdfPCell(grandTotalPhrase);
-            valueCell.setBorder(PdfPCell.NO_BORDER);
-            valueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-// Thêm 2 ô vào bảng
-            totalTable.addCell(labelCell);
-            totalTable.addCell(valueCell);
+            totalTable.addCell(getCell("Total", PdfPCell.ALIGN_LEFT, boldFont));
+            totalTable.addCell(new PdfPCell(formatCurrencyPhrase(grandTotal, smallFont, largerFont)) {{
+                setBorder(PdfPCell.NO_BORDER);
+                setHorizontalAlignment(Element.ALIGN_RIGHT);
+            }});
             document.add(totalTable);
 
             document.close();
             JOptionPane.showMessageDialog(parent, "Đã lưu hóa đơn tại Desktop (zentech_receipt.pdf)");
-            System.out.println(Locale.getDefault());
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(parent, "Lỗi xuất PDF: " + e.getMessage());
@@ -241,7 +235,7 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
                 File imageFile = new File(System.getProperty("user.dir"), imagePath);
                 if (imageFile.exists()) {
                     ImageIcon icon = new ImageIcon(imageFile.getAbsolutePath());
-                    Image img = icon.getImage().getScaledInstance(165, 165, Image.SCALE_SMOOTH); // Đổi size tùy theo lblImage
+                    Image img = icon.getImage().getScaledInstance(165, 165, Image.SCALE_SMOOTH);
                     return new ImageIcon(img);
                 }
             }
@@ -258,24 +252,13 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
         return cell;
     }
 
-    public void filterProductsByCategory(int categoryId, JTable tblProduct) {
-        List<Product> allProducts = getAllProducts(); // Giả sử đã có hàm lấy toàn bộ sản phẩm
-
-        List<Product> filtered;
-        if (categoryId == 0) { // Mặc định: show tất cả
-            filtered = allProducts;
-        } else {
-            filtered = allProducts.stream()
-                    .filter(p -> p.getCategoryId() == categoryId)
-                    .collect(Collectors.toList());
-        }
-        loadProductsToTable(tblProduct, filtered);
-    }
-
-    private List<Product> selectedProducts = new ArrayList<>();
-
-    public List<Product> getSelectedProducts() {
-        return selectedProducts;
+    private Phrase formatCurrencyPhrase(double value, Font numberFont, Font currencyFont) {
+        Phrase phrase = new Phrase();
+        phrase.add(new Phrase(String.format("%.3f ", value), numberFont));
+        Chunk currencyChunk = new Chunk("₫", currencyFont);
+        currencyChunk.setTextRise(-2f);
+        phrase.add(currencyChunk);
+        return phrase;
     }
 
     public boolean selectCard(String cardId, JTable tblGetInfo) {
@@ -283,7 +266,6 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
             JOptionPane.showMessageDialog(null, "Chưa chọn sản phẩm!");
             return false;
         }
-
         return lockCard(cardId);
     }
 
