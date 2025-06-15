@@ -77,23 +77,50 @@ public class MainForm extends JLayeredPane {
     private void initMenuEvent() {
         int id = this.usm.getRoleId();
         menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
+            System.out.println(index);
             if (index == 0) {
                 Application.showForm(new MenuSelection(this.usm));
-            } else if (index == 1 && id != 2) {
-                Application.showForm(new ListIDcard());
-            } else if (index == 2 && id != 2) {
-                Application.showForm(new Inventory());
-            } else if (index == 3 && id != 2) {
-                Application.showForm(new User(this.usm));
-            } else if (index == 4 && id != 2) {
+            } else if (index == 1) {
+                if (id == 3) {
+                    ForgotPassword c = new ForgotPassword();
+                    c.setVisible(true);
+                } else {
+                    Application.showForm(new ListIDcard());
+                }
+            } else if (index == 2) {
+                if (id == 3) {
+                    Application.logout();
+                } else {
+                    Application.showForm(new Inventory());
+                }
+            } else if (index == 3) {
+                if (id == 3) {
+                    Application.showForm(new AboutUs());
+                } else {
+                    Application.showForm(new User(this.usm));
+                }
+            } else if (index == 4) {
                 Application.showForm(new SalesHistory());
-            } else if (index == 5 && id != 2) {
-                Application.showForm(new ActivityLogForm());
+            } else if (index == 5) {
+                if (id == 2) {
+                    ForgotPassword c = new ForgotPassword();
+                    c.setVisible(true);
+                } else {
+                    Application.showForm(new ActivityLogForm());
+                }
             } else if (index == 6) {
-                ForgotPassword c = new ForgotPassword();
-                c.setVisible(true);
+                if (id == 2) {
+                    Application.logout();
+                } else {
+                    ForgotPassword c = new ForgotPassword();
+                    c.setVisible(true);
+                }
             } else if (index == 7) {
-                Application.logout();
+                if (id == 2) {
+                    Application.showForm(new AboutUs());
+                } else {
+                    Application.logout();
+                }
             } else if (index == 8) {
                 Application.showForm(new AboutUs());
             } else {

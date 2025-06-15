@@ -14,13 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import zentech.menu.mode.ToolBarAccentColor;
 
 public class Menu extends JPanel {
+
+    UserModel usm;
 
     String menuItems[][] = {
         {"~MAIN~"},
@@ -69,18 +70,13 @@ public class Menu extends JPanel {
     protected final int menuMaxWidth = 250;
     protected final int menuMinWidth = 60;
     protected final int headerFullHgap = 5;
-    UserModel usm;
 
     public Menu(UserModel usm) {
         this.usm = usm;
         init();
-
     }
 
     private void init() {
-//        System.out.println(user.getFullName());
-//        System.out.println(user.getRoleId());
-//        System.out.println("null");
         setLayout(new MenuLayout());
         putClientProperty(FlatClientProperties.STYLE, ""
                 + "border:20,2,2,2;"
@@ -92,7 +88,6 @@ public class Menu extends JPanel {
                 + "font:$Menu.header.font;"
                 + "foreground:$Menu.foreground");
 
-        //  Menu
         scroll = new JScrollPane();
         panelMenu = new JPanel(new MenuItemLayout(this));
         panelMenu.putClientProperty(FlatClientProperties.STYLE, ""
@@ -110,7 +105,9 @@ public class Menu extends JPanel {
                 + "thumbInsets:$Menu.scroll.thumbInsets;"
                 + "background:$Menu.ScrollBar.background;"
                 + "thumb:$Menu.ScrollBar.thumb");
+
         createMenu();
+
         lightDarkMode = new LightDarkMode();
         toolBarAccentColor = new ToolBarAccentColor(this);
         toolBarAccentColor.setVisible(FlatUIUtils.getUIBoolean("AccentControl.show", false));
@@ -122,11 +119,20 @@ public class Menu extends JPanel {
 
     private void createMenu() {
         int index = 0;
+        int roleId = usm.getRoleId();
+
         for (int i = 0; i < menuItems.length; i++) {
             String menuName = menuItems[i][0];
+
             if (menuName.startsWith("~") && menuName.endsWith("~")) {
                 panelMenu.add(createTitle(menuName));
             } else {
+                if (roleId == 3 && (i == 2 || i == 3 || i == 5 || i == 6 || i == 8)) {
+                    continue;
+                }
+                if (roleId == 2 && i == 8) {
+                    continue;
+                }
                 MenuItem menuItem = new MenuItem(this, menuItems[i], index++, events);
                 panelMenu.add(menuItem);
             }
