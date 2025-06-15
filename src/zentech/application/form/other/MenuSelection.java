@@ -1,18 +1,30 @@
 package zentech.application.form.other;
 
+import dao.BillDAO;
+import dao.CardDAO;
+import entity.BillDetail;
+import entity.Bills;
 import entity.Card;
+import entity.UserModel;
 import java.awt.Component;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import raven.toast.Notifications;
+import javax.swing.table.DefaultTableModel;
 import service.MenuSelectionService;
 import zentechx.menu.QtyCellEditor;
 
@@ -20,29 +32,51 @@ public class MenuSelection extends javax.swing.JPanel {
 
     MenuSelectionService menuSelectionService = new MenuSelectionService();
     static List<Card> listc = new ArrayList<>();
+    private UserModel usm;
+    private BillDAO bd = new BillDAO();
+    CardDAO cd = new CardDAO() {
+    };
+    private String selectedCardId = null;
 
-    public MenuSelection() {
+    public MenuSelection(UserModel usm) {
+        this.usm = usm;
         initComponents();
         customTableEvent();
         showProductsData();
-        showCardsData();
-
+        LoadBill();
+        LoadDataCbo();
         tblProduct.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblProduct.setRowHeight(30);
         tblProduct.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-
         tblGetInfo.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblGetInfo.setRowHeight(30);
         tblGetInfo.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
 
     }
 
-    private void showProductsData() {
-        menuSelectionService.loadProductsToTable(tblProduct);
+    public void LoadBill() {
+        String[] title = {"Bill id", "Card id", "Stt", "Product id", "Quantity", "Date", "Status", "Totalprice withvat"};
+        DefaultTableModel model = new DefaultTableModel(title, 0);
+        model.setRowCount(0);
+        for (BillDetail bd : bd.getAllBill()) {
+            if (bd.getBill().getStatus().equalsIgnoreCase("unpaid")) {
+                model.addRow(
+                        new Object[]{
+                            bd.getBill().getId(),
+                            bd.getBill().getCard_id(),
+                            bd.getStt(),
+                            bd.getProduct_id(),
+                            bd.getQuantity(),
+                            bd.getDate(),
+                            bd.getBill().getStatus(),
+                            bd.getTotalprice_withvat(),});
+            }
+        }
+        jTable1.setModel(model);
     }
 
-    private void showCardsData() {
-        menuSelectionService.loadCardstoTable(listc, tblIDCard);
+    private void showProductsData() {
+        menuSelectionService.loadProductsToTable(tblProduct);
     }
 
     private void customTableEvent() {
@@ -95,13 +129,32 @@ public class MenuSelection extends javax.swing.JPanel {
         menuSelectionService.syncSelectedItemsAndTotal(tblProduct, tblGetInfo, lbTotal);
     }
 
+    public void LoadDataCbo() {
+        jComboBox1.removeAllItems();
+
+        List<Card> cards = cd.getAllCards();
+        for (Card c : cards) {
+            if ("ACTIVE".equalsIgnoreCase(c.getStatus())) {
+                jComboBox1.addItem(String.valueOf(c.getId()));
+            }
+        }
+    }
+
+    public Bills getFrom() {
+        int index = tblGetInfo.getSelectedRow();
+        int id = Integer.parseInt(jComboBox1.getSelectedItem().toString());
+        Bills b = new Bills();
+        b.setCard_id(id);
+        b.setUser_id(usm.getId());
+        b.setStatus("UNPAID");
+        return b;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         txtSearch = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblProduct = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblGetInfo = new javax.swing.JTable();
@@ -110,12 +163,21 @@ public class MenuSelection extends javax.swing.JPanel {
         btnPay = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
         btnReceipt = new javax.swing.JButton();
-        lblImage = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblIDCard = new javax.swing.JTable();
+        Save = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         cmoArrange = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblProduct = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
 
         txtSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,54 +190,25 @@ public class MenuSelection extends javax.swing.JPanel {
             }
         });
 
-        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Object", "ID", "Name", "Qty", "Price", "Total", "Image"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblProductMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tblProduct);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Oder"));
 
         tblGetInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Name", "Quantity", "Price"
+                "Id", "Name", "Quantity", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tblGetInfo.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tblGetInfo);
 
         jLabel1.setText("Total: ");
@@ -203,77 +236,94 @@ public class MenuSelection extends javax.swing.JPanel {
             }
         });
 
-        lblImage.setBorder(javax.swing.BorderFactory.createEtchedBorder(null, java.awt.Color.darkGray));
-
-        tblIDCard.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Status"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        Save.setText("Save");
+        Save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SaveActionPerformed(evt);
             }
         });
-        tblIDCard.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblIDCardMouseClicked(evt);
+
+        jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
-        jScrollPane3.setViewportView(tblIDCard);
+
+        jButton1.setText("Delete");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Refesh");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
-                    .addComponent(btnPay, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnReceipt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnPay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnRemove, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(202, 202, 202)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbTotal))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(170, 170, 170)
-                                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(Save, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnReceipt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbTotal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(lbTotal)
                     .addComponent(jLabel1)
-                    .addComponent(lbTotal))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReceipt, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Save, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnRemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnReceipt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -289,15 +339,99 @@ public class MenuSelection extends javax.swing.JPanel {
             }
         });
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Product"));
+
+        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Object", "ID", "Name", "Qty", "Price", "Total", "Image"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblProduct.getTableHeader().setReorderingAllowed(false);
+        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tblProductMouseEntered(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblProduct);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("BIll"));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Bill id", "Card id", "Stt", "Product id", "Quantity", "Date", "Status", "Price"
+            }
+        ));
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel9)
@@ -308,9 +442,15 @@ public class MenuSelection extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmoArrange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmoArrange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -325,9 +465,14 @@ public class MenuSelection extends javax.swing.JPanel {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -349,19 +494,7 @@ public class MenuSelection extends javax.swing.JPanel {
 
     private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
         // TODO add your handling code here:
-        int selectedRow = tblProduct.getSelectedRow();
-        if (selectedRow != -1) {
-            // Giả sử cột ảnh nằm ở cột số 6 (index bắt đầu từ 0)
-            Object imageObj = tblProduct.getValueAt(selectedRow, 6);
 
-            if (imageObj instanceof ImageIcon) {
-                lblImage.setIcon((ImageIcon) imageObj);
-            } else if (imageObj instanceof String) {
-                // Nếu là đường dẫn chuỗi thì gọi lại hàm createImageIcon
-                ImageIcon icon = menuSelectionService.createImageIcon(TOOL_TIP_TEXT_KEY);
-                lblImage.setIcon(icon);
-            }
-        }
     }//GEN-LAST:event_tblProductMouseClicked
 
     private void cmoArrangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmoArrangeActionPerformed
@@ -385,77 +518,152 @@ public class MenuSelection extends javax.swing.JPanel {
         menuSelectionService.filterProductsByCategory(categoryId, tblProduct);
     }//GEN-LAST:event_cmoArrangeActionPerformed
 
-    private String selectedCardId = null;
-
-    private void tblIDCardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblIDCardMouseClicked
-        // TODO add your handling code here:
-        int selectedRow = tblIDCard.getSelectedRow();
-        System.out.println("Số dòng trong tblGetInfo: " + tblGetInfo.getRowCount());
-        if (selectedRow != -1) {
-            String cardId = tblIDCard.getValueAt(selectedRow, 0).toString(); // Giả sử ID nằm ở cột 0
-
-            // Kiểm tra trạng thái thẻ trước
-            String status = menuSelectionService.getCardStatus(cardId);
-            if ("LOCKED".equalsIgnoreCase(status)) {
-                JOptionPane.showMessageDialog(MenuSelection.this, "Thẻ đã khóa, không thể chọn.");
-                return; // thoát hàm, không tiếp tục
-            }
-
-            int confirm = JOptionPane.showConfirmDialog(
-                    MenuSelection.this,
-                    "Bạn có muốn chọn thẻ này không?",
-                    "Xác nhận chọn thẻ",
-                    JOptionPane.YES_NO_OPTION
-            );
-
-            if (confirm == JOptionPane.YES_OPTION) {
-                boolean result = menuSelectionService.selectCard(cardId, tblGetInfo);
-                if (result) {
-                    JOptionPane.showMessageDialog(MenuSelection.this, "Thẻ đã được chuyển sang trạng thái LOCKED.");
-                    selectedCardId = cardId;
-                    showCardsData();
-                    menuSelectionService.resetAll(tblProduct, tblGetInfo, lbTotal);
-                } else {
-                    JOptionPane.showMessageDialog(MenuSelection.this, "Không thể chọn thẻ. Phải có đơn hàng trước.");
-                }
-            }
-        }
-    }//GEN-LAST:event_tblIDCardMouseClicked
 
     private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
-        // TODO add your handling code here:
-        if (selectedCardId == null) {
-            JOptionPane.showMessageDialog(this, "Bạn chưa chọn thẻ nào.");
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn cần thanh toán.");
             return;
         }
 
-        boolean result = menuSelectionService.releaseCard(selectedCardId);
-        if (result) {
-            JOptionPane.showMessageDialog(this, "Thanh toán thành công. Trạng thái thẻ đã được đặt lại TRỐNG.");
-            selectedCardId = null; // Reset
-            showCardsData();
-        } else {
-            JOptionPane.showMessageDialog(this, "Không thể cập nhật trạng thái thẻ.");
+        int billId = (int) jTable1.getValueAt(selectedRow, 0);
+        String cardId = String.valueOf(jTable1.getValueAt(selectedRow, 1));
+        String status = String.valueOf(jTable1.getValueAt(selectedRow, 6));
+
+        if ("PAID".equalsIgnoreCase(status)) {
+            JOptionPane.showMessageDialog(this, "Hóa đơn này đã được thanh toán.");
+            return;
         }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Xác nhận thanh toán hóa đơn #" + billId + "?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        boolean paidSuccess = bd.markBillAsPaid(billId);
+        boolean cardUnlocked = cd.unlockCard(cardId);
+
+        if (paidSuccess && cardUnlocked) {
+            JOptionPane.showMessageDialog(this, "Thanh toán thành công! Thẻ #" + cardId + " đã được mở khóa.");
+
+            BillDetail matched = null;
+            for (BillDetail b : bd.getAllBill()) {
+                if (b.getBill().getId() == billId) {
+                    matched = b;
+                    break;
+                }
+            }
+
+            if (matched != null) {
+                menuSelectionService.generateReceiptFromPaidBill(billId, this);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Có lỗi xảy ra trong quá trình thanh toán.");
+        }
+
+        LoadBill();
+        LoadDataCbo();
     }//GEN-LAST:event_btnPayActionPerformed
+
+    private void tblProductMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblProductMouseEntered
+
+
+    private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
+        // TODO add your handling code here:
+        Bills bill = getFrom();
+        List<BillDetail> details = menuSelectionService.getBillDetailsFromTable(tblGetInfo);
+        if (details.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không có sản phẩm nào để lưu.");
+            return;
+        }
+        boolean success = bd.insertFullBill(bill, details);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Lưu hóa đơn thành công.");
+            cd.lockCard(String.valueOf(bill.getCard_id()));
+            menuSelectionService.resetAll(tblProduct, tblGetInfo, lbTotal);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Lỗi khi lưu hóa đơn.");
+        }
+        LoadBill();
+        LoadDataCbo();
+    }//GEN-LAST:event_SaveActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int index = jTable1.getSelectedRow();
+        int id = (int) jTable1.getValueAt(index, 0);
+        int chooser = JOptionPane.showConfirmDialog(this, "Bạn xóa hóa đơn có mã " + id, "Xóa", JOptionPane.YES_OPTION);
+        if (chooser == JOptionPane.YES_OPTION) {
+            int rs = bd.delete(id);
+            if (rs > 0) {
+                JOptionPane.showMessageDialog(this, "Xóa thành công hóa đơn có mã " + id);
+                LoadBill();
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa hóa đơn không thành công");
+                return;
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        LoadBill();
+        showProductsData();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int index = jTable1.getSelectedRow();
+        int billid = (int) jTable1.getValueAt(index, 0);
+        List<BillDetail> details = menuSelectionService.getBillDetailsFromTable(tblGetInfo);
+        if (details.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không có sản phẩm nào để lưu.");
+            return;
+        }
+        int success = bd.update(billid, details);
+        if (success > 0) {
+            JOptionPane.showMessageDialog(this, "Cập nhập hóa đơn thành công.");
+            menuSelectionService.resetAll(tblProduct, tblGetInfo, lbTotal);
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Lỗi khi cập nhập hóa đơn.");
+        }
+        LoadBill();
+        LoadDataCbo();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Save;
     private javax.swing.JButton btnPay;
     private javax.swing.JButton btnReceipt;
     private javax.swing.JButton btnRemove;
     private javax.swing.JComboBox<String> cmoArrange;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbTotal;
-    private javax.swing.JLabel lblImage;
     private javax.swing.JTable tblGetInfo;
-    private javax.swing.JTable tblIDCard;
     private javax.swing.JTable tblProduct;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

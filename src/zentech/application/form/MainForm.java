@@ -78,7 +78,7 @@ public class MainForm extends JLayeredPane {
         int id = this.usm.getRoleId();
         menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
             if (index == 0) {
-                Application.showForm(new MenuSelection());
+                Application.showForm(new MenuSelection(this.usm));
             } else if (index == 1 && id != 2) {
                 Application.showForm(new ListIDcard());
             } else if (index == 2 && id != 2) {
