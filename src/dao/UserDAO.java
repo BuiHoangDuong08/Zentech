@@ -33,7 +33,7 @@ public interface UserDAO {
     }
 
     default UserModel getUserByUsername(String username) {
-        String sql = "SELECT * FROM Users WHERE user_name = ?";
+        String sql = "SELECT * FROM USER WHERE user_name = ?";
         try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
@@ -57,7 +57,7 @@ public interface UserDAO {
     }
 
     default boolean updateUser(UserModel user) {
-        String sql = "UPDATE USER SET fullname=?, email=?, address=?, phonenumber=?, dob=?, gender=? WHERE id=?";
+        String sql = "UPDATE USER SET fullname=?, email=?, address=?, phonenumber=?, dob=?, gender=?, role_id=? WHERE id=?";
 
         try (Connection con = ConnectionHelper.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -66,12 +66,12 @@ public interface UserDAO {
             stmt.setString(3, user.getAddress());
             stmt.setString(4, user.getPhoneNumber());
 
-            java.sql.Date dob = user.getDob(); // đảm bảo user.setDob(java.sql.Date) từ trước
+            java.sql.Date dob = user.getDob();
             stmt.setDate(5, dob);
 
             stmt.setString(6, user.getGender());
-
-            stmt.setInt(7, user.getId());
+            stmt.setInt(7, user.getRoleId());
+            stmt.setInt(8, user.getId());
 
             int result = stmt.executeUpdate();
             System.out.println("Update result: " + result);
@@ -119,5 +119,6 @@ public interface UserDAO {
         }
         return list;
     }
-    
+
+
 }
