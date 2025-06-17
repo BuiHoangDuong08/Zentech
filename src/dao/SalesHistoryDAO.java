@@ -85,4 +85,24 @@ public interface SalesHistoryDAO {
 
         return list;
     }
+
+    default boolean insertToSalesHistory(int billId, String username, double totalAmount, String status, java.sql.Date date, int totalQuantity) {
+        String sql = "INSERT INTO SALESHISTORY (Bill_ID, Date, Username, TotalAmount, Status, TotalQuantity) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, billId);
+            ps.setDate(2, date);
+            ps.setString(3, username);
+            ps.setDouble(4, totalAmount);
+            ps.setString(5, status);
+            ps.setInt(6, totalQuantity); // Thêm dòng này
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

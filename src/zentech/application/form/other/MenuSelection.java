@@ -117,7 +117,6 @@ public class MenuSelection extends javax.swing.JPanel {
             }
         });
 
-        // Ẩn cột 0 và 6
         for (int i : new int[]{0, 6}) {
             tblProduct.getColumnModel().getColumn(i).setMinWidth(0);
             tblProduct.getColumnModel().getColumn(i).setPreferredWidth(0);
@@ -150,7 +149,6 @@ public class MenuSelection extends javax.swing.JPanel {
         return b;
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -477,7 +475,9 @@ public class MenuSelection extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReceiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceiptActionPerformed
-        menuSelectionService.generateReceipt(tblGetInfo, this, lbTotal);
+        int selectedRow = jTable1.getSelectedRow();
+        int billId = (int) jTable1.getValueAt(selectedRow, 0);
+        menuSelectionService.generateReceiptFromPaidBill(billId, this);
     }//GEN-LAST:event_btnReceiptActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
@@ -528,12 +528,6 @@ public class MenuSelection extends javax.swing.JPanel {
 
         int billId = (int) jTable1.getValueAt(selectedRow, 0);
         String cardId = String.valueOf(jTable1.getValueAt(selectedRow, 1));
-        String status = String.valueOf(jTable1.getValueAt(selectedRow, 6));
-
-        if ("PAID".equalsIgnoreCase(status)) {
-            JOptionPane.showMessageDialog(this, "Hóa đơn này đã được thanh toán.");
-            return;
-        }
 
         int confirm = JOptionPane.showConfirmDialog(this, "Xác nhận thanh toán hóa đơn #" + billId + "?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (confirm != JOptionPane.YES_OPTION) {
@@ -541,23 +535,45 @@ public class MenuSelection extends javax.swing.JPanel {
         }
 
         boolean paidSuccess = bd.markBillAsPaid(billId);
+
         boolean cardUnlocked = cd.unlockCard(cardId);
 
         if (paidSuccess && cardUnlocked) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công! Thẻ #" + cardId + " đã được mở khóa.");
 
-            BillDetail matched = null;
+            List<BillDetail> billDetails = new ArrayList<>();
             for (BillDetail b : bd.getAllBill()) {
                 if (b.getBill().getId() == billId) {
-                    matched = b;
-                    break;
+                    billDetails.add(b);
                 }
             }
 
-            if (matched != null) {
-                menuSelectionService.generateReceiptFromPaidBill(billId, this);
+            double totalAmount = 0;
+            int totalQuantity = 0;
+            java.sql.Date date = null;
+
+            for (BillDetail b : billDetails) {
+                totalAmount += b.getTotalprice_withvat();
+                totalQuantity += b.getQuantity();
+                date = b.getDate();
             }
 
+            dao.SalesHistoryDAO shDAO = new dao.SalesHistoryDAO() {
+            };
+            boolean inserted = shDAO.insertToSalesHistory(
+                    billId,
+                    usm.getFullName(),
+                    totalAmount,
+                    "PAID",
+                    date != null ? date : new java.sql.Date(System.currentTimeMillis()),
+                    totalQuantity
+            );
+
+            if (!inserted) {
+                JOptionPane.showMessageDialog(this, "Lưu lịch sử bán hàng thất bại.");
+            }
+
+            menuSelectionService.generateReceiptFromPaidBill(billId, this);
         } else {
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra trong quá trình thanh toán.");
         }
