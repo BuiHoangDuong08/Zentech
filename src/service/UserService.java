@@ -15,7 +15,7 @@ import raven.toast.Notifications;
 
 public class UserService implements UserDAO {
 
-    private final RoleDAO roleDAO = new RoleDAO(); // ✅ khai báo đúng chỗ
+    private final RoleDAO roleDAO = new RoleDAO();
 
     public void loadUser(JTable table) {
         List<UserModel> list = getAllUsers();
@@ -26,6 +26,7 @@ public class UserService implements UserDAO {
             String roleName = roleDAO.getRoleNameById(user.getRoleId());
             model.addRow(new Object[]{
                 user.getId(),
+                roleName,
                 user.getUserName(),
                 user.getEmail(),
                 user.getFullName(),
@@ -33,7 +34,6 @@ public class UserService implements UserDAO {
                 user.getAddress(),
                 user.getDob(),
                 user.getPhoneNumber(),
-                roleName
             });
         }
     }
@@ -41,7 +41,7 @@ public class UserService implements UserDAO {
     public void updateUser(JTextField txt_ID, JTextField txtfullname, JTextField txtusername,
                            JTextField txtaddress, JTextField txtdob, JTextField txtemail,
                            JRadioButton rdomale, JRadioButton rdofemale,
-                           JTextField txtphone, JPasswordField txtpassword, JComboBox<String> cborole) {
+                           JTextField txtphone, JComboBox<String> cborole) {
 
         try {
             UserModel user = new UserModel();
@@ -76,13 +76,13 @@ public class UserService implements UserDAO {
 
             String gender = rdomale.isSelected() ? "Male" : rdofemale.isSelected() ? "Female" : "None";
             user.setGender(gender);
-
-            String password = new String(txtpassword.getPassword()).trim();
-            if (password.isEmpty()) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Password cannot be blank");
-                return;
-            }
-            user.setPassword(password);
+//
+//            String password = new String(txtpassword.getPassword()).trim();
+//            if (password.isEmpty()) {
+//                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Password cannot be blank");
+//                return;
+//            }
+//            user.setPassword(password);
 
             String roleName = cborole.getSelectedItem().toString();
             int roleId = roleDAO.getRoleIdByName(roleName);
@@ -105,38 +105,45 @@ public class UserService implements UserDAO {
     }
 
     public void showDetail(JTable table,
-                           JTextField fieldID,
-                           JTextField fieldUserName,
-                           JTextField fieldEmail,
-                           JTextField fieldFullName,
-                           JRadioButton radioMale,
-                           JRadioButton radioFemale,
-                           JTextField fieldAddress,
-                           JTextField fieldDob,
-                           JTextField fieldPhoneNumber,
-                           JPasswordField fieldPassword,
-                           JComboBox<String> cborole) {
+                       JTextField fieldID,
+                       JTextField fieldUserName,
+                       JTextField fieldEmail,
+                       JTextField fieldFullName,
+                       JRadioButton radioMale,
+                       JRadioButton radioFemale,
+                       JTextField fieldAddress,
+                       JTextField fieldDob,
+                       JTextField fieldPhoneNumber,
+                      // JPasswordField fieldPassword,
+                       JComboBox<String> cborole) {
 
-        int selectedRow = table.getSelectedRow();
+    int selectedRow = table.getSelectedRow();
 
-        if (selectedRow != -1) {
-            fieldID.setText(String.valueOf(table.getValueAt(selectedRow, 0)));
-            fieldUserName.setText(String.valueOf(table.getValueAt(selectedRow, 1)));
-            fieldEmail.setText(String.valueOf(table.getValueAt(selectedRow, 2)));
-            fieldFullName.setText(String.valueOf(table.getValueAt(selectedRow, 3)));
+    if (selectedRow != -1) {
+        String id = String.valueOf(table.getValueAt(selectedRow, 0));
+        String role = String.valueOf(table.getValueAt(selectedRow, 1));
+        String username = String.valueOf(table.getValueAt(selectedRow, 2));
+        String email = String.valueOf(table.getValueAt(selectedRow, 3));
+        String fullName = String.valueOf(table.getValueAt(selectedRow, 4));
+        String gender = String.valueOf(table.getValueAt(selectedRow, 5));
+        String address = String.valueOf(table.getValueAt(selectedRow, 6));
+        String dob = String.valueOf(table.getValueAt(selectedRow, 7));
+        String phoneNumber = String.valueOf(table.getValueAt(selectedRow, 8));
 
-            String gender = String.valueOf(table.getValueAt(selectedRow, 4));
-            radioMale.setSelected("Male".equalsIgnoreCase(gender));
-            radioFemale.setSelected("Female".equalsIgnoreCase(gender));
+        fieldID.setText(id);
+        fieldUserName.setText(username);
+        fieldEmail.setText(email);
+        fieldFullName.setText(fullName);
 
-            fieldAddress.setText(String.valueOf(table.getValueAt(selectedRow, 5)));
-            fieldDob.setText(String.valueOf(table.getValueAt(selectedRow, 6)));
-            fieldPhoneNumber.setText(String.valueOf(table.getValueAt(selectedRow, 7)));
+        radioMale.setSelected("Male".equalsIgnoreCase(gender));
+        radioFemale.setSelected("Female".equalsIgnoreCase(gender));
 
-            if (table.getColumnCount() > 8) {
-                String roleName = String.valueOf(table.getValueAt(selectedRow, 8));
-                cborole.setSelectedItem(roleName);
-            }
-        }
+        fieldAddress.setText(address);
+        fieldDob.setText(dob);
+        fieldPhoneNumber.setText(phoneNumber);
+        cborole.setSelectedItem(role);
+
+       // fieldPassword.setText("");
     }
+}
 }
