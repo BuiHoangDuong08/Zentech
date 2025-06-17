@@ -30,8 +30,7 @@ public class Login extends javax.swing.JFrame {
         setSize(new Dimension(1366, 768));
         this.setLocationRelativeTo(null);
         setLayout(new MigLayout("al center center"));
-        txtUser.setText("duongdz1");
-        txtPass.setText("123");
+
         txtUser.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Username");
         txtPass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
     }
