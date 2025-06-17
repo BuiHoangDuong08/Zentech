@@ -2,24 +2,17 @@ package zentech.application.form.other;
 
 import dao.BillDAO;
 import dao.CardDAO;
+import dao.SalesHistoryDAO;
 import entity.BillDetail;
 import entity.Bills;
 import entity.Card;
 import entity.UserModel;
 import java.awt.Component;
 import java.text.NumberFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -558,7 +551,7 @@ public class MenuSelection extends javax.swing.JPanel {
                 date = b.getDate();
             }
 
-            dao.SalesHistoryDAO shDAO = new dao.SalesHistoryDAO() {
+            SalesHistoryDAO shDAO = new SalesHistoryDAO() {
             };
             boolean inserted = shDAO.insertToSalesHistory(
                     billId,
