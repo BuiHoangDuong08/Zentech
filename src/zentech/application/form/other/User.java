@@ -1,6 +1,11 @@
 package zentech.application.form.other;
 
+import dao.RoleDAO;
+import entity.RoleModel;
 import entity.UserModel;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import service.UserService;
 
 public class User extends javax.swing.JPanel {
@@ -12,15 +17,26 @@ public class User extends javax.swing.JPanel {
         txtid.setEditable(false);
         buttonGroup1.add(rdomale);
         buttonGroup1.add(rdofemale);
-        buttonGroup1.add(rdonone);
         service.loadUser(jTable1);
         jTable1.setDefaultEditor(Object.class, null);
 
         jTable1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         jTable1.setRowHeight(30);
         jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-
+        loadRolesToComboBox(cborole);
         checkrole(usm);
+    }
+
+    private void loadRolesToComboBox(JComboBox<String> cborole) {
+        RoleDAO roleDAO = new RoleDAO();
+        List<RoleModel> roles = roleDAO.getAllRoles();
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        for (RoleModel role : roles) {
+            model.addElement(role.getRoleName()); // Chỉ đưa roleName vào
+        }
+
+        cborole.setModel(model); // Không còn lỗi
     }
 
     public void checkrole(UserModel usm) {
@@ -71,7 +87,6 @@ public class User extends javax.swing.JPanel {
         txtphonenumber = new javax.swing.JTextField();
         rdomale = new javax.swing.JRadioButton();
         rdofemale = new javax.swing.JRadioButton();
-        rdonone = new javax.swing.JRadioButton();
         jLabel15 = new javax.swing.JLabel();
         txtaddress = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
@@ -83,6 +98,8 @@ public class User extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        cborole = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -150,13 +167,6 @@ public class User extends javax.swing.JPanel {
             }
         });
 
-        rdonone.setText("None");
-        rdonone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdononeActionPerformed(evt);
-            }
-        });
-
         jLabel15.setText("Address");
 
         jLabel16.setText("Email");
@@ -189,6 +199,8 @@ public class User extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Role name: ");
+
+        jLabel4.setText("Role");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -229,17 +241,17 @@ public class User extends javax.swing.JPanel {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel16)
                                             .addComponent(jLabel13)
-                                            .addComponent(jLabel10))
+                                            .addComponent(jLabel10)
+                                            .addComponent(jLabel4))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(cborole, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(rdomale)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(rdofemale)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(rdonone))
+                                                .addComponent(rdofemale))
                                             .addComponent(txtfullname)
-                                            .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txtemail, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))
                                         .addGap(99, 99, 99)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel14)
@@ -267,7 +279,7 @@ public class User extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -286,8 +298,7 @@ public class User extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(rdomale)
-                            .addComponent(rdofemale)
-                            .addComponent(rdonone)))
+                            .addComponent(rdofemale)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
@@ -307,9 +318,16 @@ public class User extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel17)
                                 .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cborole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox1)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(jButton3))
@@ -352,7 +370,7 @@ public class User extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        service.updateUser(txtid, txtfullname, txtusername, txtaddress, txtdob, txtemail, rdomale, rdofemale, rdonone, txtphonenumber, txtpass);
+        service.updateUser(txtid, txtfullname, txtusername, txtaddress, txtdob, txtemail, rdomale, rdofemale, txtphonenumber, txtpass, cborole);
         service.loadUser(jTable1);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -365,18 +383,15 @@ public class User extends javax.swing.JPanel {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        service.showDetail(jTable1, txtid, txtusername, txtemail, txtfullname, rdomale, rdofemale, rdonone, txtaddress, txtdob, txtphonenumber, txtpass);
+        service.showDetail(jTable1, txtid, txtusername, txtemail, txtfullname, rdomale, rdofemale, txtaddress, txtdob, txtphonenumber, txtpass, cborole);
     }//GEN-LAST:event_jTable1MouseClicked
-
-    private void rdononeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdononeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdononeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.JComboBox<String> cborole;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
@@ -391,13 +406,13 @@ public class User extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JRadioButton rdofemale;
     private javax.swing.JRadioButton rdomale;
-    private javax.swing.JRadioButton rdonone;
     private javax.swing.JTextField txtaddress;
     private javax.swing.JTextField txtdob;
     private javax.swing.JTextField txtemail;
