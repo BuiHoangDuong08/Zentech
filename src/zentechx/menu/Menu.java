@@ -36,7 +36,7 @@ public class Menu extends JPanel {
         {"Change Password"},
         {"Logout"},
         {"About Us"},
-        {"~USER~"},
+        {"~HELPER~"},
         {"Zen AI"}
     };
 
@@ -129,7 +129,7 @@ public class Menu extends JPanel {
             if (menuName.startsWith("~") && menuName.endsWith("~")) {
                 panelMenu.add(createTitle(menuName));
             } else {
-                if (roleId == 3 && (i == 2 || i == 3 || i == 5 || i == 6 || i == 8)) {
+                if (roleId == 3 && (i == 2 || i == 3 || i == 5 || i == 6 || i == 8 || i == 13)) {
                     continue;
                 }
                 if (roleId == 2 && i == 8) {
