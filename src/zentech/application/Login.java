@@ -4,11 +4,19 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import dao.ActivityDAO;
+import dao.UserDAO;
+import entity.Activity;
+import entity.UserModel;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.time.LocalDateTime;
 import javax.swing.UIManager;
 import net.miginfocom.swing.MigLayout;
+import raven.toast.Notifications;
+import service.BCrypt_service;
 import service.LoginFrom_service;
+import service.UserService;
 import zentech.application.changepassword.ForgotPassword;
 import zentech.application.form.RegisterFrom;
 
@@ -18,9 +26,13 @@ import zentech.application.form.RegisterFrom;
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
+    LoginFrom_service lg = new LoginFrom_service();
+    UserService userService = new UserService();
+    static UserDAO ud = new UserDAO() {
+    };
+    static BCrypt_service bsv = new BCrypt_service();
+    UserModel u = null;
+    
     public Login() {
         initComponents();
         setSize(new Dimension(1366, 768));
@@ -114,9 +126,31 @@ public class Login extends javax.swing.JFrame {
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
         // TODO add your handling code here:
-        dispose();
-        LoginFrom_service ls = new LoginFrom_service();
-        ls.getLogin(txtUser, txtPass);
+            String usn1 = txtUser.getText().trim();
+        String pass1 = txtPass.getText().trim();
+        boolean checklogin = false;
+
+        if (lg.checkNull(txtUser, txtPass)) {
+            for (UserModel u : ud.getAllUsers()) {
+                if (u.getUserName().equals(usn1) && bsv.checkPassword(pass1, u.getPassword())) {
+                    checklogin = true;
+                    try {
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Login successfully");
+                        dispose();
+                        Application app = new Application(u);
+                        app.setVisible(true);
+                        ActivityDAO.insert(new Activity(usn1, "LOGIN", LocalDateTime.now()));
+                    } catch (Exception ex) {
+                        Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "There was an error while logging in.");
+                        return;
+                    }
+                }
+            }
+            if (checklogin == false) {
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "Wrong username or password");
+                return;
+            }
+        }
     }//GEN-LAST:event_cmdLoginActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
