@@ -33,6 +33,8 @@ public class Login extends javax.swing.JFrame {
 
         txtUser.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Username");
         txtPass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
+        txtUser.setText("demo_admin");
+        txtPass.setText("1");
     }
 
     @SuppressWarnings("unchecked")
