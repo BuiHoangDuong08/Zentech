@@ -32,7 +32,7 @@ public class Login extends javax.swing.JFrame {
     };
     static BCrypt_service bsv = new BCrypt_service();
     UserModel u = null;
-    
+
     public Login() {
         initComponents();
         setSize(new Dimension(1366, 768));
@@ -41,8 +41,7 @@ public class Login extends javax.swing.JFrame {
 
         txtUser.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Username");
         txtPass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
-        txtUser.setText("demo_admin");
-        txtPass.setText("1");
+
     }
 
     @SuppressWarnings("unchecked")
@@ -126,7 +125,7 @@ public class Login extends javax.swing.JFrame {
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
         // TODO add your handling code here:
-            String usn1 = txtUser.getText().trim();
+        String usn1 = txtUser.getText().trim();
         String pass1 = txtPass.getText().trim();
         boolean checklogin = false;
 
