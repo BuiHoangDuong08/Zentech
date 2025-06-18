@@ -49,10 +49,10 @@ public class User extends javax.swing.JPanel {
                 namerole = "ADMIN";
                 break;
             case 2:
-                namerole = "CASHIER";
+                namerole = "MANAGER";
                 break;
             case 3:
-                namerole = "MANAGER";
+                namerole = "CASHIER";
                 break;
             default:
                 namerole = "Người dùng chưa có quyền";
