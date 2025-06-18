@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package zentech.application;
 
 import com.formdev.flatlaf.FlatClientProperties;
@@ -30,10 +26,11 @@ public class Login extends javax.swing.JFrame {
         setSize(new Dimension(1366, 768));
         this.setLocationRelativeTo(null);
         setLayout(new MigLayout("al center center"));
-        txtUser.setText("duongdz1");
-        txtPass.setText("123");
+
         txtUser.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Username");
         txtPass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
+        txtUser.setText("demo_admin");
+        txtPass.setText("1");
     }
 
     @SuppressWarnings("unchecked")

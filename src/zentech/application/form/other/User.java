@@ -11,8 +11,10 @@ import service.UserService;
 public class User extends javax.swing.JPanel {
 
     UserService service = new UserService();
+    UserModel usm;
 
     public User(UserModel usm) {
+        this.usm = usm;
         initComponents();
         txtid.setEditable(false);
         buttonGroup1.add(rdomale);
@@ -20,7 +22,7 @@ public class User extends javax.swing.JPanel {
         //service.loadAllowedRoles(cborole, service.getCurrentUserRole());
         service.loadUser(jTable1);
         jTable1.setDefaultEditor(Object.class, null);
-
+        service.setCurrentUser(usm);
         jTable1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         jTable1.setRowHeight(30);
         jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
@@ -31,13 +33,12 @@ public class User extends javax.swing.JPanel {
     private void loadRolesToComboBox(JComboBox<String> cborole) {
         RoleDAO roleDAO = new RoleDAO();
         List<RoleModel> roles = roleDAO.getAllRoles();
-
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (RoleModel role : roles) {
-            model.addElement(role.getRoleName()); 
+            model.addElement(role.getRoleName());
         }
 
-        cborole.setModel(model); 
+        cborole.setModel(model);
     }
 
     public void checkrole(UserModel usm) {
@@ -49,10 +50,10 @@ public class User extends javax.swing.JPanel {
                 namerole = "ADMIN";
                 break;
             case 2:
-                namerole = "CASHIER";
+                namerole = "MANAGER";
                 break;
             case 3:
-                namerole = "MANAGER";
+                namerole = "CASHIER";
                 break;
             default:
                 namerole = "Người dùng chưa có quyền";
@@ -336,20 +337,21 @@ public class User extends javax.swing.JPanel {
 
         buttonGroup1.clearSelection();
 
-       // jCheckBox1.setSelected(false);
+        // jCheckBox1.setSelected(false);
         //txtpass.setEchoChar('*');
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        service.updateUser(txtid, txtfullname, txtusername, txtaddress, txtdob, txtemail, rdomale, rdofemale, txtphonenumber, cborole); 
+        service.updateUser(txtid, txtfullname, txtusername, txtaddress, txtdob, txtemail, rdomale, rdofemale, txtphonenumber, cborole, jTable1);
         service.loadUser(jTable1);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         service.showDetail(jTable1, txtid, txtusername, txtemail, txtfullname, rdomale, rdofemale, txtaddress, txtdob, txtphonenumber, cborole);
         String roleOfSelectedUser = service.getSelectedUserRole(jTable1);
-service.loadAllowedUpgradeRoles(cborole, roleOfSelectedUser);
+        service.loadAllowedUpgradeRoles(cborole, roleOfSelectedUser);
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

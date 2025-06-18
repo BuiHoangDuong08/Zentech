@@ -49,6 +49,23 @@ public interface ProductDAO {
             return false;
         }
     }
+    
+    default int getProductCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM PRODUCT";
+
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return count;
+    }
 
     default boolean updateProduct(Product p) {
         try (Connection con = ConnectionHelper.getConnection(); CallableStatement cs = con.prepareCall("{CALL update_product(?, ?, ?, ?, ?, ?, ?)}")) {
