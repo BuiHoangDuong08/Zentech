@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
 import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

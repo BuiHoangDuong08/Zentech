@@ -6,25 +6,25 @@ package dao;
 
 import helper.ConnectionHelper;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
+
 import entity.Activity;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Vector;
-import javax.swing.JOptionPane;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Duc Pham Ngoc
  */
 public class ActivityDAO {
+
     public static void insert(Activity activity) throws SQLException {
         String sql = "INSERT INTO activity_log (user_id, action, timestamp) VALUES (?, ?, ?)";
-        try (Connection conn = ConnectionHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, activity.getUserId());
             ps.setString(2, activity.getAction());
@@ -32,12 +32,10 @@ public class ActivityDAO {
             ps.executeUpdate();
         }
     }
-    
+
     public void loadActivityLogs(JTable tblActivity) {
         String sql = "SELECT user_id, action, timestamp FROM activity_log ORDER BY timestamp DESC";
-        try (Connection conn = ConnectionHelper.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("Username");

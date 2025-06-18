@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import zentech.application.Application;
-import zentech.application.changepassword.ChangePassword;
+
 import zentech.application.changepassword.ForgotPassword;
 import zentech.application.form.other.AboutUs;
 import zentech.application.form.other.ActivityLogForm;
