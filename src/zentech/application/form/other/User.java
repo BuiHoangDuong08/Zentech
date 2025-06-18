@@ -350,7 +350,7 @@ public class User extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         service.showDetail(jTable1, txtid, txtusername, txtemail, txtfullname, rdomale, rdofemale, txtaddress, txtdob, txtphonenumber, cborole);
         String roleOfSelectedUser = service.getSelectedUserRole(jTable1);
-        service.loadAllowedUpgradeRoles(cborole, roleOfSelectedUser);
+        service.loadAllowedUpgradeRoles(cborole, TOOL_TIP_TEXT_KEY);
 
     }//GEN-LAST:event_jTable1MouseClicked
 
