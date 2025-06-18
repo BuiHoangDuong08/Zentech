@@ -9,14 +9,16 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import raven.toast.Notifications;
 import zentech.application.Application;
+import zentech.application.form.other.User;
 
 public class LoginFrom_service extends JPanel {
-
+    UserService userService = new UserService();
     static UserDAO ud = new UserDAO() {
     };
     static BCrypt_service bsv = new BCrypt_service();
 
     UserModel u = null;
+
 
     public void getLogin(JTextField usn, JTextField pass) {
         String usn1 = usn.getText().trim();
