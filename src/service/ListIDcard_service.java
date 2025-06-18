@@ -1,8 +1,12 @@
 package service;
 
 import com.formdev.flatlaf.FlatClientProperties;
+
 import dao.CardDAO;
 import entity.Card;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -28,6 +32,54 @@ public class ListIDcard_service {
             model.addRow(new Object[]{c.getId(), c.getStatus()});
         }
         jTable1.setModel(model);
+    }
+
+    public void exportToExcel(JTable table) {
+        try (FileWriter writer = new FileWriter("IDCards.csv")) {
+            // Ghi dòng tiêu đề
+            for (int i = 0; i < table.getColumnCount(); i++) {
+                writer.write(table.getColumnName(i));
+                if (i < table.getColumnCount() - 1) {
+                    writer.write(",");
+                }
+            }
+            writer.write("\n");
+
+            // Ghi dữ liệu
+            for (int row = 0; row < table.getRowCount(); row++) {
+                for (int col = 0; col < table.getColumnCount(); col++) {
+                    Object value = table.getValueAt(row, col);
+                    writer.write(value != null ? value.toString() : "");
+                    if (col < table.getColumnCount() - 1) {
+                        writer.write(",");
+                    }
+                }
+                writer.write("\n");
+            }
+
+            JOptionPane.showMessageDialog(null, "Xuất Excel (.csv) thành công!");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Lỗi khi xuất Excel: " + e.getMessage());
+        }
+    }
+
+    public void exportToWord(JTable table) {
+        try (FileWriter writer = new FileWriter("IDCards.doc")) {
+            writer.write("Danh sách thẻ ID\n\n");
+
+            for (int row = 0; row < table.getRowCount(); row++) {
+                for (int col = 0; col < table.getColumnCount(); col++) {
+                    String columnName = table.getColumnName(col);
+                    Object value = table.getValueAt(row, col);
+                    writer.write(columnName + ": " + (value != null ? value.toString() : "") + "\n");
+                }
+                writer.write("\n-----------------------------\n");
+            }
+
+            JOptionPane.showMessageDialog(null, "Xuất Word (.doc) thành công!");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Lỗi khi xuất Word: " + e.getMessage());
+        }
     }
 
     public void add(JComboBox cbo_Status) {

@@ -6,21 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListIDcard extends javax.swing.JPanel {
-    
+
     static List<Card> listc = new ArrayList<>();
     static ListIDcard_service lsv = new ListIDcard_service();
-    
+
     public ListIDcard() {
         initComponents();
         lsv.editinitComponents(txt_Search, txt_ID);
         lsv.LoadDataTable(listc, tblIdentityList);
-        
+
         tblIdentityList.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 16));
         tblIdentityList.setRowHeight(30);
         tblIdentityList.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 18));
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -99,8 +99,18 @@ public class ListIDcard extends javax.swing.JPanel {
         cbo_Status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ACTIVE", "WAIT", "LOCKED" }));
 
         btn_Word.setText("Word");
+        btn_Word.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_WordActionPerformed(evt);
+            }
+        });
 
         btn_Excel.setText("Excel");
+        btn_Excel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ExcelActionPerformed(evt);
+            }
+        });
 
         btn_Update.setText("Update");
         btn_Update.addActionListener(new java.awt.event.ActionListener() {
@@ -212,6 +222,14 @@ public class ListIDcard extends javax.swing.JPanel {
     private void txt_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_IDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_IDActionPerformed
+
+    private void btn_ExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ExcelActionPerformed
+        lsv.exportToExcel(tblIdentityList);
+    }//GEN-LAST:event_btn_ExcelActionPerformed
+
+    private void btn_WordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_WordActionPerformed
+        lsv.exportToWord(tblIdentityList);
+    }//GEN-LAST:event_btn_WordActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
