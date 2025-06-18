@@ -26,7 +26,7 @@ public class UserDAO_ChangePassword {
         int result;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "UPDATE USER SET otp = ? WHERE Email = ?;";
+            String sql = "UPDATE USER SET otp = ?, otpCreatedAt = CURRENT_TIMESTAMP WHERE Email = ?;";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, opt);
             pst.setString(2, email);
@@ -72,7 +72,7 @@ public class UserDAO_ChangePassword {
         boolean check = false;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "SELECT * FROM USER WHERE Email = ? AND otp = ?";
+            String sql = "SELECT * FROM USER WHERE Email = ? AND otp = ? AND otpCreatedAt >= NOW() - INTERVAL 5 MINUTE";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, email);
             pst.setString(2, otp);
@@ -90,7 +90,7 @@ public class UserDAO_ChangePassword {
         int result;
         try {
             Connection con = (Connection) ConnectionHelper.getConnection();
-            String sql = "UPDATE USER SET Password = ? WHERE Email = ?";
+            String sql = "UPDATE USER SET Password = ?, otp = NULL, otpCreatedAt = NULL WHERE Email = ?";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             pst.setString(1, password);
             pst.setString(2, email);
