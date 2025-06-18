@@ -22,6 +22,7 @@ import zentech.application.changepassword.ChangePassword;
 import zentech.application.changepassword.ForgotPassword;
 import zentech.application.form.other.AboutUs;
 import zentech.application.form.other.ActivityLogForm;
+import zentech.application.form.other.ChatBotForm;
 import zentech.application.form.other.Inventory;
 import zentech.application.form.other.ListIDcard;
 import zentech.application.form.other.MenuSelection;
@@ -123,7 +124,10 @@ public class MainForm extends JLayeredPane {
                 }
             } else if (index == 8) {
                 Application.showForm(new AboutUs());
-            } else {
+            } else if (index == 9){
+                Application.showForm(new ChatBotForm());
+            }
+            else {
                 action.cancel();
             }
         });

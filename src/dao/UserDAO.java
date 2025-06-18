@@ -33,7 +33,7 @@ public interface UserDAO {
     }
 
     default UserModel getUserByUsername(String username) {
-        String sql = "SELECT * FROM Users WHERE user_name = ?";
+        String sql = "SELECT * FROM USER WHERE user_name = ?";
         try (Connection con = ConnectionHelper.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
@@ -57,7 +57,7 @@ public interface UserDAO {
     }
 
     default boolean updateUser(UserModel user) {
-        String sql = "UPDATE USER SET fullname=?, email=?, address=?, phonenumber=?, dob=?, gender=? WHERE id=?";
+        String sql = "UPDATE USER SET fullname=?, email=?, address=?, phonenumber=?, dob=?, gender=?, role_id=? WHERE id=?";
 
         try (Connection con = ConnectionHelper.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -66,12 +66,12 @@ public interface UserDAO {
             stmt.setString(3, user.getAddress());
             stmt.setString(4, user.getPhoneNumber());
 
-            java.sql.Date dob = user.getDob(); // đảm bảo user.setDob(java.sql.Date) từ trước
+            java.sql.Date dob = user.getDob();
             stmt.setDate(5, dob);
 
             stmt.setString(6, user.getGender());
-
-            stmt.setInt(7, user.getId());
+            stmt.setInt(7, user.getRoleId());
+            stmt.setInt(8, user.getId());
 
             int result = stmt.executeUpdate();
             System.out.println("Update result: " + result);
@@ -119,5 +119,30 @@ public interface UserDAO {
         }
         return list;
     }
-    
+
+    default UserModel getUserName(String username, String password) {
+        UserModel usm = null;
+        String sql = "select * from USER where UserName = ? and Password = ?";
+        try (Connection conn = ConnectionHelper.getConnection(); PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, username);
+            pst.setString(2, password);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                usm = new UserModel();
+                usm.setUserName(rs.getString("UserName"));
+                usm.setPassword(rs.getString("Password"));
+                usm.setId(rs.getInt("ID"));
+                usm.setRoleId(rs.getInt("Role_ID"));
+                usm.setEmail(rs.getString("Email"));
+                usm.setGender(rs.getString("Gender"));
+                usm.setAddress("Address");
+                usm.setDob(rs.getDate("DoB"));
+                usm.setPhoneNumber(rs.getString("PhoneNumber"));
+            }
+            return usm;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

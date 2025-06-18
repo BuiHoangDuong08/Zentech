@@ -9,11 +9,11 @@ public class UserModel {
     private String password;
     private String email;
     private String fullName;
-    private String gender; //MALE, FEMALE, NONE
+    private String gender; 
     private String address;
     private Date dob;
     private String phoneNumber;
-
+    public static UserModel currentUser; 
     public UserModel() {}
 
     public UserModel(int id, int roleId, String userName, String password, String email,

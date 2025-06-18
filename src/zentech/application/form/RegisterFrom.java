@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.UIManager;
 import net.miginfocom.swing.MigLayout;
+import raven.toast.Notifications;
 import service.Register_service;
 import zentech.application.Application;
 import zentech.application.Login;
@@ -21,6 +22,7 @@ public class RegisterFrom extends javax.swing.JFrame {
         init();
         setSize(new Dimension(1366, 768));
         setLocationRelativeTo(null);
+        Notifications.getInstance().setJFrame(this);
     }
 
     public void init() {
