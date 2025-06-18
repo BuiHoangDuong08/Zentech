@@ -5,11 +5,9 @@ import entity.Bills;
 import helper.ConnectionHelper;
 
 import java.sql.*;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 public class BillDAO {
 

@@ -24,7 +24,7 @@ import javax.swing.RowFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import zentechx.menu.ModelItemSell;
+
 
 /**
  *

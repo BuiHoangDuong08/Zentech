@@ -1,15 +1,12 @@
 package zentech.application.form;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+
 import java.awt.Dimension;
-import java.awt.Font;
-import javax.swing.UIManager;
+
 import net.miginfocom.swing.MigLayout;
 import service.Register_service;
-import zentech.application.Application;
+
 import zentech.application.Login;
 
 public class RegisterFrom extends javax.swing.JFrame {
