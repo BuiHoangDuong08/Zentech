@@ -35,7 +35,9 @@ public class Menu extends JPanel {
         {"Activity Log"},
         {"Change Password"},
         {"Logout"},
-        {"About Us"}
+        {"About Us"},
+        {"~USER~"},
+        {"Zen AI"}
     };
 
     public boolean isMenuFull() {
