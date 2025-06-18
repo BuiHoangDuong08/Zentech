@@ -138,7 +138,7 @@ public class Login extends javax.swing.JFrame {
                         dispose();
                         Application app = new Application(u);
                         app.setVisible(true);
-                        ActivityDAO.insert(new Activity(usn1, "LOGIN", LocalDateTime.now()));
+                        ActivityDAO.logActivity(usn1, "LOGIN");
                     } catch (Exception ex) {
                         Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "There was an error while logging in.");
                         return;

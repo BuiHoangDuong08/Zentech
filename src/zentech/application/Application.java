@@ -5,11 +5,17 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import dao.ActivityDAO;
+import entity.Activity;
 import entity.UserModel;
 
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -26,6 +32,21 @@ public class Application extends javax.swing.JFrame {
     private ChangePasswordForm changePasswordForm;
     private RegisterFrom registerFrom;
     UserModel usm;
+    
+    private String currentUser;
+
+    public static Application getAppInstance(){
+        return app;
+    }
+
+    public void setCurrentUser(String user){
+        this.currentUser = user;
+    }
+
+    public String getCurrentUser(){
+        return this.currentUser;
+    }
+
 
     public Application(UserModel usm) {
         this.usm = usm;
@@ -38,6 +59,23 @@ public class Application extends javax.swing.JFrame {
         mainForm = new MainForm(usm);
         changePasswordForm = new ChangePasswordForm();
         registerFrom = new RegisterFrom();
+        //Thiết lập tên người dùng hiện tại từ UserModel
+        if (usm != null) {
+            setCurrentUser(usm.getUserName()); 
+        }
+        
+        this.addWindowListener(new java.awt.event.WindowAdapter(){
+            public void windowClosing(java.awt.event.WindowEvent e){
+                String user = getCurrentUser();
+                if(user != null && !user.isEmpty()){
+                    try{
+                        ActivityDAO.insert(new Activity(user, "LOGOUT", LocalDateTime.now()));
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
         setContentPane(mainForm);
         getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
         Notifications.getInstance().setJFrame(this);
@@ -56,7 +94,7 @@ public class Application extends javax.swing.JFrame {
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 
-    public static void login() {
+    public static void login(UserModel user) {
         FlatAnimatedLafChange.showSnapshot();
         app.setContentPane(app.mainForm);
         app.mainForm.applyComponentOrientation(app.getComponentOrientation());
@@ -64,6 +102,9 @@ public class Application extends javax.swing.JFrame {
         app.mainForm.hideMenu();
         SwingUtilities.updateComponentTreeUI(app.mainForm);
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
+        if (user != null) {
+            app.setCurrentUser(user.getUserName());
+        }
     }
 
     public static void registerFrom() {
@@ -75,7 +116,13 @@ public class Application extends javax.swing.JFrame {
     }
 
     public static void logout() {
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {  
+            String user = app.getCurrentUser();
+            try {
+                ActivityDAO.insert(new Activity(user, "LOGOUT", LocalDateTime.now()));
+            } catch (SQLException ex) {
+                Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+            }
             // Đóng cửa sổ chính
             app.dispose();
             // Mở lại cửa sổ login

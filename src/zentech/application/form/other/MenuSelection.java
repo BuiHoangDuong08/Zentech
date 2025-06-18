@@ -3,6 +3,7 @@ package zentech.application.form.other;
 import dao.BillDAO;
 import dao.CardDAO;
 import dao.SalesHistoryDAO;
+import dao.ActivityDAO;
 import entity.BillDetail;
 import entity.Bills;
 import entity.Card;
@@ -19,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import service.MenuSelectionService;
+import zentech.application.Application;
 import zentechx.menu.QtyCellEditor;
 
 public class MenuSelection extends javax.swing.JPanel {
@@ -471,6 +473,8 @@ public class MenuSelection extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
         int billId = (int) jTable1.getValueAt(selectedRow, 0);
         menuSelectionService.generateReceiptFromPaidBill(billId, this);
+        // Log activity
+        ActivityDAO.logActivity(usm.getUserName(), "PRINT RECEIPT BILL " + billId);
     }//GEN-LAST:event_btnReceiptActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
@@ -567,6 +571,8 @@ public class MenuSelection extends javax.swing.JPanel {
             }
 
             menuSelectionService.generateReceiptFromPaidBill(billId, this);
+            // Log activity
+            ActivityDAO.logActivity(usm.getUserName(), "PAY BILL " + billId);
         } else {
             JOptionPane.showMessageDialog(this, "Có lỗi xảy ra trong quá trình thanh toán.");
         }
@@ -593,7 +599,8 @@ public class MenuSelection extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Lưu hóa đơn thành công.");
             cd.lockCard(String.valueOf(bill.getCard_id()));
             menuSelectionService.resetAll(tblProduct, tblGetInfo, lbTotal);
-
+            // Log activity
+            ActivityDAO.logActivity(usm.getUserName(), "SAVE BILL CARD " + bill.getCard_id());
         } else {
             JOptionPane.showMessageDialog(this, "Lỗi khi lưu hóa đơn.");
         }
@@ -611,6 +618,8 @@ public class MenuSelection extends javax.swing.JPanel {
             if (rs > 0) {
                 JOptionPane.showMessageDialog(this, "Xóa thành công hóa đơn có mã " + id);
                 LoadBill();
+                // Log activity
+                ActivityDAO.logActivity(usm.getUserName(), "DELETE BILL " + id);
             } else {
                 JOptionPane.showMessageDialog(this, "Xóa hóa đơn không thành công");
                 return;
@@ -637,7 +646,8 @@ public class MenuSelection extends javax.swing.JPanel {
         if (success > 0) {
             JOptionPane.showMessageDialog(this, "Cập nhập hóa đơn thành công.");
             menuSelectionService.resetAll(tblProduct, tblGetInfo, lbTotal);
-
+            // Log activity
+            ActivityDAO.logActivity(usm.getUserName(), "UPDATE BILL " + billid);
         } else {
             JOptionPane.showMessageDialog(this, "Lỗi khi cập nhập hóa đơn.");
         }

@@ -8,6 +8,8 @@ import dao.SalesHistoryDAO;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
+import dao.ActivityDAO;
+import zentech.application.Application;
 
 public class SalesHistoryService implements SalesHistoryDAO{
 
@@ -41,6 +43,8 @@ public class SalesHistoryService implements SalesHistoryDAO{
                     Object cell = entry.getValue(i);
                     String cellText = String.valueOf(cell).toLowerCase();
                     if (cellText.contains(keyword)) {
+                        // Log activity
+                        ActivityDAO.logActivity(Application.getAppInstance().getCurrentUser(), "SEARCH SALESHISTORY " + keyword);
                         return true;
                     }
                 }
@@ -66,6 +70,8 @@ public void showDetail(JTable table, JTextField fieldID, JTextField fieldStatus)
         // Gán vào ô text
         fieldID.setText(billId);
         fieldStatus.setText(status);
+        // Log activity
+        ActivityDAO.logActivity(Application.getAppInstance().getCurrentUser(), "VIEW SALESHISTORY DETAIL " + billId);
     }
 }
 }

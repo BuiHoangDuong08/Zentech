@@ -4,6 +4,7 @@
  */
 package service;
 
+import dao.ActivityDAO;
 import dao.ProductDAO;
 import entity.Product;
 import java.awt.Component;
@@ -24,6 +25,7 @@ import javax.swing.RowFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import zentech.application.Application;
 
 
 /**
@@ -111,6 +113,7 @@ public class InventoryService implements ProductDAO {
             if (success) {
                 JOptionPane.showMessageDialog(parent, "Thêm sản phẩm thành công!");
                 loadProductToTable(table);
+                ActivityDAO.logActivity(Application.getAppInstance().getCurrentUser(), "ADD PRODUCT " + p.getName());
             } else {
                 JOptionPane.showMessageDialog(parent, "Không thể thêm sản phẩm.");
             }
@@ -141,6 +144,8 @@ public class InventoryService implements ProductDAO {
                     JOptionPane.showMessageDialog(parent, "Cập nhật sản phẩm thành công!");
                     loadProductToTable(table);
                     clearForm.run();
+                    // Log activity
+                    ActivityDAO.logActivity(Application.getAppInstance().getCurrentUser(), "UPDATE PRODUCT " + p.getId());
                 } else {
                     JOptionPane.showMessageDialog(parent, "Cập nhật thất bại.");
                 }
@@ -184,6 +189,8 @@ public class InventoryService implements ProductDAO {
             JOptionPane.showMessageDialog(parent, "Xóa sản phẩm thành công.");
             clearForm.run();
             loadProductToTable(table);
+            // Log activity
+            ActivityDAO.logActivity(Application.getAppInstance().getCurrentUser(), "DELETE PRODUCT " + id);
         } else {
             JOptionPane.showMessageDialog(parent, "Không thể xóa sản phẩm.");
         }

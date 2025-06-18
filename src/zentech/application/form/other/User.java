@@ -1,5 +1,6 @@
 package zentech.application.form.other;
 
+import dao.ActivityDAO;
 import dao.RoleDAO;
 import entity.RoleModel;
 import entity.UserModel;
@@ -345,6 +346,8 @@ public class User extends javax.swing.JPanel {
 
         service.updateUser(txtid, txtfullname, txtusername, txtaddress, txtdob, txtemail, rdomale, rdofemale, txtphonenumber, cborole, jTable1);
         service.loadUser(jTable1);
+        // Log activity
+        ActivityDAO.logActivity(usm.getUserName(), "UPDATE USER " + txtusername.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked

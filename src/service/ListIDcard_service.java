@@ -2,6 +2,7 @@ package service;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
+import dao.ActivityDAO;
 import dao.CardDAO;
 import entity.Card;
 
@@ -17,6 +18,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import raven.toast.Notifications;
+import zentech.application.Application;
 
 public class ListIDcard_service {
 
@@ -90,6 +92,7 @@ public class ListIDcard_service {
             if (rs == true) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Saved successfully");
                 JOptionPane.showMessageDialog(null, "");
+                ActivityDAO.logActivity(Application.getAppInstance().getCurrentUser(), "ADD IDCARD " + status);
             }
         }
     }
@@ -109,6 +112,8 @@ public class ListIDcard_service {
             boolean rs = card.deleteCard(id);
             if (rs == true) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Deleted successfully");
+                // Log activity
+                ActivityDAO.logActivity(Application.getAppInstance().getCurrentUser(), "DELETE IDCARD " + id);
             }
         }
     }
@@ -128,6 +133,8 @@ public class ListIDcard_service {
             boolean rs = card.updateCard(id, status);
             if (rs == true) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Updated successfully");
+                // Log activity
+                ActivityDAO.logActivity(Application.getAppInstance().getCurrentUser(), "UPDATE IDCARD " + id + " " + status);
             }
         }
     }
