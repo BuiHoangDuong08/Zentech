@@ -22,29 +22,31 @@ public class UserService implements UserDAO {
     public void setCurrentUser(UserModel user) {
         this.currentUser = user;
     }
-    
+
     public String getSelectedUserRole(JTable table) {
-    int selectedRow = table.getSelectedRow();
-    if (selectedRow == -1) return null;
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            return null;
+        }
 
-    // Giả sử cột role là cột số 1
-    return table.getValueAt(selectedRow, 1).toString().trim();
-}
-    
-public void loadAllowedUpgradeRoles(JComboBox<String> cborole, String selectedUserRole) {
-    cborole.removeAllItems();
-
-    if ("Admin".equalsIgnoreCase(selectedUserRole)) {
-        cborole.addItem("ADMIN");
-        cborole.addItem("MANAGER");
-        cborole.addItem("CASHIER");
-    } else if ("Quản lý".equalsIgnoreCase(selectedUserRole)) {
-        cborole.addItem("MANAGER");
-        cborole.addItem("CASHIER");
-    } else {
-        cborole.addItem("CASHIER");
+        // Giả sử cột role là cột số 1
+        return table.getValueAt(selectedRow, 1).toString().trim();
     }
-}
+
+    public void loadAllowedUpgradeRoles(JComboBox<String> cborole, String selectedUserRole) {
+        cborole.removeAllItems();
+
+        if ("Admin".equalsIgnoreCase(selectedUserRole)) {
+            cborole.addItem("ADMIN");
+            cborole.addItem("MANAGER");
+            cborole.addItem("CASHIER");
+        } else if ("Quản lý".equalsIgnoreCase(selectedUserRole)) {
+            cborole.addItem("MANAGER");
+            cborole.addItem("CASHIER");
+        } else {
+            cborole.addItem("CASHIER");
+        }
+    }
 
     public String getCurrentUserRole() {
         return roleDAO.getRoleNameById(currentUser.getRoleId());
@@ -73,7 +75,7 @@ public void loadAllowedUpgradeRoles(JComboBox<String> cborole, String selectedUs
     public void updateUser(JTextField txt_ID, JTextField txtfullname, JTextField txtusername,
             JTextField txtaddress, JTextField txtdob, JTextField txtemail,
             JRadioButton rdomale, JRadioButton rdofemale,
-            JTextField txtphone, JComboBox<String> cborole) {
+            JTextField txtphone, JComboBox<String> cborole, JTable jTable1) {
 
         try {
             UserModel user = new UserModel();
@@ -116,12 +118,18 @@ public void loadAllowedUpgradeRoles(JComboBox<String> cborole, String selectedUs
 //            }
 //            user.setPassword(password);
 
-            String roleName = cborole.getSelectedItem().toString();
-            int roleId = roleDAO.getRoleIdByName(roleName);
-            user.setRoleId(roleId);
+            int index = jTable1.getSelectedRow();
+            String nr = (String) jTable1.getValueAt(index, 1);
 
             int ret = JOptionPane.showConfirmDialog(null, "Are you sure you want to update information?", "Confirm update", JOptionPane.YES_NO_OPTION);
             if (ret == JOptionPane.YES_OPTION) {
+                if (this.currentUser.getRoleId() == 2 && nr.equalsIgnoreCase("admin")) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "You cannot edit permissions for administrators!");
+                    return;
+                }
+                String roleName = cborole.getSelectedItem().toString();
+                int roleId = roleDAO.getRoleIdByName(roleName);
+                user.setRoleId(roleId);
                 boolean result = updateUser(user);
                 if (result) {
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Updated successfully!");
@@ -136,42 +144,42 @@ public void loadAllowedUpgradeRoles(JComboBox<String> cborole, String selectedUs
         }
     }
 
-public void showDetail(JTable table,
-        JTextField fieldID,
-        JTextField fieldUserName,
-        JTextField fieldEmail,
-        JTextField fieldFullName,
-        JRadioButton radioMale,
-        JRadioButton radioFemale,
-        JTextField fieldAddress,
-        JTextField fieldDob,
-        JTextField fieldPhoneNumber,
-        JComboBox<String> cborole) {
+    public void showDetail(JTable table,
+            JTextField fieldID,
+            JTextField fieldUserName,
+            JTextField fieldEmail,
+            JTextField fieldFullName,
+            JRadioButton radioMale,
+            JRadioButton radioFemale,
+            JTextField fieldAddress,
+            JTextField fieldDob,
+            JTextField fieldPhoneNumber,
+            JComboBox<String> cborole) {
 
-    int selectedRow = table.getSelectedRow();
+        int selectedRow = table.getSelectedRow();
 
-    if (selectedRow != -1) {
-        String id = String.valueOf(table.getValueAt(selectedRow, 0));
-        String role = String.valueOf(table.getValueAt(selectedRow, 1));
-        String username = String.valueOf(table.getValueAt(selectedRow, 2));
-        String email = String.valueOf(table.getValueAt(selectedRow, 3));
-        String fullName = String.valueOf(table.getValueAt(selectedRow, 4));
-        String gender = String.valueOf(table.getValueAt(selectedRow, 5));
-        String address = String.valueOf(table.getValueAt(selectedRow, 6));
-        String dob = String.valueOf(table.getValueAt(selectedRow, 7));
-        String phoneNumber = String.valueOf(table.getValueAt(selectedRow, 8));
+        if (selectedRow != -1) {
+            String id = String.valueOf(table.getValueAt(selectedRow, 0));
+            String role = String.valueOf(table.getValueAt(selectedRow, 1));
+            String username = String.valueOf(table.getValueAt(selectedRow, 2));
+            String email = String.valueOf(table.getValueAt(selectedRow, 3));
+            String fullName = String.valueOf(table.getValueAt(selectedRow, 4));
+            String gender = String.valueOf(table.getValueAt(selectedRow, 5));
+            String address = String.valueOf(table.getValueAt(selectedRow, 6));
+            String dob = String.valueOf(table.getValueAt(selectedRow, 7));
+            String phoneNumber = String.valueOf(table.getValueAt(selectedRow, 8));
 
-        fieldID.setText(id);
-        fieldUserName.setText(username);
-        fieldEmail.setText(email);
-        fieldFullName.setText(fullName);
-        radioMale.setSelected("Male".equalsIgnoreCase(gender));
-        radioFemale.setSelected("Female".equalsIgnoreCase(gender));
-        fieldAddress.setText(address);
-        fieldDob.setText(dob);
-        fieldPhoneNumber.setText(phoneNumber);
+            fieldID.setText(id);
+            fieldUserName.setText(username);
+            fieldEmail.setText(email);
+            fieldFullName.setText(fullName);
+            radioMale.setSelected("Male".equalsIgnoreCase(gender));
+            radioFemale.setSelected("Female".equalsIgnoreCase(gender));
+            fieldAddress.setText(address);
+            fieldDob.setText(dob);
+            fieldPhoneNumber.setText(phoneNumber);
 
+        }
     }
-}
 
 }
