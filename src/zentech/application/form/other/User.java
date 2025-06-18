@@ -17,6 +17,7 @@ public class User extends javax.swing.JPanel {
         txtid.setEditable(false);
         buttonGroup1.add(rdomale);
         buttonGroup1.add(rdofemale);
+        //service.loadAllowedRoles(cborole, service.getCurrentUserRole());
         service.loadUser(jTable1);
         jTable1.setDefaultEditor(Object.class, null);
 
@@ -36,7 +37,7 @@ public class User extends javax.swing.JPanel {
             model.addElement(role.getRoleName()); 
         }
 
-        cborole.setModel(model); // Không còn lỗi
+        cborole.setModel(model); 
     }
 
     public void checkrole(UserModel usm) {
@@ -340,12 +341,15 @@ public class User extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        service.updateUser(txtid, txtfullname, txtusername, txtaddress, txtdob, txtemail, rdomale, rdofemale, txtphonenumber, cborole);
+
+        service.updateUser(txtid, txtfullname, txtusername, txtaddress, txtdob, txtemail, rdomale, rdofemale, txtphonenumber, cborole); 
         service.loadUser(jTable1);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         service.showDetail(jTable1, txtid, txtusername, txtemail, txtfullname, rdomale, rdofemale, txtaddress, txtdob, txtphonenumber, cborole);
+        String roleOfSelectedUser = service.getSelectedUserRole(jTable1);
+service.loadAllowedUpgradeRoles(cborole, roleOfSelectedUser);
     }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
