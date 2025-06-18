@@ -123,11 +123,15 @@ public class MainForm extends JLayeredPane {
                     Application.logout();
                 }
             } else if (index == 8) {
-                Application.showForm(new AboutUs());
-            } else if (index == 9){
+                if (id == 2) {
+                    Application.showForm(new ChatBotForm());
+                } else {
+                    Application.showForm(new AboutUs());
+                }
+
+            } else if (index == 9) {
                 Application.showForm(new ChatBotForm());
-            }
-            else {
+            } else {
                 action.cancel();
             }
         });
