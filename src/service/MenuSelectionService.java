@@ -321,14 +321,14 @@ public class MenuSelectionService implements ProductDAO, CardDAO {
 
                 table.addCell(new Phrase(String.valueOf(d.getProduct_id()), normalFont));
                 table.addCell(new Phrase(String.valueOf(qty), normalFont));
-                table.addCell(new Phrase(String.format("%.0f ₫", price), normalFont));
-                table.addCell(new Phrase(String.format("%.0f ₫", total), normalFont));
+                table.addCell(new Phrase(String.format("%.3f ₫", price), normalFont));
+                table.addCell(new Phrase(String.format("%.3f ₫", total), normalFont));
             }
 
             document.add(table);
 
             document.add(
-                    new Paragraph("\nTổng cộng: " + String.format("%.0f ₫", grandTotal), boldFont));
+                    new Paragraph("\nTổng cộng: " + String.format("%.3f ₫", grandTotal), boldFont));
             document.close();
 
             JOptionPane.showMessageDialog(parent,

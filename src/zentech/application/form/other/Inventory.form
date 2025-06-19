@@ -406,7 +406,7 @@
         <Component class="javax.swing.JLabel" name="lblProductID">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Product ID:"/>
+            <Property name="text" type="java.lang.String" value="Category ID"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lblProductName">

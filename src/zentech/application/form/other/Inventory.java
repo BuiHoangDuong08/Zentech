@@ -226,7 +226,7 @@ public class Inventory extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         lblProductID.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblProductID.setText("Product ID:");
+        lblProductID.setText("Category ID");
 
         lblProductName.setText("Product Name:");
 
